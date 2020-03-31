@@ -1,10 +1,12 @@
-package tech.openEdgn.logger4k
+package tech.openEdgn.logger4k.extras
 
 import tech.openEdgn.logger4k.LoggerConfig.loggerOutputHook
+import tech.openEdgn.logger4k.LoggerItem
+import tech.openEdgn.logger4k.LoggerLevel
 import java.io.PrintStream
 import java.util.concurrent.Executors
 
-class LoggerOutput(private val loggerConfig: LoggerConfig) {
+class LoggerOutput() {
     private val threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
 
     private val format = LineFormat(loggerConfig.outputFormat)
@@ -19,10 +21,9 @@ class LoggerOutput(private val loggerConfig: LoggerConfig) {
         //注册自动销毁日志模块
     }
 
-    data class LoggerOutputItem(val clazz: Class<out Any>, val loggerDate: Long, val threadName: String, val level: LoggerLevel, val message: String, val exception: Throwable?)
 
     @Synchronized
-    fun writeLine(outputItem: LoggerOutputItem) {
+    fun writeLine(outputItem: LoggerItem) {
         threadPool.execute {
             val outCommand: (PrintStream?) -> Unit = {
                 val line = format.format(outputItem)

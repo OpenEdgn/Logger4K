@@ -1,8 +1,8 @@
-# LOGGER 4K 
+# LOGGER 4K (BETA)
 
 LOGGER4K 是一个现代化的轻量级Kotlin日志框架，100% 使用 `Kotlin`
 
-![](https://img.shields.io/badge/LICENSE-MIT-green.svg) ![](https://img.shields.io/badge/CODE-Kotlin-green.svg)  ![](https://img.shields.io/badge/BUILD-Gradle-green.svg) [![](https://jitpack.io/v/OPEN-EDGN/ETOOL4K.svg)](https://jitpack.io/#OPEN-EDGN/ETOOL4K)
+![](https://img.shields.io/badge/LICENSE-MIT-green.svg) ![](https://img.shields.io/badge/CODE-Kotlin-green.svg) [![](https://jitpack.io/v/OPEN-EDGN/Logger4K.svg)](https://jitpack.io/#OPEN-EDGN/Logger4K)
 
 ## 入门
 

@@ -1,4 +1,4 @@
-package tech.openEdgn.logger4k
+package tech.openEdgn.logger4k.extras
 
 class LoggerItemFormat(private val name: String,
                        private val defaultParams: Any,

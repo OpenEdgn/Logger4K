@@ -1,15 +1,27 @@
-package tech.openEdgn.logger4k
+package tech.openEdgn.logger4k.extras
 
+import tech.openEdgn.logger4k.LoggerConfig
+import tech.openEdgn.logger4k.LoggerItem
 import java.io.File
 import java.io.FileWriter
-import java.io.PrintStream
 import java.io.PrintWriter
 import java.lang.Exception
 import java.text.SimpleDateFormat
-import kotlin.reflect.KClass
 
+/**
+ * Logger 扩展设置
+ */
+object LoggerExtrasConfig {
 
-object LoggerConfig {
+    val output: LoggerOutput by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+        if (loggerOutputDir.isFile) {
+            loggerOutputDir.delete()
+        }
+        if (!loggerOutputDir.exists()) {
+            loggerOutputDir.mkdirs()
+        }
+        LoggerOutput()
+    }
     /**
      * 输出格式化
      */
@@ -20,40 +32,7 @@ object LoggerConfig {
      * 控制台输出 HOOK
      */
     @Volatile
-    var loggerOutputHook: (LoggerOutput.LoggerOutputItem) -> Boolean = { false }
-
-
-    /**
-     * 建议：
-     * 在软件启动时引入此方法来初始化设置
-     */
-    @Volatile
-    var initConfig: (LoggerConfig) -> Unit = {}
-
-    val output: LoggerOutput by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-        initConfig(this)
-        if (loggerOutputDir.isFile) {
-            loggerOutputDir.delete()
-        }
-        if (!loggerOutputDir.exists()) {
-            loggerOutputDir.mkdirs()
-        }
-        LoggerOutput(this)
-    }
-
-    val implClass: KClass<out Log> = Logger::class
-
-    /**
-     * 标准控制台输出
-     */
-    @Volatile
-    var commandOutput: PrintStream? = System.out
-
-    /**
-     * 标准控制台错误输出
-     */
-    @Volatile
-    var commandErrOutput: PrintStream? = System.err
+    var loggerOutputHook: (LoggerItem) -> Boolean = { false }
 
     /**
      * 指定日志文件夹的输出位置
@@ -134,24 +113,5 @@ object LoggerConfig {
         }
 
 
-    @Volatile
-    var isDebug = false
-
-    /**
-     * 开启 DEBUG 模式
-     * @return LoggerConfig 当前实例
-     */
-    fun enableDebug() = run {
-        isDebug = true
-        this
-    }
-    /**
-     * 关闭 DEBUG 模式
-     * @return LoggerConfig 当前实例
-     */
-    fun disableDebug() = run {
-        isDebug = false
-        this
-    }
 
 }
