@@ -1,5 +1,7 @@
 package tech.openEdgn.logger4k
 
+import tech.openEdgn.logger4k.LoggerConfig.disableDebug
+import tech.openEdgn.logger4k.LoggerConfig.enableDebug
 import java.io.IOException
 
 class SimpleLogger {
@@ -10,6 +12,9 @@ class SimpleLogger {
         logger.debug("debug Init")// output debug message
         logger.warn("warn Init") // output warn message
         logger.error("error Init") // output error message
+        logger.debugOnly {
+            info("HelloWorld")
+        }
     }
 
     fun outputException() {
@@ -26,14 +31,21 @@ class SimpleLogger {
 }
 
 fun main() {
-    SimpleLogger()
-    //在控制台会输出3行日志
-    LoggerConfig.enableDebug()
-    //开启DEBUG 后再次运行
-    SimpleLogger()
-    //在控制台会输出4行日志
-    SimpleLogger().outputException()
-    // 输出异常信息
-
-
+    Thread {
+        SimpleLogger()
+        //在控制台会输出3行日志
+        Thread.sleep(3000)
+        LoggerConfig.enableDebug()
+        //开启DEBUG 后再次运行
+        enableDebug()
+        // 开启DEBUG 模式
+        disableDebug()
+        // 关闭DEBUG 模式
+        LoggerConfig.enableDebug()
+        // 关闭DEBUG 模式
+        SimpleLogger()
+        //在控制台会输出4行日志
+        SimpleLogger().outputException()
+        // 输出异常信息
+    }.start()
 }

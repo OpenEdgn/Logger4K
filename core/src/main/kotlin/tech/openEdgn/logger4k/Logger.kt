@@ -7,20 +7,13 @@ import java.util.*
  */
 class Logger constructor(private val clazz: Class<out Any>) : ILogger {
 
-    override fun debugOnly(t: (ILogger) -> Unit): ILogger {
+    override fun debugOnly(function: ILogger.() -> Unit): ILogger {
         if (isDebug) {
-            t(this)
+            function(this)
         }
         return this
     }
 
-
-    override fun debugOnly(debugOnly: DebugOnly): ILogger {
-        if (isDebug) {
-            debugOnly.run(this)
-        }
-        return this
-    }
 
     override fun info(message: String, exception: Throwable?): ILogger {
         outputLogger(System.currentTimeMillis(), LoggerLevel.INFO, message, exception)

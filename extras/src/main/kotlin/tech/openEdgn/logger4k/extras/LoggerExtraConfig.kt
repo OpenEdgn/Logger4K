@@ -1,5 +1,6 @@
 package tech.openEdgn.logger4k.extras
 
+import tech.openEdgn.logger4k.LoggerConfig
 import tech.openEdgn.logger4k.extras.utils.FileUtils
 import tech.openEdgn.logger4k.getLogger
 import java.io.File
@@ -7,7 +8,7 @@ import java.io.IOException
 
 object LoggerExtraConfig {
     private val logger = getLogger()
-
+    val loggerOutput = FileOutput()
     /**
      * 日志输出目录
      */
@@ -29,6 +30,7 @@ object LoggerExtraConfig {
      */
     fun enableExtra() {
         logger.debug("logger 扩展已启用.")
+        LoggerConfig.output = loggerOutput
     }
 
 }
