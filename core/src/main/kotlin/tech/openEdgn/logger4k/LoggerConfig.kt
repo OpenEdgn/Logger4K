@@ -1,12 +1,6 @@
 package tech.openEdgn.logger4k
 
-import java.io.File
-import java.io.FileWriter
 import java.io.PrintStream
-import java.io.PrintWriter
-import java.lang.Exception
-import java.text.SimpleDateFormat
-import kotlin.reflect.KClass
 
 
 object LoggerConfig {
@@ -53,11 +47,17 @@ object LoggerConfig {
      * 日志输出类
      */
     @Volatile
-    var output: IOutput = SysOutput()
+    var output: IOutput = SimpleOutput()
 
     private val shutdownHook = Thread {
         output.close()
     }
+
+    /**
+     *   自定义单个日志转化成字符串方法
+     */
+    @Volatile
+    var logger2Line:(LoggerItem)->String = SimpleOutput.LOG_TO_LINE
 
     init {
         Runtime.getRuntime().run {

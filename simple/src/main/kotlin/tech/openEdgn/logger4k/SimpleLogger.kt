@@ -31,7 +31,7 @@ class SimpleLogger {
 }
 
 fun main() {
-    Thread {
+    val thread = Thread() {
         SimpleLogger()
         //在控制台会输出3行日志
         Thread.sleep(3000)
@@ -39,13 +39,17 @@ fun main() {
         //开启DEBUG 后再次运行
         enableDebug()
         // 开启DEBUG 模式
+        SimpleLogger()
+        // DEBUG 模式下的日志
         disableDebug()
         // 关闭DEBUG 模式
-        LoggerConfig.enableDebug()
+        LoggerConfig.disableDebug()
         // 关闭DEBUG 模式
         SimpleLogger()
         //在控制台会输出4行日志
         SimpleLogger().outputException()
         // 输出异常信息
-    }.start()
+    }
+    thread.name = "Simple"
+    thread.start()
 }
