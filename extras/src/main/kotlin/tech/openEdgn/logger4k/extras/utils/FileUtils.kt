@@ -1,5 +1,6 @@
 package tech.openEdgn.logger4k.extras.utils
 
+import tech.openEdgn.logger4k.LoggerConfig
 import tech.openEdgn.logger4k.getLogger
 import java.io.File
 import java.io.IOException
@@ -16,11 +17,11 @@ object FileUtils {
             directory.mkdirs()
         }
         if (directory.isFile){
-            logger.debug("directory [${directory.absolutePath}] exists.")
+            LoggerConfig.commandErrOutput.println("directory [${directory.absolutePath}] is File.")
             return false
         }
         if (directory.canWrite().not()){
-            logger.debug("directory [${directory.absolutePath}] Read-Only.")
+            LoggerConfig.commandErrOutput.println("directory [${directory.absolutePath}] Read-Only.")
             return false
         }
         return true
