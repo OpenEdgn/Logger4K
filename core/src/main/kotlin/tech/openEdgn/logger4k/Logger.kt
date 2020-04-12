@@ -15,27 +15,27 @@ class Logger constructor(private val clazz: Class<out Any>) : ILogger {
     }
 
 
-    override fun info(message: String, exception: Throwable?): ILogger {
+    override fun info(message: Any, exception: Throwable?): ILogger {
         outputLogger(System.currentTimeMillis(), LoggerLevel.INFO, message, exception)
         return this
     }
 
-    override fun debug(message: String, exception: Throwable?): ILogger {
+    override fun debug(message: Any, exception: Throwable?): ILogger {
         outputLogger(System.currentTimeMillis(), LoggerLevel.DEBUG, message, exception)
         return this
     }
 
-    override fun warn(message: String, exception: Throwable?): ILogger {
+    override fun warn(message: Any, exception: Throwable?): ILogger {
         outputLogger(System.currentTimeMillis(), LoggerLevel.WARN, message, exception)
         return this
     }
 
-    override fun error(message: String, exception: Throwable?): ILogger {
+    override fun error(message: Any, exception: Throwable?): ILogger {
         outputLogger(System.currentTimeMillis(), LoggerLevel.ERROR, message, exception)
         return this
     }
 
-    private fun outputLogger(loggerDate: Long, level: LoggerLevel, message: String, exception: Throwable?) {
+    private fun outputLogger(loggerDate: Long, level: LoggerLevel, message: Any, exception: Throwable?) {
         LoggerConfig.output.writeLine(LoggerItem(clazz, loggerDate,
                 Thread.currentThread().name.toUpperCase(Locale.ENGLISH), level, message, exception))
     }

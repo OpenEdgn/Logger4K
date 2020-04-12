@@ -8,79 +8,79 @@ import java.io.File
 import java.io.PrintStream
 import java.lang.Exception
 import java.text.SimpleDateFormat
-import java.util.*
-import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class FileOutput : IOutput {
     @Volatile
-    private var close = false
+    var skipLoggerFile = false
+
     private val threadPool = Executors.newCachedThreadPool()
 
-    @Volatile
-    private var loggerDirectory = LoggerExtraConfig.logOutputDirectory
     private val dateFormat = SimpleDateFormat("yyyy-MM-DD")
 
-    /**
-     *  日志文件创建方法
-     */
-    var logNameCreateFun: () -> String = {
-        "log-${dateFormat.format(System.currentTimeMillis())}.log"
-    }
+    private val loggerFileName: String
+        get() = "log-${dateFormat.format(System.currentTimeMillis())}.log"
 
-    /**
-     * 跳过文件日志
-     */
+    private val loggerFile: File
+        get() = File(ELoggerConfig.logOutputDirectory, loggerFileName)
+
+
     @Volatile
-    var skip = false
-    private val printStream: PrintStream?
+    private var printStream: PrintStream? = null
+
+    @Volatile
+    private var fileHashCode = -1
+    private val loggerFilePrintStream: PrintStream?
         get() {
-            if (checkLogFile().not()) {
+            if (skipLoggerFile || FileUtils.checkDirectory(ELoggerConfig.logOutputDirectory).not() || loggerFile.isDirectory) {
+                if (loggerFile.isDirectory) {
+                    LoggerConfig.commandErrOutput.println("path :[${loggerFile.absolutePath}] is directory.")
+                }
                 return null
             }
-
-        }
-
-    private var startTimeOfDay: Long = TODO()
-
-
-    /**
-     *  检测日志文件是否可用
-     */
-    private fun checkLogFile(): Boolean {
-        if (skip) return false
-        if (loggerDirectory != LoggerExtraConfig.logOutputDirectory || loggerDirectory.isDirectory.not()) {
-            if (!FileUtils.checkDirectory(LoggerExtraConfig.logOutputDirectory)) {
-                LoggerConfig.commandErrOutput.println("注意！日志目录不存在且无法创建/写入！")
-                skip = true
-                return false
-            } else {
-                loggerDirectory = LoggerExtraConfig.logOutputDirectory
+            if (loggerFile.exists().not()) {
+                loggerFile.createNewFile()
             }
+            synchronized(this) {
+                if (printStream == null || loggerFile.hashCode() != fileHashCode) {
+                    printStream?.let {
+                        it.println("日志已经结束.")
+                        it.println("EOF")
+                        try {
+                            it.close()
+                        }catch (e:Exception){
+                            LoggerConfig.commandErrOutput.println("")
+                        }
+                    }
+                    printStream = PrintStream(loggerFile.outputStream(), true, Charsets.UTF_8.name())
+                    printStream?.let {
+                        if (loggerFile.length() == 0L) {
+                            it.println("日志记录开始 >  ${loggerFile.name} <<EOF ")
+                            //新日志文件
+                        } else {
+                            it.println()
+                            it.println("继续记录")
+                            //日志文件已存在
+                        }
+                    }
+                }
+            }
+            return printStream
         }
-        // 校验输出目录
-        // 校验输出文件
-    }
 
     override fun writeLine(item: LoggerItem) {
-        threadPool.execute {
-
-        }
+        threadPool.submit(LoggerItemRunnable(item))
     }
 
     override fun close() {
-        close = true
         for (runnable in threadPool.shutdownNow()) {
-            try {
-                runnable.run()
-            } catch (e: Exception) {
-            }
+            runnable.run()
         }
     }
 
-    companion object{
-        const val DAY_OF_MILLISECONDS = 24 * 60 * 60 * 1000
+    inner class LoggerItemRunnable(private val item: LoggerItem) : Runnable {
+        override fun run() {
 
-
+        }
     }
 }

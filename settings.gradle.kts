@@ -1,2 +1,2 @@
 rootProject.name ="Logger4K"
-include ("core","simple","extras")
+include ("core","extras")

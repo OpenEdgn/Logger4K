@@ -106,7 +106,6 @@ logger.debugOnly {
 
 ```
 
-更多使用方法可克隆项目后查看 `simple` 模块
 
 ## LICENSE
 

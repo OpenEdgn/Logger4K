@@ -5,5 +5,5 @@ package tech.openEdgn.logger4k.extras
  * @receiver Any
  */
 fun Any.enableLoggerExtra(){
-    LoggerExtraConfig.enableExtra()
+    ELoggerConfig.enableExtra()
 }

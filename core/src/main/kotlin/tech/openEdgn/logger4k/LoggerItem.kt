@@ -8,7 +8,7 @@ data class LoggerItem(
         val loggerDate: Long,
         val threadName: String,
         val level: LoggerLevel,
-        val message: String,
+        val message: Any,
         val exception: Throwable?) {
     override fun toString() = "${dateFormat.format(loggerDate)} - ${clazz.simpleName} - $threadName - ${level.name}:$message -> ${exception?.message}"
 

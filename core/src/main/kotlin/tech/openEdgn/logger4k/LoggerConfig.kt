@@ -2,9 +2,9 @@ package tech.openEdgn.logger4k
 
 import java.io.PrintStream
 
-
 object LoggerConfig {
     private val logger = getLogger()
+
 
     /**
      * 标准控制台输出
@@ -34,6 +34,7 @@ object LoggerConfig {
         this
     }
 
+
     /**
      * 关闭 DEBUG 模式
      * @return LoggerConfig 当前实例
@@ -47,7 +48,7 @@ object LoggerConfig {
      * 日志输出类
      */
     @Volatile
-    var output: IOutput = SimpleOutput()
+    var output: IOutput = ConsoleOutput()
 
     private val shutdownHook = Thread {
         output.close()
@@ -57,7 +58,7 @@ object LoggerConfig {
      *   自定义单个日志转化成字符串方法
      */
     @Volatile
-    var logger2Line:(LoggerItem)->String = SimpleOutput.LOG_TO_LINE
+    var lineFormat: (LoggerItem) -> String = ConsoleOutput.LOG_TO_LINE
 
     init {
         Runtime.getRuntime().run {

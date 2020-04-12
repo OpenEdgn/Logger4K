@@ -22,7 +22,7 @@ interface ILogger {
      * @param exception Throwable? 抛出异常
      * @return Log logger 实例
      */
-    fun info(message: String, exception: Throwable? = null): ILogger
+    fun info(message: Any, exception: Throwable? = null): ILogger
 
     /**
      * # 输出调试日志
@@ -31,7 +31,7 @@ interface ILogger {
      * @param exception Throwable? 抛出异常
      * @return Log logger 实例
      */
-    fun debug(message: String, exception: Throwable? = null): ILogger
+    fun debug(message: Any, exception: Throwable? = null): ILogger
 
     /**
      * # 输出警告日志
@@ -40,7 +40,7 @@ interface ILogger {
      * @param exception Throwable? 抛出异常
      * @return Log logger 实例
      */
-    fun warn(message: String, exception: Throwable? = null): ILogger
+    fun warn(message: Any, exception: Throwable? = null): ILogger
 
     /**
      * # 输出错误日志
@@ -49,7 +49,7 @@ interface ILogger {
      * @param exception Throwable? 抛出异常
      * @return Log logger 实例
      */
-    fun error(message: String, exception: Throwable? = null): ILogger
+    fun error(message: Any, exception: Throwable? = null): ILogger
 
     /**
      * # 是否处于调试模式

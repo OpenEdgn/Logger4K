@@ -5,7 +5,7 @@ import java.io.OutputStreamWriter
 import java.io.PrintWriter
 import java.text.SimpleDateFormat
 
-class SimpleOutput : IOutput {
+class ConsoleOutput : IOutput {
 
     override fun writeLine(item: LoggerItem) {
         if ((item.level == LoggerLevel.DEBUG && LoggerConfig.isDebug) || item.level != LoggerLevel.DEBUG) {
@@ -13,7 +13,7 @@ class SimpleOutput : IOutput {
                 LoggerConfig.commandOutput
             }else{
                 LoggerConfig.commandErrOutput
-            }.println(LoggerConfig.logger2Line(item))
+            }.println(LoggerConfig.lineFormat(item))
         }
     }
 
@@ -46,7 +46,7 @@ class SimpleOutput : IOutput {
                     .append(" - ")
                     .append(it.clazz.simpleName)
                     .append(":")
-                    .append(it.message.replace(Regex("\\p{C}"), "#"))
+                    .append(it.message.toString().replace(Regex("\\p{C}"), "#"))
             if (it.exception != null) {
                 output.append("\r\n")
                         .append(throwableFormat(it.exception))
