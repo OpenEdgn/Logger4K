@@ -49,7 +49,7 @@ class FileOutput : IOutput {
                         try {
                             it.close()
                         }catch (e:Exception){
-                            LoggerConfig.commandErrOutput.println("")
+                            LoggerConfig.commandErrOutput.println("关闭日志文件时出现问题. [${e.message}]")
                         }
                     }
                     printStream = PrintStream(loggerFile.outputStream(), true, Charsets.UTF_8.name())
