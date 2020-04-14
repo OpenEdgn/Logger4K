@@ -67,13 +67,14 @@ dependencies {
 |  `core`  | 日志核心模块 | 核心模块，具有所有功能 ，在`System.out` 和 `System.err` 输出日志 |
 | `extras` | 文件日志模块 |     轻量级持久日志模块，依赖于 `core`,支持将日志保存到文件下     |
 
+ **注意**：在`extras`中，不会保存`DEBUG`级别日志到文件！
 
 ###  在项目中使用
 
 > 所有模块开箱即用
 
 ``` kotlin
- val logger = getLogger() //创建一个Logger 对象
+val logger = getLogger() //创建一个Logger 对象
 
 LoggerConfig.enableDebug() 
 //开启DEBUG 模式 (1)

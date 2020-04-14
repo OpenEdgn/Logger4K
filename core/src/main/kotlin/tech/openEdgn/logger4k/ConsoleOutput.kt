@@ -41,8 +41,8 @@ class ConsoleOutput : IOutput {
             output.append(simpleDateFormat.format(System.currentTimeMillis()))
                     .append(" - ")
                     .append(String.format("%-5s", it.level.name))
-                    .append(" - Thread/")
-                    .append(it.threadName)
+
+                    .append("- #(${it.threadName})")
                     .append(" - ")
                     .append(it.clazz.simpleName)
                     .append(":")

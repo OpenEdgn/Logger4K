@@ -30,7 +30,7 @@ object LoggerConfig {
      */
     fun enableDebug() = run {
         debugMode = true
-        logger.debug("注意!DEBUG 模式已打开!")
+        logger.warn("注意!DEBUG 模式已打开!")
         this
     }
 
@@ -41,6 +41,7 @@ object LoggerConfig {
      */
     fun disableDebug() = run {
         debugMode = false
+        logger.info("DEBUG 模式已关闭!")
         this
     }
 

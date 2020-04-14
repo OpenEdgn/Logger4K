@@ -1,8 +1,6 @@
 package tech.openEdgn.logger4k.extras
 
-import tech.openEdgn.logger4k.IOutput
-import tech.openEdgn.logger4k.LoggerConfig
-import tech.openEdgn.logger4k.LoggerItem
+import tech.openEdgn.logger4k.*
 import tech.openEdgn.logger4k.extras.utils.FileUtils
 import java.io.File
 import java.io.PrintStream
@@ -10,7 +8,11 @@ import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.concurrent.Executors
 
-class FileOutput : IOutput {
+class LoggerFileOutput : IOutput {
+
+    /**
+     * 不写入日志文件
+     */
     @Volatile
     var skipLoggerFile = false
 
@@ -32,23 +34,29 @@ class FileOutput : IOutput {
     private var fileHashCode = -1
     private val loggerFilePrintStream: PrintStream?
         get() {
-            if (skipLoggerFile || FileUtils.checkDirectory(ELoggerConfig.logOutputDirectory).not() || loggerFile.isDirectory) {
-                if (loggerFile.isDirectory) {
-                    LoggerConfig.commandErrOutput.println("path :[${loggerFile.absolutePath}] is directory.")
-                }
+            if (skipLoggerFile) return null
+            if (FileUtils.checkDirectory(ELoggerConfig.logOutputDirectory).not()) {
+                //  日志文件夹
+                return null
+            }
+            if (loggerFile.isDirectory) {
+                LoggerConfig.commandErrOutput.println("path :[${loggerFile.absolutePath}] is directory.")
                 return null
             }
             if (loggerFile.exists().not()) {
                 loggerFile.createNewFile()
+                //  logger file not exists
             }
             synchronized(this) {
-                if (printStream == null || loggerFile.hashCode() != fileHashCode) {
+                val hashCode = loggerFileName.hashCode()
+                // 判断日志文件是否变更
+                if (printStream == null || hashCode != fileHashCode) {
                     printStream?.let {
                         it.println("日志已经结束.")
                         it.println("EOF")
                         try {
                             it.close()
-                        }catch (e:Exception){
+                        } catch (e: Exception) {
                             LoggerConfig.commandErrOutput.println("关闭日志文件时出现问题. [${e.message}]")
                         }
                     }
@@ -59,10 +67,11 @@ class FileOutput : IOutput {
                             //新日志文件
                         } else {
                             it.println()
-                            it.println("继续记录")
+                            it.println("开始新的日志会话.")
                             //日志文件已存在
                         }
                     }
+                    fileHashCode = hashCode
                 }
             }
             return printStream
@@ -80,7 +89,18 @@ class FileOutput : IOutput {
 
     inner class LoggerItemRunnable(private val item: LoggerItem) : Runnable {
         override fun run() {
-
+            if ((item.level == LoggerLevel.DEBUG && LoggerConfig.isDebug) || item.level != LoggerLevel.DEBUG) {
+                val lineFormat = LoggerConfig.lineFormat(item)
+                if (item.level.levelInt < LoggerLevel.WARN.levelInt) {
+                    LoggerConfig.commandOutput
+                } else {
+                    LoggerConfig.commandErrOutput
+                }.println(lineFormat)
+                if (item.level != LoggerLevel.DEBUG) {
+                    loggerFilePrintStream?.println(lineFormat)
+                    // DEBUG 日志不写入文件！！！
+                }
+            }
         }
     }
 }

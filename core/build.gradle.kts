@@ -13,7 +13,18 @@ java.sourceCompatibility = JavaVersion.VERSION_1_8
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation(kotlin("stdlib"))
-    testCompile("junit:junit:4.12")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
 }
 
 
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
+
+// config JVM target to 1.8 for kotlin compilation tasks
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions.jvmTarget = "1.8"
+}

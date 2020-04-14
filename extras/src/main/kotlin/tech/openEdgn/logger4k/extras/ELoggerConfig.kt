@@ -5,13 +5,10 @@ import tech.openEdgn.logger4k.extras.utils.FileUtils
 import tech.openEdgn.logger4k.getLogger
 import java.io.File
 import java.io.IOException
-import java.sql.Connection
-import java.sql.DriverManager
-import java.text.SimpleDateFormat
 
 object ELoggerConfig {
     private val logger = getLogger()
-    private val loggerOutput = FileOutput()
+    private val loggerOutput = LoggerFileOutput()
 
     /**
      * 日志输出目录
