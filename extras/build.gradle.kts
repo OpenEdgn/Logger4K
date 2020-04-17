@@ -1,18 +1,15 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val kotlinVersion: String by rootProject.extra
 
 plugins {
     kotlin("jvm")
-    maven
-
 }
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 
 dependencies {
     implementation(project(":core"))
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation(kotlin("reflect"))
     implementation(kotlin("stdlib"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
 }
