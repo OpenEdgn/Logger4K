@@ -32,13 +32,3 @@ tasks.register("clean",Delete::class){
         delete(childProject.buildDir)
     }
 }
-
-tasks.register("push"){
-    dependsOn("clean")
-    doLast {
-        println("execute command :git add * && git commit -m '[Auto Save]' && git push")
-        val process = Runtime.getRuntime().exec("git add * && git commit -m '[Auto Save]' && git push")
-        println("result :${process.inputStream.readBytes().toString(Charsets.UTF_8)}")
-        println("result error :${process.errorStream.readBytes().toString(Charsets.UTF_8)}")
-    }
-}
