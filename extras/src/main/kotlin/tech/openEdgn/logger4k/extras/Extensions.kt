@@ -30,4 +30,5 @@ package tech.openEdgn.logger4k.extras
  */
 fun Any.enableLoggerExtra(){
     ELoggerConfig.enableExtra()
+
 }

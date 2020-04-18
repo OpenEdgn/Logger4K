@@ -27,6 +27,7 @@ package tech.openEdgn.logger4k.extras
 import tech.openEdgn.logger4k.*
 import tech.openEdgn.logger4k.extras.utils.FileUtils
 import java.io.File
+import java.io.FileOutputStream
 import java.io.PrintStream
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -42,7 +43,7 @@ class LoggerFileOutput : IOutput {
 
     private val threadPool = Executors.newCachedThreadPool()
 
-    private val dateFormat = SimpleDateFormat("yyyy-MM-DD")
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
     private val loggerFileName: String
         get() = "log-${dateFormat.format(System.currentTimeMillis())}.log"
@@ -64,7 +65,7 @@ class LoggerFileOutput : IOutput {
                 return null
             }
             if (loggerFile.isDirectory) {
-                LoggerConfig.commandErrOutput.println("path :[${loggerFile.absolutePath}] is directory.")
+                LoggerConfig.consoleErrorOutputStream.println("path :[${loggerFile.absolutePath}] is directory.")
                 return null
             }
             if (loggerFile.exists().not()) {
@@ -81,17 +82,17 @@ class LoggerFileOutput : IOutput {
                         try {
                             it.close()
                         } catch (e: Exception) {
-                            LoggerConfig.commandErrOutput.println("关闭日志文件时出现问题. [${e.message}]")
+                            LoggerConfig.consoleErrorOutputStream.println("关闭日志文件时出现问题. [${e.message}]")
                         }
                     }
-                    printStream = PrintStream(loggerFile.outputStream(), true, Charsets.UTF_8.name())
+                    printStream = PrintStream(FileOutputStream(loggerFile,true), true, Charsets.UTF_8.name())
                     printStream?.let {
                         if (loggerFile.length() == 0L) {
                             it.println("日志记录开始 >  ${loggerFile.name} <<EOF ")
                             //新日志文件
                         } else {
                             it.println()
-                            it.println("开始新的日志会话.")
+                            it.println("继续日志会话.")
                             //日志文件已存在
                         }
                     }
@@ -109,16 +110,18 @@ class LoggerFileOutput : IOutput {
         for (runnable in threadPool.shutdownNow()) {
             runnable.run()
         }
+        loggerFilePrintStream?.println("日志写入结束.")
+        loggerFilePrintStream?.close()
     }
 
     inner class LoggerItemRunnable(private val item: LoggerItem) : Runnable {
         override fun run() {
             if ((item.level == LoggerLevel.DEBUG && LoggerConfig.isDebug) || item.level != LoggerLevel.DEBUG) {
-                val lineFormat = LoggerConfig.lineFormat(item)
+                val lineFormat = LoggerConfig.itemFormat(item)
                 if (item.level.levelInt < LoggerLevel.WARN.levelInt) {
-                    LoggerConfig.commandOutput
+                    LoggerConfig.consoleOutputStream
                 } else {
-                    LoggerConfig.commandErrOutput
+                    LoggerConfig.consoleErrorOutputStream
                 }.println(lineFormat)
                 if (item.level != LoggerLevel.DEBUG) {
                     loggerFilePrintStream?.println(lineFormat)

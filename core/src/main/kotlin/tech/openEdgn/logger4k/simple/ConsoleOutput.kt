@@ -22,27 +22,34 @@
  * SOFTWARE.
  */
 
-package tech.openEdgn.logger4k
+package tech.openEdgn.logger4k.simple
 
+import tech.openEdgn.logger4k.IOutput
+import tech.openEdgn.logger4k.LoggerConfig
+import tech.openEdgn.logger4k.LoggerItem
+import tech.openEdgn.logger4k.LoggerLevel
 import java.io.ByteArrayOutputStream
 import java.io.OutputStreamWriter
 import java.io.PrintWriter
 import java.text.SimpleDateFormat
 
+/**
+ *  默认的控制台输出
+ */
 class ConsoleOutput : IOutput {
 
     override fun writeLine(item: LoggerItem) {
         if ((item.level == LoggerLevel.DEBUG && LoggerConfig.isDebug) || item.level != LoggerLevel.DEBUG) {
             if (item.level.levelInt < LoggerLevel.WARN.levelInt){
-                LoggerConfig.commandOutput
+                LoggerConfig.consoleOutputStream
             }else{
-                LoggerConfig.commandErrOutput
-            }.println(LoggerConfig.lineFormat(item))
+                LoggerConfig.consoleErrorOutputStream
+            }.println(LoggerConfig.itemFormat(item))
         }
     }
 
     override fun close() {
-        LoggerConfig.commandOutput.println("LOGGER CLOSED!")
+        LoggerConfig.consoleOutputStream.println("LOGGER CLOSED!")
     }
     companion object{
         private val simpleDateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
@@ -65,15 +72,14 @@ class ConsoleOutput : IOutput {
             output.append(simpleDateFormat.format(System.currentTimeMillis()))
                     .append(" - ")
                     .append(String.format("%-5s", it.level.name))
-
-                    .append("- #(${it.threadName})")
+                    .append(" - #(${it.threadName})")
                     .append(" - ")
                     .append(it.clazz.simpleName)
                     .append(":")
                     .append(it.message.toString().replace(Regex("\\p{C}"), "#"))
-            if (it.exception != null) {
+            it.exception?.run {
                 output.append("\r\n")
-                        .append(throwableFormat(it.exception))
+                        .append(throwableFormat(this))
             }
             output.toString()
         }

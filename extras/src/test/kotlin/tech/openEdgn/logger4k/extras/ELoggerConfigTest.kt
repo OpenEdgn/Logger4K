@@ -22,22 +22,31 @@
  * SOFTWARE.
  */
 
-package tech.openEdgn.logger4k
+package tech.openEdgn.logger4k.extras
 
-/**
- *  扩展模块
- */
-interface IExtra {
+import jdk.nashorn.internal.ir.annotations.Ignore
+import org.junit.jupiter.api.Test
+import tech.openEdgn.logger4k.LoggerConfig
+import tech.openEdgn.logger4k.enableDebug
+import tech.openEdgn.logger4k.getLogger
+import java.io.File
+internal class ELoggerConfigTest {
+    @Ignore
+    @Test
+    fun testAll() {
+        ELoggerConfig.logOutputDirectory = File(System.getProperty("java.io.tmpdir"), "LOGGER4K2")
+        ELoggerConfig.enableExtra()
+        //  注册扩展模块（ 方法 1）
+        LoggerConfig.registerExtra(ELoggerConfig.FileExtra::class)
+        //  注册扩展模块（方法 2）
+        enableLoggerExtra()
+        //  注册扩展模块（方法 3）
 
-    /**
-     * 扩展被注册时回调
-     * @param config LoggerConfig
-     */
-    fun register(config: LoggerConfig.InternalLoggerConfig)
-
-    /**
-     * 扩展取消注册回调
-     */
-    fun unregister()
-
+        val logger = getLogger()
+        logger.info("Hello World!")
+        //  变更日志位置
+        logger.info("Hello World!")
+        enableDebug()
+    }
 }
+

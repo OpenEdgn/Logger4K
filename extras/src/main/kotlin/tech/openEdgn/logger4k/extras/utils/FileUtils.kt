@@ -25,9 +25,9 @@
 package tech.openEdgn.logger4k.extras.utils
 
 import tech.openEdgn.logger4k.LoggerConfig
+import tech.openEdgn.logger4k.LoggerConfig.consoleErrorOutputStream
 import tech.openEdgn.logger4k.getLogger
 import java.io.File
-import java.io.IOException
 
 object FileUtils {
     private val logger =getLogger()
@@ -37,15 +37,15 @@ object FileUtils {
      * @return Boolean 如果目录只读或存在文件则返回False
      */
     fun checkDirectory(directory: File): Boolean {
-        if (directory.exists()){
+        if (directory.exists().not()){
             directory.mkdirs()
         }
         if (directory.isFile){
-            LoggerConfig.commandErrOutput.println("directory [${directory.absolutePath}] is File.")
+            consoleErrorOutputStream.println("directory [${directory.absolutePath}] is File.")
             return false
         }
         if (directory.canWrite().not()){
-            LoggerConfig.commandErrOutput.println("directory [${directory.absolutePath}] Read-Only.")
+            consoleErrorOutputStream.println("directory [${directory.absolutePath}] Read-Only.")
             return false
         }
         return true

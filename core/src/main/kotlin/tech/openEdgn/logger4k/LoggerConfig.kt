@@ -24,79 +24,135 @@
 
 package tech.openEdgn.logger4k
 
+import tech.openEdgn.logger4k.simple.SimpleExtra
+import java.io.Closeable
 import java.io.PrintStream
+import kotlin.reflect.KClass
+import kotlin.reflect.full.createInstance
 
 object LoggerConfig {
+    private val internalConf = InternalLoggerConfig()
     private val logger = getLogger()
+
+    init {
+        Runtime.getRuntime().run {
+            addShutdownHook(Thread {
+                internalConf.close()
+            })
+        }
+        registerExtra(SimpleExtra::class)
+    }
+
     /**
      * 标准控制台输出
      */
-    @Volatile
-    var commandOutput: PrintStream = System.out
+    val consoleOutputStream: PrintStream
+        get() = internalConf.output
 
     /**
      * 标准控制台错误输出
      */
-    @Volatile
-    var commandErrOutput: PrintStream = System.err
+    val consoleErrorOutputStream: PrintStream
+        get() = internalConf.errorOutput
+
 
     val isDebug
-        get() = debugMode
+        get() = internalConf.debugMode
 
-    @Volatile
-    private var debugMode: Boolean = false
 
     /**
      * 开启 DEBUG 模式
-     * @return LoggerConfig 当前实例
      */
-    fun enableDebug() = run {
-        debugMode = true
-        logger.warn("注意!DEBUG 模式已打开!")
-        this
+    fun enableDebug() {
+        internalConf.debugMode = true
+
     }
 
 
     /**
      * 关闭 DEBUG 模式
-     * @return LoggerConfig 当前实例
      */
-    fun disableDebug() = run {
-        debugMode = false
-        logger.info("DEBUG 模式已关闭!")
-        this
+    fun disableDebug() {
+        internalConf.debugMode = false
     }
 
     /**
      * 日志输出类
      */
-    @Volatile
-    var output: IOutput = ConsoleOutput()
-
-    private val shutdownHook = Thread {
-        output.close()
-    }
+    val output: IOutput
+        get() = internalConf.loggerOutput
 
     /**
      *   自定义单个日志转化成字符串方法
      */
-    @Volatile
-    var lineFormat: (LoggerItem) -> String = ConsoleOutput.LOG_TO_LINE
+   val itemFormat: (LoggerItem) -> String
+    get() = internalConf.itemFormat
+
 
     /**
-     *  注册
-     * @param extra IExtra
+     *  注册插件
+     * @param extraClazz  KClass<out IExtra>
      */
-    @Synchronized
-    fun registerExtra(extra: IExtra){
+    fun registerExtra(extraClazz: KClass<out IExtra>) = internalConf.registerExtra(extraClazz)
 
-    }
 
-    init {
-        Runtime.getRuntime().run {
-            addShutdownHook(shutdownHook)
+    class InternalLoggerConfig : Closeable {
+        @Volatile
+        lateinit var loggerOutput: IOutput
+
+        @Volatile
+        lateinit var output: PrintStream
+
+        @Volatile
+        lateinit var errorOutput: PrintStream
+
+
+        var debugMode: Boolean
+            get() = debug
+            @Synchronized
+            set(value) {
+                debug = value
+                if (value) {
+                    logger.warn("注意!DEBUG 模式已打开!")
+                } else {
+                    logger.info("DEBUG 模式已关闭!")
+                }
+            }
+
+        @Volatile
+        private var debug: Boolean = false
+
+        @Volatile
+        private var extra: IExtra? = null
+
+        @Volatile
+        lateinit var itemFormat: (LoggerItem) -> String
+
+        @Synchronized
+        fun registerExtra(extraClazz: KClass<out IExtra>): Boolean {
+            extra?.run {
+                try {
+                    unregister()
+                } catch (_: UninitializedPropertyAccessException) {
+                } catch (e: Exception) {
+                    System.err.println("取消扩展注册时发生错误！[${e.message}]")
+                    return false
+                }
+            }
+            extra = extraClazz.createInstance()
+            extra?.register(this)
+            logger.info("已注册来自 [${extra!!.javaClass.name}] 的扩展.")
+            return true
+        }
+
+        override fun close() {
+            extra?.run {
+                try {
+                    unregister()
+                } catch (_: Exception) {
+                }
+            }
+            loggerOutput.close()
         }
     }
-
-
 }

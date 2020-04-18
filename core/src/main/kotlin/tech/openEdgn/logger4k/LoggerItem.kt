@@ -24,7 +24,6 @@
 
 package tech.openEdgn.logger4k
 
-import java.text.SimpleDateFormat
 
 
 data class LoggerItem(
@@ -33,10 +32,4 @@ data class LoggerItem(
         val threadName: String,
         val level: LoggerLevel,
         val message: Any,
-        val exception: Throwable?) {
-    override fun toString() = "${dateFormat.format(loggerDate)} - ${clazz.simpleName} - $threadName - ${level.name}:$message -> ${exception?.message}"
-
-    companion object {
-        val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-    }
-}
+        val exception: Throwable?)

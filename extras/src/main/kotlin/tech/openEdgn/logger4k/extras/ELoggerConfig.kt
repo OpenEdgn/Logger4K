@@ -24,6 +24,7 @@
 
 package tech.openEdgn.logger4k.extras
 
+import tech.openEdgn.logger4k.IExtra
 import tech.openEdgn.logger4k.LoggerConfig
 import tech.openEdgn.logger4k.extras.utils.FileUtils
 import tech.openEdgn.logger4k.getLogger
@@ -31,11 +32,23 @@ import java.io.File
 import java.io.IOException
 
 object ELoggerConfig {
-    private val logger = getLogger()
-    private val loggerOutput = LoggerFileOutput()
+    class FileExtra : IExtra {
+        private val loggerOutput = LoggerFileOutput()
 
+        override fun register(config: LoggerConfig.InternalLoggerConfig) {
+            config.loggerOutput = loggerOutput
+
+        }
+        override fun unregister() {
+            loggerOutput.close()
+        }
+
+    }
     /**
      * 日志输出目录
+     *
+     *  指定日志输出目录，建议在启动时修改
+     *
      */
     var logOutputDirectory: File
         get() = loggerFolder
@@ -55,8 +68,7 @@ object ELoggerConfig {
      * @receiver Any
      */
     fun enableExtra() {
-        logger.debug("logger 扩展已启用.")
-        LoggerConfig.output = loggerOutput
+        LoggerConfig.registerExtra(FileExtra::class)
     }
 
 

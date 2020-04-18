@@ -65,6 +65,7 @@ class Logger constructor(private val clazz: Class<out Any>) : ILogger {
     }
 
 
-    override val isDebug: Boolean = LoggerConfig.isDebug
+    override val isDebug: Boolean
+    get() = LoggerConfig.isDebug
 
 }

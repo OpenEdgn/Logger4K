@@ -22,22 +22,22 @@
  * SOFTWARE.
  */
 
-package tech.openEdgn.logger4k
+package tech.openEdgn.logger4k.simple
 
-/**
- *  扩展模块
- */
-interface IExtra {
+import tech.openEdgn.logger4k.IExtra
+import tech.openEdgn.logger4k.LoggerConfig
 
-    /**
-     * 扩展被注册时回调
-     * @param config LoggerConfig
-     */
-    fun register(config: LoggerConfig.InternalLoggerConfig)
+class SimpleExtra : IExtra {
+    override fun register(config: LoggerConfig.InternalLoggerConfig) {
+        config.run {
+            errorOutput = System.err
+            output = System.out
+            itemFormat = ConsoleOutput.LOG_TO_LINE
+            loggerOutput = ConsoleOutput()
+            debugMode = false
+        }
+    }
+    override fun unregister() {
 
-    /**
-     * 扩展取消注册回调
-     */
-    fun unregister()
-
+    }
 }
