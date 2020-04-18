@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
+    maven
 }
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
