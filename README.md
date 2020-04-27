@@ -1,8 +1,13 @@
-# LOGGER 4K (BETA)
+# LOGGER 4K
 
-LOGGER4K 是一个轻量级`Kotlin`日志框架，100% 使用 `Kotlin`
+`LOGGER4K` 是一个轻量级`Kotlin`日志框架
 
-![](https://img.shields.io/badge/LICENSE-MIT-green.svg) ![](https://img.shields.io/badge/CODE-Kotlin-green.svg) [![](https://jitpack.io/v/OPEN-EDGN/Logger4K.svg)](https://jitpack.io/#OPEN-EDGN/Logger4K)
+<p style="text-align: center">
+<a href="LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/OpenEdgn/Logger4K?color=green&style=flat-square"></a>
+<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/OpenEdgn/Logger4K?color=green&style=flat-square">
+<img alt="JitPack" src="https://img.shields.io/jitpack/v/github/OpenEdgn/Logger4K?color=green&style=flat-square">
+</p>
+
 
 ## 入门
 
@@ -46,7 +51,7 @@ allprojects {
 
 ```xml
 <dependency>
-    <groupId>com.github.OPEN-EDGN.Logger4K</groupId>
+    <groupId>com.github.OpenEdgn.Logger4K</groupId>
     <artifactId>${modName}</artifactId>
     <version>${version}</version>
 </dependency>
@@ -56,11 +61,13 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.github.OPEN-EDGN.Logger4K:${modName}:${version}'
+    implementation 'com.github.OpenEdgn.Logger4K:${modName}:${version}'
 }
 ```
 
 > 其中，`${modName}` 代表 引用的模块名称，而 `${version}` 则代表引用的版本号，请按需引入。
+
+当前版本：![JitPack](https://img.shields.io/jitpack/v/github/OpenEdgn/Logger4K?label=version&style=flat-square)
 
 | 模块代号 |     名称     |                               用途                               |
 | :------: | :----------: | :--------------------------------------------------------------: |
@@ -106,7 +113,7 @@ logger.debugOnly {
 }
 
 ```
-更多使用方法请查看 `TEST` 下的 [LoggerTest](./core/src/test/kotlin/tech/openEdgn/logger4k/LoggerTest.kt) 文件。
+更多使用方法请查看 `TEST` 下的 [LoggerTest](./core/src/test/kotlin/com/github/openEdgn/logger4k/LoggerTest.kt) 文件。
 
 ## LICENSE
 
