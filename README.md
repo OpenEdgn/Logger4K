@@ -20,7 +20,7 @@ This project used `Gradle ` to build coverage `Junit` test.
 If you find a bug or comments, you can feedback under `Issues`.
 
 
-### Add this to the projectAdd this to the project.
+### Add this to the project
 
 
 > Before you start, you need to introduce the module into the project. The introduction of `Apache Maven` and `Gradle` is introduced below.
