@@ -2,7 +2,7 @@
 
 `LOGGER4K` 是一个轻量级`Kotlin`日志框架
 
-<p style="text-align: center">
+<p align="center" style="text-align: center">
 <a href="https://jenkins.open-edgn.tech/job/Logger4K/" target="_blank"><img alt="Jenkins" src="https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fjenkins.open-edgn.tech%2Fjob%2FLogger4K%2F&style=flat-square"/></a>
 <a href="LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/OpenEdgn/Logger4K?color=green&style=flat-square"></a>
 <a href="#"><img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/OpenEdgn/Logger4K?color=green&style=flat-square"></a>
