@@ -105,18 +105,18 @@ LoggerConfig .enableDebug ()
  logger.info ( " INFO Message. " ) 
   //   Output INFO type log
 
- logger.warn ( " WARN Message. " ) 
+ logger.warn (" WARN Message. ") 
   //   Output WARN type log
 
- logger.error ( " ERROR Message. " ) 
+ logger.error("ERROR  Message.") 
   //   Output log of ERROR type
 
 logger.debugOnly { 
-    // This code block only runs 
-    info ( " INFO " ) in debug mode
-    warn ( " WARN " )
-    debug ( " DEBUG " )
-    error ( " ERROR " )
+    // This code block only runs in debug mode
+    info("INFO")
+    warn("WARN")
+    debug("DEBUG")
+    error("ERROR")
 }
 
 ```
