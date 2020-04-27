@@ -46,8 +46,8 @@ If you find a bug or comments, you can feedback under `Issues`.
 ```groovy
 allprojects {
 	repositories {
-        //其他仓库 
-		maven { url 'https://jitpack.io' }
+        // ...
+	    maven { url 'https://jitpack.io' }
 	}
 }
 ```
@@ -83,8 +83,9 @@ version：[![JitPack](https://img.shields.io/jitpack/v/github/OpenEdgn/Logger4K?
 
  **WARN**：In the module `extras`, the` DEBUG` level log will not be saved to a file!
 
-###  Use in project
+###  Usage
 
+Basic usage of the Logger API:
 
 ``` kotlin
 val logger = getLogger () // Create a Logger object
