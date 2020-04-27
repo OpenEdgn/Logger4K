@@ -8,21 +8,27 @@
 <a href="https://jenkins.open-edgn.tech/job/Logger4K/" target="_blank"> <img alt="JitPack" src="https://img.shields.io/badge/Jenkins-Nightly-green?color=red&style=flat-square"></a>
 </p>
 
-`LOGGER4K` 是一个轻量级`Kotlin`日志框架
+[CHINESE](README_CN.md) | ENGLISH (Google Translate)
 
-## 入门
 
-本项目使用 `Gradle `构建, 覆盖 `Junit` 单元测试
+`LOGGER4K` Is a lightweight `Kotlin`logging framework.
 
-如有发现漏洞或者意见可在项目`Issues` 下反馈.
+## Getting Started
 
-### 开始之前
+This project used `Gradle ` to build coverage `Junit` test.
 
-> 在开始之前，你需要将模块引入到项目中，下面介绍了`Gradle` 和`Apache Maven` 的引入方法
+If you find a bug or comments, you can feedback under `Issues`.
+
+
+### Add this to the projectAdd this to the project.
+
+
+> Before you start, you need to introduce the module into the project. The introduction of `Apache Maven` and `Gradle` is introduced below.
 
 #### Maven & Gradle
 
-##### 1. 将JitPack存储库添加到您的构建文件中
+##### 1. Add it to the project:
+
 
 **Maven**
 
@@ -46,7 +52,7 @@ allprojects {
 }
 ```
 
-#####  2. 添加依赖项
+#####  2. Add dependencies
 
 **Maven** 
 
@@ -66,56 +72,54 @@ dependencies {
 }
 ```
 
-> 其中，`${modName}` 代表 引用的模块名称，而 `${version}` 则代表引用的版本号，请按需引入。
+> `$ {modName}` represents the module name, and `$ {version}` represents the referenced version number.
 
-当前版本：[![JitPack](https://img.shields.io/jitpack/v/github/OpenEdgn/Logger4K?label=version&style=flat-square)](https://jitpack.io/#OpenEdgn/Logger4K)
+version：[![JitPack](https://img.shields.io/jitpack/v/github/OpenEdgn/Logger4K?label=version&style=flat-square)](https://jitpack.io/#OpenEdgn/Logger4K)
 
-| 模块代号 |     名称     |                               用途                               |
+| Module enum |     Module Name     |                               Introduction                               |
 | :------: | :----------: | :--------------------------------------------------------------: |
-|  `core`  | 日志核心模块 | 核心模块，具有所有功能 ，在`System.out` 和 `System.err` 输出日志 |
-| `extras` | 文件日志模块 |     轻量级持久日志模块，依赖于 `core`,支持将日志保存到文件下     |
+|  `core`  | Core module | The core module has all functions and outputs logs in `System.out` and` System.err`. |
+| `extras` | IO module |     Lightweight persistent log module, which depends on `core` and supports saving logs to a file.    |
 
- **注意**：在`extras`中，不会保存`DEBUG`级别日志到文件！
+ **WARN**：In the module `extras`, the` DEBUG` level log will not be saved to a file!
 
-###  在项目中使用
+###  Use in project
 
-> 所有模块均开箱即用
 
 ``` kotlin
-val logger = getLogger() //创建一个Logger 对象
+val logger = getLogger () // Create a Logger object
 
-LoggerConfig.enableDebug() 
-//开启DEBUG 模式 (1)
-enableDebug()
-//开启DEBUG 模式 (2)
-disableDebug()
-// 关闭DEBUG 模式 (1)
-LoggerConfig.enableDebug()
-// 关闭DEBUG 模式 (2)
+LoggerConfig .enableDebug () 
+ // Turn on DEBUG mode (1)
+enableDebug ()
+// Turn on DEBUG mode (2)
+disableDebug ()
+// Turn off DEBUG mode (1) 
+LoggerConfig .enableDebug ()
+ // Turn off DEBUG mode (2)
 
- logger.debug("DEBUG Message.") 
- //  输出 DEBUG 类型的日志 ( 注意，DEBUG未开启则不会输出日志)
+ logger.debug ( " DEBUG Message. " ) 
+  //   Output DEBUG type log (note that the log will not be output if DEBUG is not enabled)
 
- logger.info("INFO  Message.") 
- //  输出 INFO 类型的日志
+ logger.info ( " INFO Message. " ) 
+  //   Output INFO type log
 
- logger.warn("WARN  Message.") 
- //  输出 WARN 类型的日志
+ logger.warn ( " WARN Message. " ) 
+  //   Output WARN type log
 
- logger.error("ERROR  Message.") 
- //  输出 ERROR 类型的日志
+ logger.error ( " ERROR Message. " ) 
+  //   Output log of ERROR type
 
 logger.debugOnly { 
-    //此代码块仅在调试模式下运行
-    info("INFO")
-    warn("WARN")
-    debug("DEBUG")
-    error("ERROR")
+    // This code block only runs 
+    info ( " INFO " ) in debug mode
+    warn ( " WARN " )
+    debug ( " DEBUG " )
+    error ( " ERROR " )
 }
 
 ```
-更多使用方法请查看 `TEST` 下的 [LoggerTest](./core/src/test/kotlin/com/github/openEdgn/logger4k/LoggerTest.kt) 文件。
-
+Please see [LoggerTest](./core/src/test/kotlin/com/github/openEdgn/logger4k/LoggerTest.kt) under `TEST` for more usage methods.
 ## LICENSE
 
-请转到 [LICENSE FILE](./LICENSE)
+SEE [LICENSE FILE](./LICENSE)
