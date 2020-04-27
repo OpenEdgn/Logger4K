@@ -1,4 +1,4 @@
-group = "tech.open-Edgn"
+group = "com.github.OpenEdgn"
 version = "last"
 
 buildscript {
