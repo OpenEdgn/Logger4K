@@ -59,6 +59,7 @@ internal class LoggerTest {
         logger.error("ERROR  Message.")
         //  输出 ERROR 类型的日志
 
+        // debug 模式
         logger.debugOnly {
             //此代码块仅在调试模式下运行
             info("INFO")
