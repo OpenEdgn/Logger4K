@@ -23,4 +23,4 @@
 
 // MIT LICENSE
 rootProject.name ="Logger4K"
-include ("core","extras")
+include ("core")
