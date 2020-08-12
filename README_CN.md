@@ -1,11 +1,10 @@
 # LOGGER 4K
 
 <p style="text-align: center">
-<a href="https://jenkins.open-edgn.tech/job/Logger4K/" target="_blank"><img alt="Jenkins" src="https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fjenkins.open-edgn.tech%2Fjob%2FLogger4K%2F&style=flat-square"/></a>
+<a href="https://travis-ci.com/OpenEdgn/Logger4K" target="_blank"><img alt="Jenkins" src="https://img.shields.io/travis/OpenEdgn/Logger4K?branch=master&color=green&style=flat-square"/></a>
 <a href="LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/OpenEdgn/Logger4K?color=green&style=flat-square"></a>
 <a href="#"><img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/OpenEdgn/Logger4K?color=green&style=flat-square"></a>
 <a href="https://jitpack.io/#OpenEdgn/Logger4K" target="_blank"> <img alt="JitPack" src="https://img.shields.io/jitpack/v/github/OpenEdgn/Logger4K?color=green&style=flat-square"></a>
-<a href="https://jenkins.open-edgn.tech/job/Logger4K/" target="_blank"> <img alt="JitPack" src="https://img.shields.io/badge/Jenkins-Nightly-green?color=red&style=flat-square"></a>
 </p>
 
 CHINESE | [ENGLISH](README.md) (Google Translate)
