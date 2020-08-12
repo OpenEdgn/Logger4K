@@ -26,6 +26,6 @@ package com.github.openEdgn.logger4k
 
 import java.io.Closeable
 
-interface IOutput:Closeable {
-    fun writeLine(item: LoggerItem)
+interface IOutput : Closeable {
+    fun writeLine(item: LoggerLine)
 }

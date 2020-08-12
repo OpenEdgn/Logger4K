@@ -24,20 +24,11 @@
 
 package com.github.openEdgn.logger4k
 
-/**
- *  扩展模块
- */
-interface IExtra {
 
-    /**
-     * 扩展被注册时回调
-     * @param config LoggerConfig
-     */
-    fun register(config: LoggerConfig.InternalLoggerConfig)
-
-    /**
-     * 扩展取消注册回调
-     */
-    fun unregister()
-
-}
+data class LoggerLine(
+        val clazz: Class<out Any>,
+        val date: Long,
+        val threadName: String,
+        val level: LoggerLevel,
+        val message: Any,
+        val exception: Throwable?)

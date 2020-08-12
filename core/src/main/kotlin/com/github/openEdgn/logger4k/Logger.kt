@@ -60,12 +60,12 @@ class Logger constructor(private val clazz: Class<out Any>) : ILogger {
     }
 
     private fun outputLogger(loggerDate: Long, level: LoggerLevel, message: Any, exception: Throwable?) {
-        LoggerConfig.output.writeLine(LoggerItem(clazz, loggerDate,
+        LoggerConfig.output.writeLine(LoggerLine(clazz, loggerDate,
                 Thread.currentThread().name.toUpperCase(Locale.ENGLISH), level, message, exception))
     }
 
 
     override val isDebug: Boolean
-    get() = LoggerConfig.isDebug
+        get() = LoggerConfig.isDebug
 
 }

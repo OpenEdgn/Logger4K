@@ -24,12 +24,15 @@
 
 package com.github.openEdgn.logger4k
 
-import com.github.openEdgn.logger4k.simple.SimpleExtra
+import com.github.openEdgn.logger4k.console.ConsolePlugin
 import java.io.Closeable
 import java.io.PrintStream
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 
+/**
+ * 日志配置类
+ */
 object LoggerConfig {
     private val internalConf = InternalLoggerConfig()
     private val logger = getLogger()
@@ -40,7 +43,7 @@ object LoggerConfig {
                 internalConf.close()
             })
         }
-        registerExtra(SimpleExtra::class)
+        registerExtra(ConsolePlugin::class)
     }
 
     /**
@@ -85,15 +88,15 @@ object LoggerConfig {
     /**
      *   自定义单个日志转化成字符串方法
      */
-   val itemFormat: (LoggerItem) -> String
-    get() = internalConf.itemFormat
+    val itemFormat: (LoggerLine) -> String
+        get() = internalConf.lineFormat
 
 
     /**
      *  注册插件
-     * @param extraClazz  KClass<out IExtra>
+     * @param pluginClazz  KClass<out IExtra>
      */
-    fun registerExtra(extraClazz: KClass<out IExtra>) = internalConf.registerExtra(extraClazz)
+    fun registerExtra(pluginClazz: KClass<out IPlugin>) = internalConf.registerExtra(pluginClazz)
 
 
     class InternalLoggerConfig : Closeable {
@@ -123,14 +126,14 @@ object LoggerConfig {
         private var debug: Boolean = false
 
         @Volatile
-        private var extra: IExtra? = null
+        private var plugin: IPlugin? = null
 
         @Volatile
-        lateinit var itemFormat: (LoggerItem) -> String
+        lateinit var lineFormat: (LoggerLine) -> String
 
         @Synchronized
-        fun registerExtra(extraClazz: KClass<out IExtra>): Boolean {
-            extra?.run {
+        fun registerExtra(pluginClazz: KClass<out IPlugin>): Boolean {
+            plugin?.run {
                 try {
                     unregister()
                 } catch (_: UninitializedPropertyAccessException) {
@@ -139,14 +142,14 @@ object LoggerConfig {
                     return false
                 }
             }
-            extra = extraClazz.createInstance()
-            extra?.register(this)
-            logger.info("已注册来自 [${extra!!.javaClass.name}] 的扩展.")
+            plugin = pluginClazz.createInstance()
+            plugin?.register(this)
+            logger.info("已注册来自 [${plugin!!.javaClass.name}] 的扩展.")
             return true
         }
 
         override fun close() {
-            extra?.run {
+            plugin?.run {
                 try {
                     unregister()
                 } catch (_: Exception) {

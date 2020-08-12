@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k.simple
+package com.github.openEdgn.logger4k.console
 
 import com.github.openEdgn.logger4k.IOutput
 import com.github.openEdgn.logger4k.LoggerConfig
-import com.github.openEdgn.logger4k.LoggerItem
+import com.github.openEdgn.logger4k.LoggerLine
 import com.github.openEdgn.logger4k.LoggerLevel
 import java.io.ByteArrayOutputStream
 import java.io.OutputStreamWriter
@@ -38,11 +38,11 @@ import java.text.SimpleDateFormat
  */
 class ConsoleOutput : IOutput {
 
-    override fun writeLine(item: LoggerItem) {
+    override fun writeLine(item: LoggerLine) {
         if ((item.level == LoggerLevel.DEBUG && LoggerConfig.isDebug) || item.level != LoggerLevel.DEBUG) {
-            if (item.level.levelInt < LoggerLevel.WARN.levelInt){
+            if (item.level.levelInt < LoggerLevel.WARN.levelInt) {
                 LoggerConfig.consoleOutputStream
-            }else{
+            } else {
                 LoggerConfig.consoleErrorOutputStream
             }.println(LoggerConfig.itemFormat(item))
         }
@@ -51,7 +51,8 @@ class ConsoleOutput : IOutput {
     override fun close() {
         LoggerConfig.consoleOutputStream.println("LOGGER CLOSED!")
     }
-    companion object{
+
+    companion object {
         private val simpleDateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
 
         private fun throwableFormat(throws: Throwable): String {
@@ -64,9 +65,10 @@ class ConsoleOutput : IOutput {
             outputStream.close()
             return array.toString(Charsets.UTF_8).trim()
         }
-        val LOG_TO_LINE :(LoggerItem)->String = {
+
+        val LOG_TO_LINE: (LoggerLine) -> String = {
             val output = StringBuilder()
-            if (LoggerConfig.isDebug){
+            if (LoggerConfig.isDebug) {
                 output.append("[DEBUG MODE] ")
             }
             output.append(simpleDateFormat.format(System.currentTimeMillis()))

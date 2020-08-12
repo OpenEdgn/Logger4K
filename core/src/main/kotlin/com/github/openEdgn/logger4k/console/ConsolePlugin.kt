@@ -22,14 +22,23 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k
+package com.github.openEdgn.logger4k.console
 
+import com.github.openEdgn.logger4k.IPlugin
+import com.github.openEdgn.logger4k.LoggerConfig
 
+class ConsolePlugin : IPlugin {
+    override fun register(config: LoggerConfig.InternalLoggerConfig) {
+        config.run {
+            errorOutput = System.err
+            output = System.out
+            lineFormat = ConsoleOutput.LOG_TO_LINE
+            loggerOutput = ConsoleOutput()
+            debugMode = false
+        }
+    }
 
-data class LoggerItem(
-        val clazz: Class<out Any>,
-        val loggerDate: Long,
-        val threadName: String,
-        val level: LoggerLevel,
-        val message: Any,
-        val exception: Throwable?)
+    override fun unregister() {
+
+    }
+}
