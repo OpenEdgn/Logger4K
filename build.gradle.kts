@@ -6,10 +6,11 @@ buildscript {
 
 
     repositories {
+        mavenLocal()
         maven { url = uri("https://maven.aliyun.com/repository/public/") }
         jcenter()
+        mavenCentral()
         maven { url = uri("https://jitpack.io") }
-
     }
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
@@ -18,9 +19,11 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenLocal()
         maven { url = uri("https://maven.aliyun.com/repository/public/") }
         jcenter()
-        maven { url = uri( "https://jitpack.io") }
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
     }
 }
 

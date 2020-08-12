@@ -24,15 +24,12 @@
 
 package com.github.openEdgn.logger4k
 
-import jdk.nashorn.internal.ir.annotations.Ignore
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 /**
  * 关于`core`模块的**所有**方法均在此 `TEST` 下
  */
 internal class LoggerTest {
-    @Ignore
     @Test
     fun testAll() {
         println("将输出日志示例！")
