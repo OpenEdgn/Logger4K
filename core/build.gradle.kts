@@ -8,7 +8,7 @@ plugins {
     id("org.jetbrains.dokka") version "0.10.0"
 
 }
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 
 dependencies {
@@ -26,19 +26,10 @@ tasks.test {
 
 // config JVM target to 1.8 for kotlin compilation tasks
 tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 
-tasks.register("sayHelloWorld"){
-    dependsOn("build")
-    doLast {
-        logger.info("Hello World!")
-        logger.debug("Hello World!")
-        logger.warn("Hello World!")
-        logger.error("Hello World!")
-        println("Hello World!")
-    }
-}
+
 
 tasks.dokka {
     outputFormat = "html"
