@@ -24,6 +24,17 @@ tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.jvmTarget = "11"
 }
 
-
-
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = group.toString()
+            artifactId = project.name
+            version = Versions.Project.core
+            from(components["java"])
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
 
