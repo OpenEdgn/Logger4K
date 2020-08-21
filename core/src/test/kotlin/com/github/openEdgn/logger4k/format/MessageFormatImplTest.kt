@@ -18,37 +18,32 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k
+package com.github.openEdgn.logger4k.format
 
-import com.github.openEdgn.logger4k.format.IMessageFormat
-import com.github.openEdgn.logger4k.format.MessageFormatImpl
-import java.io.ByteArrayOutputStream
-import java.io.PrintWriter
+import org.junit.jupiter.api.Test
 
-/**
- * 内部日志配置工具
- */
-internal object LoggerConfig {
-    fun internalError(msg: String, e: Exception? = null) {
-        if (internalDebug){
-            System.err.printf("[ Logger4K internal Error] Error Message :%d \r\n", msg)
-            e?.run {
-                val byteArrayOutputStream = ByteArrayOutputStream()
-                this.printStackTrace(PrintWriter(byteArrayOutputStream, true, Charsets.UTF_8))
-                System.err.println("Exception :" + byteArrayOutputStream.toString(Charsets.UTF_8).trim())
-            }
-        }
-    }
+import org.junit.jupiter.api.Assertions.*
 
-    val messageFormat: IMessageFormat = MessageFormatImpl
+internal class MessageFormatImplTest {
 
-    /**
-     * 内部调试模式
-     */
-    internal val internalDebug: Boolean by lazy {
-        (System.getProperty("logger4k.internal.debug", "false") ?: "false")
-                .contentEquals("true")
+    @Test
+    fun format() {
+        assertEquals(MessageFormatImpl.
+        format("Hello World, {}.","dragon"),"Hello World, dragon.")
+
+        assertEquals(MessageFormatImpl.format("Hello World, {}."), "Hello World, {}.")
+
+        assertEquals(MessageFormatImpl.format("Hello World, \\{},{}."
+                ,"dragon"), "Hello World, {},dragon.")
+
+        assertEquals(MessageFormatImpl.format("{}, Hello World."
+                ,"dragon"), "dragon, Hello World.")
+
+        assertEquals(MessageFormatImpl.format("{}, Hello World, {}."
+                ,"dragon","bye"), "dragon, Hello World, bye.")
+
+
+        assertEquals(MessageFormatImpl.format("Hello World, {}.","dragon","Alice","Bob"
+        ), "Hello World, dragon.")
     }
 }
-
-fun getMessageFormat(): IMessageFormat = LoggerConfig.messageFormat

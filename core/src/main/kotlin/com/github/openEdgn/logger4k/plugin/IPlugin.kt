@@ -26,7 +26,7 @@ import kotlin.reflect.KClass
 /**
  * plugin register info
  */
-interface IPlugin {
+interface  IPlugin {
     /**
      * plugin name
      */

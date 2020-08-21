@@ -20,35 +20,16 @@
 
 package com.github.openEdgn.logger4k
 
-import com.github.openEdgn.logger4k.format.IMessageFormat
-import com.github.openEdgn.logger4k.format.MessageFormatImpl
-import java.io.ByteArrayOutputStream
-import java.io.PrintWriter
+import kotlin.reflect.KClass
 
-/**
- * 内部日志配置工具
- */
-internal object LoggerConfig {
-    fun internalError(msg: String, e: Exception? = null) {
-        if (internalDebug){
-            System.err.printf("[ Logger4K internal Error] Error Message :%d \r\n", msg)
-            e?.run {
-                val byteArrayOutputStream = ByteArrayOutputStream()
-                this.printStackTrace(PrintWriter(byteArrayOutputStream, true, Charsets.UTF_8))
-                System.err.println("Exception :" + byteArrayOutputStream.toString(Charsets.UTF_8).trim())
-            }
-        }
-    }
-
-    val messageFormat: IMessageFormat = MessageFormatImpl
-
-    /**
-     * 内部调试模式
-     */
-    internal val internalDebug: Boolean by lazy {
-        (System.getProperty("logger4k.internal.debug", "false") ?: "false")
-                .contentEquals("true")
-    }
+fun Any.getLogger(): ILogger {
+    return LoggerFactory.getLogger(javaClass)
 }
 
-fun getMessageFormat(): IMessageFormat = LoggerConfig.messageFormat
+fun KClass<*>.getLogger(): ILogger {
+    return LoggerFactory.getLogger(this)
+}
+
+fun Class<*>.getLogger(): ILogger {
+    return LoggerFactory.getLogger(this)
+}

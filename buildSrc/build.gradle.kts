@@ -20,7 +20,7 @@ kotlinDslPluginOptions {
 }
 
 dependencies {
-    compileOnly(gradleApi())
+    implementation(gradleApi())
 }
 
 

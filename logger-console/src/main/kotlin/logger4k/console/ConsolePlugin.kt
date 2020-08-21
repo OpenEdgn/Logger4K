@@ -18,37 +18,17 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k
+package logger4k.console
 
-import com.github.openEdgn.logger4k.format.IMessageFormat
-import com.github.openEdgn.logger4k.format.MessageFormatImpl
-import java.io.ByteArrayOutputStream
-import java.io.PrintWriter
+import com.github.openEdgn.logger4k.ILogger
+import com.github.openEdgn.logger4k.plugin.IPlugin
+import kotlin.reflect.KClass
 
-/**
- * 内部日志配置工具
- */
-internal object LoggerConfig {
-    fun internalError(msg: String, e: Exception? = null) {
-        if (internalDebug){
-            System.err.printf("[ Logger4K internal Error] Error Message :%d \r\n", msg)
-            e?.run {
-                val byteArrayOutputStream = ByteArrayOutputStream()
-                this.printStackTrace(PrintWriter(byteArrayOutputStream, true, Charsets.UTF_8))
-                System.err.println("Exception :" + byteArrayOutputStream.toString(Charsets.UTF_8).trim())
-            }
-        }
-    }
+class ConsolePlugin : IPlugin {
 
-    val messageFormat: IMessageFormat = MessageFormatImpl
+    override val name: String = "ConsoleLogger"
 
-    /**
-     * 内部调试模式
-     */
-    internal val internalDebug: Boolean by lazy {
-        (System.getProperty("logger4k.internal.debug", "false") ?: "false")
-                .contentEquals("true")
+    override fun getLogger(kClass: KClass<*>): ILogger {
+        TODO()
     }
 }
-
-fun getMessageFormat(): IMessageFormat = LoggerConfig.messageFormat

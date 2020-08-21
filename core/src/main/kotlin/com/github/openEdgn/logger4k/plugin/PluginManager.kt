@@ -20,6 +20,7 @@
 
 package com.github.openEdgn.logger4k.plugin
 
+import com.github.openEdgn.logger4k.LoggerConfig
 import java.io.Closeable
 import java.util.*
 import kotlin.reflect.KClass
@@ -29,6 +30,8 @@ import kotlin.reflect.KClass
  */
 object PluginManager : Closeable {
 
+    @Volatile
+    internal var loggerPlugin:IPlugin?= null
 
 
     const val PLUGIN_IMPL_CLASS_KEY = "logger4k.plugin.implClass"
@@ -37,7 +40,8 @@ object PluginManager : Closeable {
         val properties = Properties()
         try {
             properties.load(PluginManager::class.java.getResourceAsStream("/META-INF/logger4k.properties"))
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            LoggerConfig.internalError("无法找到配置文件 [/META-INF/logger4k.properties] .",e)
         }
 
     }
