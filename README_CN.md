@@ -72,28 +72,11 @@ dependencies {
 
 当前版本：[![JitPack](https://img.shields.io/jitpack/v/github/OpenEdgn/Logger4K?label=version&style=flat-square)](https://jitpack.io/#OpenEdgn/Logger4K)
 
-| 模块代号 |     名称     |                               用途                               |
-| :------: | :----------: | :--------------------------------------------------------------: |
-|  `core`  | 日志核心模块 | 核心模块，具有所有功能 ，在`System.out` 和 `System.err` 输出日志 |
-| `extras` | 文件日志模块 |     轻量级持久日志模块，依赖于 `core`,支持将日志保存到文件下     |
-
- **注意**：在`extras`中，不会保存`DEBUG`级别日志到文件！
-
 ###  在项目中使用
 
 > 所有模块均开箱即用
 
 ``` kotlin
-val logger = getLogger() //创建一个Logger 对象
-
-LoggerConfig.enableDebug() 
-//开启DEBUG 模式 (1)
-enableDebug()
-//开启DEBUG 模式 (2)
-disableDebug()
-// 关闭DEBUG 模式 (1)
-LoggerConfig.enableDebug()
-// 关闭DEBUG 模式 (2)
 
  logger.debug("DEBUG Message.") 
  //  输出 DEBUG 类型的日志 ( 注意，DEBUG未开启则不会输出日志)
@@ -116,7 +99,7 @@ logger.debugOnly {
 }
 
 ```
-更多使用方法请查看 `TEST` 下的 [LoggerTest](./core/src/test/kotlin/com/github/openEdgn/logger4k/LoggerTest.kt) 文件。
+更多使用方法请查看 `TEST` 下的 [PrintLogger.kt](./logger-console/src/test/kotlin/com/github/openEdgn/logger4k/PrintLogger.kt) 和 [LoggerMain.kt](./logger-console/src/test/kotlin/com/github/openEdgn/logger4k/LoggerMain.kt) 文件。
 
 ## LICENSE
 

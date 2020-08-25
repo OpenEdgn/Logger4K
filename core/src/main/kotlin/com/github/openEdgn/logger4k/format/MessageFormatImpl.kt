@@ -37,6 +37,7 @@ import kotlin.collections.ArrayList
  *
  */
 object MessageFormatImpl : IMessageFormat {
+
     override fun format(message: String, data: Array<out Any?>): String {
         if (data.isEmpty()) {
             return message

@@ -63,7 +63,6 @@ class ConsoleLogger(private val clazz: KClass<*>) : SimpleLogger() {
                 .append(clazz.qualifiedName)
                 .append(" :")
                 .append(message)
-                .append("\r\n")
         return res.toString()
     }
 
