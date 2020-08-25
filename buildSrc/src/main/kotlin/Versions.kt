@@ -6,7 +6,7 @@ object Versions {
         /**
          * 工程版本
          */
-        const val root = "1.0"
+        const val root = "1.0-beta"
         const val core = root
         const val console = root
 
