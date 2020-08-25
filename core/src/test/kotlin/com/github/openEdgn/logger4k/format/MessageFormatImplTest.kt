@@ -20,30 +20,25 @@
 
 package com.github.openEdgn.logger4k.format
 
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 internal class MessageFormatImplTest {
 
     @Test
     fun format() {
-        assertEquals(MessageFormatImpl.
-        format("Hello World, {}.","dragon"),"Hello World, dragon.")
+        assertEquals(MessageFormatImpl.format("Hello World, {}.", arrayOf("dragon")), "Hello World, dragon.")
 
-        assertEquals(MessageFormatImpl.format("Hello World, {}."), "Hello World, {}.")
+        assertEquals(MessageFormatImpl.format("Hello World, {}.", arrayOf()), "Hello World, {}.")
 
-        assertEquals(MessageFormatImpl.format("Hello World, \\{},{}."
-                ,"dragon"), "Hello World, {},dragon.")
+        assertEquals(MessageFormatImpl.format("Hello World, \\{},{}.", arrayOf("dragon")), "Hello World, {},dragon.")
 
-        assertEquals(MessageFormatImpl.format("{}, Hello World."
-                ,"dragon"), "dragon, Hello World.")
+        assertEquals(MessageFormatImpl.format("{}, Hello World.", arrayOf("dragon")), "dragon, Hello World.")
 
-        assertEquals(MessageFormatImpl.format("{}, Hello World, {}."
-                ,"dragon","bye"), "dragon, Hello World, bye.")
+        assertEquals(MessageFormatImpl.format("{}, Hello World, {}.", arrayOf("dragon", "bye")), "dragon, Hello World, bye.")
 
 
-        assertEquals(MessageFormatImpl.format("Hello World, {}.","dragon","Alice","Bob"
+        assertEquals(MessageFormatImpl.format("Hello World, {}.", arrayOf("dragon", "Alice", "Bob")
         ), "Hello World, dragon.")
     }
 }

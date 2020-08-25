@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test
  */
 class LoggerMain
 
+@Suppress("VARIABLE_WITH_REDUNDANT_INITIALIZER")
 fun main() {
     Thread.currentThread().name = "Main"
 
