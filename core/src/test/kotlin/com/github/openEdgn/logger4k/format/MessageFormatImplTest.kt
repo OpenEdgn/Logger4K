@@ -18,25 +18,32 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k
+package com.github.openEdgn.logger4k.format
 
-import com.github.openEdgn.logger4k.plugin.PluginManager.loggerPlugin
-import kotlin.reflect.KClass
+import org.junit.jupiter.api.Test
 
-object LoggerFactory {
+import org.junit.jupiter.api.Assertions.*
+
+internal class MessageFormatImplTest {
+
+    @Test
+    fun format() {
+        assertEquals(MessageFormatImpl.
+        format("Hello World, {}.","dragon"),"Hello World, dragon.")
+
+        assertEquals(MessageFormatImpl.format("Hello World, {}."), "Hello World, {}.")
+
+        assertEquals(MessageFormatImpl.format("Hello World, \\{},{}."
+                ,"dragon"), "Hello World, {},dragon.")
+
+        assertEquals(MessageFormatImpl.format("{}, Hello World."
+                ,"dragon"), "dragon, Hello World.")
+
+        assertEquals(MessageFormatImpl.format("{}, Hello World, {}."
+                ,"dragon","bye"), "dragon, Hello World, bye.")
 
 
-    fun getLogger(clazz: Class<*>): ILogger {
-        return getLogger(clazz.kotlin)
+        assertEquals(MessageFormatImpl.format("Hello World, {}.","dragon","Alice","Bob"
+        ), "Hello World, dragon.")
     }
-
-
-    fun getLogger(clazz: KClass<*>): ILogger {
-        if (loggerPlugin == null){
-            throw RuntimeException("未在类路径下找到 Logger 的实现类，无法记录默认日志.")
-        }else{
-            return loggerPlugin!!.getLogger(clazz)
-        }
-    }
-
 }

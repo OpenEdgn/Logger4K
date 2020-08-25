@@ -1,18 +1,14 @@
 /*
- * Copyright (c) 2020, Open EDGN. All rights reserved.
- *
- * HOME Page: https://github.com/Open-EDGN
- *
+ * Copyright (c) 2020, OpenEDGN. All rights reserved.
+ * HOME Page: https://github.com/OpenEDGN
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,138 +20,35 @@
 
 package com.github.openEdgn.logger4k
 
-import com.github.openEdgn.logger4k.console.ConsolePlugin
-import java.io.Closeable
-import java.io.PrintStream
-import kotlin.reflect.KClass
-import kotlin.reflect.full.createInstance
+import com.github.openEdgn.logger4k.format.IMessageFormat
+import com.github.openEdgn.logger4k.format.MessageFormatImpl
+import java.io.ByteArrayOutputStream
+import java.io.PrintWriter
 
 /**
- * 日志配置类
+ * 内部日志配置工具
  */
-object LoggerConfig {
-    private val internalConf = InternalLoggerConfig()
-    private val logger = getLogger()
-
-    init {
-        Runtime.getRuntime().run {
-            addShutdownHook(Thread {
-                internalConf.close()
-            })
+internal object LoggerConfig {
+    fun internalError(msg: String, e: Exception? = null) {
+        if (internalDebug){
+            System.err.printf("[ Logger4K internal Error] Error Message :%d \r\n", msg)
+            e?.run {
+                val byteArrayOutputStream = ByteArrayOutputStream()
+                this.printStackTrace(PrintWriter(byteArrayOutputStream, true, Charsets.UTF_8))
+                System.err.println("Exception :" + byteArrayOutputStream.toString(Charsets.UTF_8).trim())
+            }
         }
-        registerExtra(ConsolePlugin::class)
     }
 
-    /**
-     * 标准控制台输出
-     */
-    val consoleOutputStream: PrintStream
-        get() = internalConf.output
+    val messageFormat: IMessageFormat = MessageFormatImpl
 
     /**
-     * 标准控制台错误输出
+     * 内部调试模式
      */
-    val consoleErrorOutputStream: PrintStream
-        get() = internalConf.errorOutput
-
-
-    val isDebug
-        get() = internalConf.debugMode
-
-
-    /**
-     * 开启 DEBUG 模式
-     */
-    fun enableDebug() {
-        internalConf.debugMode = true
-
-    }
-
-
-    /**
-     * 关闭 DEBUG 模式
-     */
-    fun disableDebug() {
-        internalConf.debugMode = false
-    }
-
-    /**
-     * 日志输出类
-     */
-    val output: IOutput
-        get() = internalConf.loggerOutput
-
-    /**
-     *   自定义单个日志转化成字符串方法
-     */
-    val itemFormat: (LoggerLine) -> String
-        get() = internalConf.lineFormat
-
-
-    /**
-     *  注册插件
-     * @param pluginClazz  KClass<out IExtra>
-     */
-    fun registerExtra(pluginClazz: KClass<out IPlugin>) = internalConf.registerExtra(pluginClazz)
-
-
-    class InternalLoggerConfig : Closeable {
-        @Volatile
-        lateinit var loggerOutput: IOutput
-
-        @Volatile
-        lateinit var output: PrintStream
-
-        @Volatile
-        lateinit var errorOutput: PrintStream
-
-
-        var debugMode: Boolean
-            get() = debug
-            @Synchronized
-            set(value) {
-                debug = value
-                if (value) {
-                    logger.warn("注意!DEBUG 模式已打开!")
-                } else {
-                    logger.info("DEBUG 模式已关闭!")
-                }
-            }
-
-        @Volatile
-        private var debug: Boolean = false
-
-        @Volatile
-        private var plugin: IPlugin? = null
-
-        @Volatile
-        lateinit var lineFormat: (LoggerLine) -> String
-
-        @Synchronized
-        fun registerExtra(pluginClazz: KClass<out IPlugin>): Boolean {
-            plugin?.run {
-                try {
-                    unregister()
-                } catch (_: UninitializedPropertyAccessException) {
-                } catch (e: Exception) {
-                    System.err.println("取消扩展注册时发生错误！[${e.message}]")
-                    return false
-                }
-            }
-            plugin = pluginClazz.createInstance()
-            plugin?.register(this)
-            logger.info("已注册来自 [${plugin!!.javaClass.name}] 的扩展.")
-            return true
-        }
-
-        override fun close() {
-            plugin?.run {
-                try {
-                    unregister()
-                } catch (_: Exception) {
-                }
-            }
-            loggerOutput.close()
-        }
+    private val internalDebug: Boolean by lazy {
+        (System.getProperty("logger4k.internal.debug", "false") ?: "false")
+                .contentEquals("true")
     }
 }
+
+fun getMessageFormat(): IMessageFormat = LoggerConfig.messageFormat

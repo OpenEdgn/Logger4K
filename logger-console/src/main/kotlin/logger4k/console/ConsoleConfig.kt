@@ -18,25 +18,35 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k
+package logger4k.console
 
-import com.github.openEdgn.logger4k.plugin.PluginManager.loggerPlugin
-import kotlin.reflect.KClass
+import com.github.openEdgn.logger4k.LoggerLevel
+import java.io.PrintStream
+import java.text.SimpleDateFormat
 
-object LoggerFactory {
+object ConsoleConfig {
+    private val dateFormat = SimpleDateFormat("MM/dd HH:mm:ss")
+    fun now(): String = dateFormat.format(System.currentTimeMillis())
 
-
-    fun getLogger(clazz: Class<*>): ILogger {
-        return getLogger(clazz.kotlin)
-    }
-
-
-    fun getLogger(clazz: KClass<*>): ILogger {
-        if (loggerPlugin == null){
-            throw RuntimeException("未在类路径下找到 Logger 的实现类，无法记录默认日志.")
-        }else{
-            return loggerPlugin!!.getLogger(clazz)
+    /**
+     * logger level
+     */
+    val loggerLevel: Int by lazy {
+        try {
+            LoggerLevel.valueOf(System.getProperty("logger.level", "INFO")!!.toUpperCase()).level
+        } catch (_: Exception) {
+            LoggerLevel.INFO.level
         }
     }
 
+
+    /**
+     * console output
+     */
+    val output: PrintStream = System.out
+
+    /**
+     * console error output
+     */
+    val error: PrintStream = System.err
 }
