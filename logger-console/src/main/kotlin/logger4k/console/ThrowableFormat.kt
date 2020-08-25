@@ -17,24 +17,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package logger4k.console
 
-package logger4k.console;
+import java.io.ByteArrayOutputStream
+import java.io.PrintWriter
+import kotlin.text.Charsets.UTF_8
 
-import kotlin.text.Charsets;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintWriter;
-
-public class ThrowableFormat {
-    public static String format(Throwable throwable) {
+object ThrowableFormat {
+    fun format(throwable: Throwable?): String {
         if (throwable == null) {
-            return "";
+            return ""
         }
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        throwable.printStackTrace(new PrintWriter(byteArrayOutputStream, true, Charsets.UTF_8));
-        byte[] bytes = byteArrayOutputStream.toByteArray();
-        return new String(bytes, 0, bytes.length, Charsets.UTF_8);
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        throwable.printStackTrace(PrintWriter(byteArrayOutputStream, true, UTF_8))
+        val bytes = byteArrayOutputStream.toByteArray()
+        return String(bytes, 0, bytes.size, UTF_8).trimEnd()
     }
-
 }
-

@@ -32,7 +32,7 @@ abstract class SimpleLogger : ILogger {
     override fun trace(message: String, vararg param: Any?): ILogger {
         val array = Array<Any?>(param.size) { null }
         System.arraycopy(param, 0, array, 0, array.size)
-        printLogger(LoggerLevel.DEBUG, getMessageFormat().format(message, array))
+        printLogger(LoggerLevel.TRACE, getMessageFormat().format(message, array))
         return this
     }
 
@@ -46,35 +46,35 @@ abstract class SimpleLogger : ILogger {
     override fun info(message: String, vararg param: Any?): ILogger {
         val array = Array<Any?>(param.size) { null }
         System.arraycopy(param, 0, array, 0, array.size)
-        printLogger(LoggerLevel.DEBUG, getMessageFormat().format(message, array))
+        printLogger(LoggerLevel.INFO, getMessageFormat().format(message, array))
         return this
     }
 
     override fun warn(message: String, vararg param: Any?): ILogger {
         val array = Array<Any?>(param.size) { null }
         System.arraycopy(param, 0, array, 0, array.size)
-        printLogger(LoggerLevel.DEBUG, getMessageFormat().format(message, array))
+        printLogger(LoggerLevel.WARN, getMessageFormat().format(message, array))
         return this
     }
 
     override fun error(message: String, vararg param: Any?): ILogger {
         val array = Array<Any?>(param.size) { null }
         System.arraycopy(param, 0, array, 0, array.size)
-        printLogger(LoggerLevel.DEBUG, getMessageFormat().format(message, array))
+        printLogger(LoggerLevel.ERROR, getMessageFormat().format(message, array))
         return this
     }
 
-    override fun debug(message: Any, exception: Throwable): ILogger {
+    override fun debugThrowable(message: Any, exception: Throwable): ILogger {
         printLogger(LoggerLevel.DEBUG, message.toString(), exception)
         return this
     }
 
-    override fun warn(message: Any, exception: Throwable): ILogger {
+    override fun warnThrowable(message: Any, exception: Throwable): ILogger {
         printLogger(LoggerLevel.WARN, message.toString(), exception)
         return this
     }
 
-    override fun error(message: Any, exception: Throwable): ILogger {
+    override fun errorThrowable(message: Any, exception: Throwable): ILogger {
         printLogger(LoggerLevel.ERROR, message.toString(), exception)
         return this
     }

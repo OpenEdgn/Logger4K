@@ -75,13 +75,6 @@ dependencies {
 
 version：[![JitPack](https://img.shields.io/jitpack/v/github/OpenEdgn/Logger4K?label=version&style=flat-square)](https://jitpack.io/#OpenEdgn/Logger4K)
 
-| Module enum |     Module Name     |                               Introduction                               |
-| :------: | :----------: | :--------------------------------------------------------------: |
-|  `core`  | Core module | The core module has all functions and outputs logs in `System.out` and` System.err`. |
-| `extras` | IO module |     Lightweight persistent log module, which depends on `core` and supports saving logs to a file.    |
-
- **WARN**：In the module `extras`, the` DEBUG` level log will not be saved to a file!
-
 ###  Usage
 
 Basic usage of the Logger API:
@@ -89,14 +82,6 @@ Basic usage of the Logger API:
 ``` kotlin
 val logger = getLogger () // Create a Logger object
 
-LoggerConfig .enableDebug () 
- // Turn on DEBUG mode (1)
-enableDebug ()
-// Turn on DEBUG mode (2)
-disableDebug ()
-// Turn off DEBUG mode (1) 
-LoggerConfig .enableDebug ()
- // Turn off DEBUG mode (2)
 
  logger.debug ( " DEBUG Message. " ) 
   //   Output DEBUG type log (note that the log will not be output if DEBUG is not enabled)
@@ -119,7 +104,7 @@ logger.debugOnly {
 }
 
 ```
-Please see [LoggerTest](./core/src/test/kotlin/com/github/openEdgn/logger4k/LoggerTest.kt) under `TEST` for more usage methods.
+Please see [PrintLogger.kt](./logger-console/src/test/kotlin/com/github/openEdgn/logger4k/PrintLogger.kt) and [LoggerMain.kt](./logger-console/src/test/kotlin/com/github/openEdgn/logger4k/LoggerMain.kt)  under `TEST` for more usage methods.
 ## LICENSE
 
 SEE [LICENSE FILE](./LICENSE)

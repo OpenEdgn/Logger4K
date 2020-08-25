@@ -68,7 +68,7 @@ interface ILogger {
      * @param exception Throwable 抛出异常
      * @return Log logger 实例
      */
-    fun debug(message: Any, exception: Throwable): ILogger
+    fun debugThrowable(message: Any, exception: Throwable): ILogger
 
     /**
      *
@@ -97,7 +97,7 @@ interface ILogger {
      * @param exception Throwable 抛出异常
      * @return Log logger 实例
      */
-    fun warn(message: Any, exception: Throwable): ILogger
+    fun warnThrowable(message: Any, exception: Throwable): ILogger
 
     /**
      *
@@ -116,7 +116,7 @@ interface ILogger {
      * @param exception Throwable 抛出异常
      * @return Log logger 实例
      */
-    fun error(message: Any, exception: Throwable): ILogger
+    fun errorThrowable(message: Any, exception: Throwable): ILogger
 
     /**
      * # 是否处于调试模式

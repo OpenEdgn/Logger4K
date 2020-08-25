@@ -24,8 +24,11 @@ import com.github.openEdgn.logger4k.LoggerLevel
 import java.io.PrintStream
 import java.text.SimpleDateFormat
 
+/**
+ * 内部日志配置
+ */
 object ConsoleConfig {
-    private val dateFormat = SimpleDateFormat("MM/dd HH:mm:ss")
+    private val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
     fun now(): String = dateFormat.format(System.currentTimeMillis())
 
     /**
