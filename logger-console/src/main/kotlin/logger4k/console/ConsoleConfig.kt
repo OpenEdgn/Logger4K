@@ -18,27 +18,35 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k.plugin
+package logger4k.console
 
-import com.github.openEdgn.logger4k.ILogger
-import kotlin.reflect.KClass
+import com.github.openEdgn.logger4k.LoggerLevel
+import java.io.PrintStream
+import java.text.SimpleDateFormat
 
-/**
- * plugin register info
- */
-interface  IPlugin {
-    /**
-     * plugin name
-     */
-    val name: String
-        get() = javaClass.name
+object ConsoleConfig {
+    private val dateFormat = SimpleDateFormat("MM/dd HH:mm:ss")
+    fun now(): String = dateFormat.format(System.currentTimeMillis())
 
     /**
-     * 根据 `KClass` 来获取 Logger 实例
-     * @param kClass KClass<*>
-     * @return ILogger
+     * logger level
      */
-    fun getLogger(kClass: KClass<*>): ILogger
+    val loggerLevel: Int by lazy {
+        try {
+            LoggerLevel.valueOf(System.getProperty("logger.level", "INFO")!!.toUpperCase()).level
+        } catch (_: Exception) {
+            LoggerLevel.INFO.level
+        }
+    }
 
 
+    /**
+     * console output
+     */
+    val output: PrintStream = System.out
+
+    /**
+     * console error output
+     */
+    val error: PrintStream = System.err
 }

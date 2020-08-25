@@ -18,27 +18,23 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k.plugin
+package logger4k.console;
 
-import com.github.openEdgn.logger4k.ILogger
-import kotlin.reflect.KClass
+import kotlin.text.Charsets;
 
-/**
- * plugin register info
- */
-interface  IPlugin {
-    /**
-     * plugin name
-     */
-    val name: String
-        get() = javaClass.name
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
 
-    /**
-     * 根据 `KClass` 来获取 Logger 实例
-     * @param kClass KClass<*>
-     * @return ILogger
-     */
-    fun getLogger(kClass: KClass<*>): ILogger
-
+public class ThrowableFormat {
+    public static String format(Throwable throwable) {
+        if (throwable == null) {
+            return "";
+        }
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        throwable.printStackTrace(new PrintWriter(byteArrayOutputStream, true, Charsets.UTF_8));
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return new String(bytes, 0, bytes.length, Charsets.UTF_8);
+    }
 
 }
+

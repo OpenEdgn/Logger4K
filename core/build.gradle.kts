@@ -9,6 +9,7 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 dependencies {
     implementation(kotlin("reflect", Versions.Kotlin.reflect))
     implementation(kotlin("stdlib", Versions.Kotlin.stdlib))
+    implementation(openEDGN("DataFormat4K", Versions.OpenEDGN.dataFormat4K))
     testImplementation("org.junit.jupiter:junit-jupiter:${Versions.Junit.junitJupiter}")
 }
 

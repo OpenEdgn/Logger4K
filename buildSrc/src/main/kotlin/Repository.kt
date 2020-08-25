@@ -1,10 +1,10 @@
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 
-object RepositoryMirrors {
+object Repository {
 
     fun loadMirrors(handler: RepositoryHandler, project: Project) {
-        handler.run{
+        handler.run {
             mavenLocal()
             maven { url = project.uri("https://maven.aliyun.com/repository/public/") }
             jcenter()

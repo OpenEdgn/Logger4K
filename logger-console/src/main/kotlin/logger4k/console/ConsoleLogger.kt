@@ -23,33 +23,65 @@ package logger4k.console
 import com.github.openEdgn.logger4k.ILogger
 import com.github.openEdgn.logger4k.LoggerLevel
 import com.github.openEdgn.logger4k.SimpleLogger
+import kotlin.reflect.KClass
 
-class ConsoleLogger : SimpleLogger() {
+class ConsoleLogger(private val clazz: KClass<*>) : SimpleLogger() {
     override fun printLogger(level: LoggerLevel, message: String) {
-        TODO("Not yet implemented")
+        printlnLog(level, message, null)
     }
 
-    override fun debug(message: Any, exception: Throwable): ILogger {
-        TODO("Not yet implemented")
+    override fun printLogger(level: LoggerLevel, message: String, exception: Throwable) {
+        printlnLog(level, message, exception)
     }
 
-    override fun warn(message: Any, exception: Throwable): ILogger {
-        TODO("Not yet implemented")
+    private fun printlnLog(level: LoggerLevel, message: String, exception: Throwable?) {
+        if (level.level < ConsoleConfig.loggerLevel) {
+            return
+        }
+        if (level.level >= LoggerLevel.WARN.level) {
+            ConsoleConfig.error
+        } else {
+            ConsoleConfig.output
+        }.println(if (exception != null) format(level, message + "\r\n" + ThrowableFormat.format(exception)) else format(level, message))
+
     }
 
-    override fun error(message: Any, exception: Throwable): ILogger {
-        TODO("Not yet implemented")
+    private fun format(level: LoggerLevel, message: String): String {
+
+        val res = StringBuilder()
+        if (isDebug) {
+            res.append("[DEBUG MODE]")
+        }
+
+        res.append("[")
+                .append(ConsoleConfig.now())
+                .append("][")
+                .append(Thread.currentThread().name)
+                .append("/")
+                .append(level.name[0])
+                .append("] ")
+                .append(clazz.qualifiedName)
+                .append(" :")
+                .append(message)
+                .append("\r\n")
+        return res.toString()
     }
 
     override fun traceOnly(function: ILogger.() -> Unit): ILogger {
-        TODO("Not yet implemented")
+        if (ConsoleConfig.loggerLevel <= LoggerLevel.TRACE.level) {
+            function(this)
+        }
+        return this
     }
 
     override fun debugOnly(function: ILogger.() -> Unit): ILogger {
-        TODO("Not yet implemented")
+        if (ConsoleConfig.loggerLevel <= LoggerLevel.DEBUG.level) {
+            function(this)
+        }
+        return this
     }
 
     override val isDebug: Boolean
-        get() = TODO("Not yet implemented")
+        get() = ConsoleConfig.loggerLevel <= LoggerLevel.DEBUG.level
 
 }

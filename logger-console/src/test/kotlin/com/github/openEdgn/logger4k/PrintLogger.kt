@@ -18,27 +18,39 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k.plugin
+package com.github.openEdgn.logger4k
 
-import com.github.openEdgn.logger4k.ILogger
-import kotlin.reflect.KClass
+import org.junit.jupiter.api.Test
+import java.text.SimpleDateFormat
+import java.util.*
 
-/**
- * plugin register info
- */
-interface  IPlugin {
+internal class PrintLogger {
     /**
-     * plugin name
+     * 默认情况下无日志抛出
+     * @return Unit
      */
-    val name: String
-        get() = javaClass.name
+    @Test
+    fun test1() {
+        val logger = LoggerFactory.getLogger(javaClass)
+        logger.trace("Hello World")
+        logger.debug("Hello World")
+        logger.info("Hello World")
+        logger.warn("Hello World")
+        logger.error("Hello World")
+    }
 
-    /**
-     * 根据 `KClass` 来获取 Logger 实例
-     * @param kClass KClass<*>
-     * @return ILogger
-     */
-    fun getLogger(kClass: KClass<*>): ILogger
-
-
+    @Test
+    fun test2() {
+        System.setProperty("logger.level", "debug")
+        // 开启 DEBUG 模式代码
+        val logger = LoggerFactory.getLogger(javaClass)
+        logger.debugOnly {
+            debug("isDebug : {} ,date: {}", isDebug, SimpleDateFormat("yyyy-MM-dd").format(Date()))
+        }
+        logger.trace("Hello World")
+        logger.debug("Hello World")
+        logger.info("Hello World")
+        logger.warn("Hello World")
+        logger.error("Hello World")
+    }
 }

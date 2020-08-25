@@ -22,13 +22,25 @@ package logger4k.console
 
 import com.github.openEdgn.logger4k.ILogger
 import com.github.openEdgn.logger4k.plugin.IPlugin
+import com.github.openEdgn.logger4k.plugin.PluginManager
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KClass
 
-class ConsolePlugin : IPlugin {
+object ConsolePlugin : IPlugin {
+    private val map = ConcurrentHashMap<String, ILogger>(100)
+
+    init {
+        PluginManager.registerPlugin(ConsolePlugin::class)
+    }
 
     override val name: String = "ConsoleLogger"
 
     override fun getLogger(kClass: KClass<*>): ILogger {
-        TODO()
+        return map[kClass.qualifiedName] ?: kotlin.run {
+            val consoleLogger = ConsoleLogger(kClass) as ILogger
+            map[kClass.qualifiedName!!] = consoleLogger
+            consoleLogger
+        }
+
     }
 }

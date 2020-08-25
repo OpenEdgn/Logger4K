@@ -6,7 +6,10 @@ object Versions {
         /**
          * 工程版本
          */
-        const val core = "1.0"
+        const val root = "1.0"
+        const val core = root
+        const val console = root
+
     }
 
     // Kotlin 版本
@@ -21,6 +24,11 @@ object Versions {
     object Junit {
         // JUnit 测试版本
         const val junitJupiter = "5.6.2"
+    }
+
+    object OpenEDGN {
+        //https://github.com/OpenEdgn/DataFormat4K
+        const val dataFormat4K = "2.0.2"
     }
 }
 

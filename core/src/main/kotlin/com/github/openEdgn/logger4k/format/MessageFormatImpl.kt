@@ -20,6 +20,7 @@
 
 package com.github.openEdgn.logger4k.format
 
+import com.github.open_edgn.data.format.StringFormatUtils
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -36,7 +37,7 @@ import kotlin.collections.ArrayList
  *
  */
 object MessageFormatImpl : IMessageFormat {
-    override fun format(message: String, vararg data: Any?): String {
+    override fun format(message: String, data: Array<out Any?>): String {
         if (data.isEmpty()) {
             return message
         }
@@ -78,7 +79,8 @@ object MessageFormatImpl : IMessageFormat {
                 break
             }
             if (i < data.size) {
-                result.append(data[i] ?: "null")
+                val any = data[i]
+                result.append(StringFormatUtils.format(any as Any))
             } else if (i < last) {
                 result.append("{}")
             }

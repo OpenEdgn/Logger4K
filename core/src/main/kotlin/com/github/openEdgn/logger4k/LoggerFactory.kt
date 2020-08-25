@@ -21,10 +21,10 @@
 package com.github.openEdgn.logger4k
 
 import com.github.openEdgn.logger4k.plugin.PluginManager.loggerPlugin
-import java.lang.RuntimeException
 import kotlin.reflect.KClass
 
 object LoggerFactory {
+
 
     fun getLogger(clazz: Class<*>): ILogger {
         return getLogger(clazz.kotlin)

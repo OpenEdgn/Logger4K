@@ -45,7 +45,7 @@ internal object LoggerConfig {
     /**
      * 内部调试模式
      */
-    internal val internalDebug: Boolean by lazy {
+    private val internalDebug: Boolean by lazy {
         (System.getProperty("logger4k.internal.debug", "false") ?: "false")
                 .contentEquals("true")
     }

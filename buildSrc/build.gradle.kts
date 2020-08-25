@@ -21,6 +21,7 @@ kotlinDslPluginOptions {
 
 dependencies {
     implementation(gradleApi())
+
 }
 
 

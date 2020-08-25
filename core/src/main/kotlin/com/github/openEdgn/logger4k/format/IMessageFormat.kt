@@ -24,5 +24,5 @@ package com.github.openEdgn.logger4k.format
  * 消息格式化类，将字符串格式化
  */
 interface IMessageFormat {
-    fun format(message: String, vararg data: Any?): String
+    fun format(message: String, data: Array<out Any?>): String
 }

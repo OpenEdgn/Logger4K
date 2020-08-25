@@ -24,6 +24,8 @@ import com.github.openEdgn.logger4k.LoggerConfig
 import java.io.Closeable
 import java.util.*
 import kotlin.reflect.KClass
+import kotlin.reflect.full.createInstance
+import kotlin.reflect.full.isSubclassOf
 
 /**
  * 日志实现加载器
@@ -31,28 +33,59 @@ import kotlin.reflect.KClass
 object PluginManager : Closeable {
 
     @Volatile
-    internal var loggerPlugin:IPlugin?= null
+    internal var loggerPlugin: IPlugin? = null
 
 
-    const val PLUGIN_IMPL_CLASS_KEY = "logger4k.plugin.implClass"
+    private const val PLUGIN_IMPL_CLASS_KEY = "logger4k.plugin.implClass"
 
     init {
         val properties = Properties()
         try {
             properties.load(PluginManager::class.java.getResourceAsStream("/META-INF/logger4k.properties"))
         } catch (e: Exception) {
-            LoggerConfig.internalError("无法找到配置文件 [/META-INF/logger4k.properties] .",e)
+            LoggerConfig.internalError("未在 [classpath:/META-INF/logger4k.properties] 下找到配置文件 ,跳过此路径.", e)
         }
+        try {
+            properties.load(PluginManager::class.java.getResourceAsStream("/logger4k.properties"))
+        } catch (e: Exception) {
+            LoggerConfig.internalError("未在 [classpath:/logger4k.properties]  下找到配置文件 ,跳过此路径. .", e)
+        }
+        val property = properties.getProperty(PLUGIN_IMPL_CLASS_KEY)
+        if (property != null) {
+            try {
+                val pluginImplClass = (Class.forName(property) ?: throw NullPointerException("未找到对应的Plugin 实现类")).kotlin
+                if (pluginImplClass.isSubclassOf(IPlugin::class)) {
+                    registerPlugin(pluginImplClass)
+                } else {
+                    throw RuntimeException(" [${pluginImplClass.qualifiedName}] 不是 IPlugin 的实现类。")
+                }
+            } catch (e: Exception) {
+                LoggerConfig.internalError("通过配置文件加载时发生错误", e)
 
+            }
+        } else {
+            LoggerConfig.internalError("未找到可用的实现类")
+        }
     }
+
 
     /**
      * 注册 Plugin Manager 插件
-     * @param plugin KClass<IPlugin>
+     * @param pluginClass KClass<IPlugin>
      * @return Unit
      */
-    fun registerPlugin(plugin: KClass<IPlugin>) {
-
+    fun registerPlugin(pluginClass: KClass<*>) {
+        try {
+            val pluginImpl = (pluginClass.objectInstance ?: pluginClass.createInstance()) as IPlugin
+            if (loggerPlugin != null) {
+                if (loggerPlugin!!.javaClass != pluginClass) {
+                    loggerPlugin = pluginImpl
+                }
+            } else {
+                loggerPlugin = pluginImpl
+            }
+        } catch (_: Exception) {
+        }
     }
 
 

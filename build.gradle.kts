@@ -2,7 +2,7 @@ group = "com.github.openEDGN"
 version = Versions.Project.core
 
 buildscript {
-    RepositoryMirrors.loadMirrors(repositories,rootProject)
+    Repository.loadMirrors(repositories, rootProject)
     dependencies {
         classpath("${kotlin("gradle-plugin")}:${Versions.Kotlin.gradlePlugin}")
     }
@@ -13,7 +13,7 @@ plugins {
 }
 
 allprojects {
-    RepositoryMirrors.loadMirrors(repositories,rootProject)
+    Repository.loadMirrors(repositories, rootProject)
 }
 
 tasks.register("clean", Delete::class) {

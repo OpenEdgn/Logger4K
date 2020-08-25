@@ -29,7 +29,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = group.toString()
             artifactId = project.name
-            version = Versions.Project.core
+            version = Versions.Project.console
             from(components["java"])
         }
     }

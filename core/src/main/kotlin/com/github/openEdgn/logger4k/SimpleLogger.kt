@@ -20,35 +20,62 @@
 
 package com.github.openEdgn.logger4k
 
+
 /**
  * 默认的 Logger 实现类
  */
 abstract class SimpleLogger : ILogger {
 
     abstract fun printLogger(level: LoggerLevel, message: String)
+    abstract fun printLogger(level: LoggerLevel, message: String, exception: Throwable)
+
     override fun trace(message: String, vararg param: Any?): ILogger {
-        printLogger(LoggerLevel.TRACE, getMessageFormat().format(message, param))
+        val array = Array<Any?>(param.size) { null }
+        System.arraycopy(param, 0, array, 0, array.size)
+        printLogger(LoggerLevel.DEBUG, getMessageFormat().format(message, array))
         return this
     }
 
     override fun debug(message: String, vararg param: Any?): ILogger {
-        printLogger(LoggerLevel.DEBUG, getMessageFormat().format(message, param))
+        val array = Array<Any?>(param.size) { null }
+        System.arraycopy(param, 0, array, 0, array.size)
+        printLogger(LoggerLevel.DEBUG, getMessageFormat().format(message, array))
         return this
     }
 
     override fun info(message: String, vararg param: Any?): ILogger {
-        printLogger(LoggerLevel.INFO, getMessageFormat().format(message, param))
+        val array = Array<Any?>(param.size) { null }
+        System.arraycopy(param, 0, array, 0, array.size)
+        printLogger(LoggerLevel.DEBUG, getMessageFormat().format(message, array))
         return this
     }
 
     override fun warn(message: String, vararg param: Any?): ILogger {
-        printLogger(LoggerLevel.WARN, getMessageFormat().format(message, param))
+        val array = Array<Any?>(param.size) { null }
+        System.arraycopy(param, 0, array, 0, array.size)
+        printLogger(LoggerLevel.DEBUG, getMessageFormat().format(message, array))
         return this
     }
 
     override fun error(message: String, vararg param: Any?): ILogger {
-        printLogger(LoggerLevel.ERROR, getMessageFormat().format(message, param))
+        val array = Array<Any?>(param.size) { null }
+        System.arraycopy(param, 0, array, 0, array.size)
+        printLogger(LoggerLevel.DEBUG, getMessageFormat().format(message, array))
         return this
     }
 
+    override fun debug(message: Any, exception: Throwable): ILogger {
+        printLogger(LoggerLevel.DEBUG, message.toString(), exception)
+        return this
+    }
+
+    override fun warn(message: Any, exception: Throwable): ILogger {
+        printLogger(LoggerLevel.WARN, message.toString(), exception)
+        return this
+    }
+
+    override fun error(message: Any, exception: Throwable): ILogger {
+        printLogger(LoggerLevel.ERROR, message.toString(), exception)
+        return this
+    }
 }
