@@ -25,11 +25,9 @@ import kotlin.reflect.KClass
 
 object LoggerFactory {
 
-
     fun getLogger(clazz: Class<*>): ILogger {
         return getLogger(clazz.kotlin)
     }
-
 
     fun getLogger(clazz: KClass<*>): ILogger {
         if (loggerPlugin == null){
@@ -38,5 +36,4 @@ object LoggerFactory {
             return loggerPlugin!!.getLogger(clazz)
         }
     }
-
 }

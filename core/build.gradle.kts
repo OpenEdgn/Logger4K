@@ -7,10 +7,11 @@ plugins {
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 dependencies {
-    implementation(kotlin("reflect", Versions.Kotlin.reflect))
-    implementation(kotlin("stdlib", Versions.Kotlin.stdlib))
-    implementation(openEDGN("DataFormat4K", Versions.OpenEDGN.dataFormat4K))
-    testImplementation("org.junit.jupiter:junit-jupiter:${Versions.Junit.junitJupiter}")
+    implementation(kotlin("reflect"))
+    implementation(kotlin("stdlib"))
+    implementation("com.github.OpenEdgn:DataFormat4K:2.1.3")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
+    testImplementation("org.junit.platform:junit-platform-launcher:1.6.2")
 }
 
 tasks.test {
@@ -29,7 +30,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = group.toString()
             artifactId = project.name
-            version = Versions.Project.core
+            version = rootProject.version.toString()
             from(components["java"])
         }
     }
