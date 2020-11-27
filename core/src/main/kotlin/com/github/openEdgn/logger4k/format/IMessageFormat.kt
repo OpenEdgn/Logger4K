@@ -22,6 +22,13 @@ package com.github.openEdgn.logger4k.format
 
 /**
  * 消息格式化类，将字符串格式化
+ *
+ * 例如： message 为 “Hello ,{}”,data 为 {"Dragon"},则方法返回结果则为
+ *
+ * “Hello , Dragon”
+ *
+ * 对于想原样输出大括号时，则可以用 `\\{}` 替代
+ *
  */
 interface IMessageFormat {
     fun format(message: String, data: Array<out Any?>): String

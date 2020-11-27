@@ -20,7 +20,6 @@
 
 package com.github.openEdgn.logger4k.format
 
-import com.github.open_edgn.data.format.StringFormatUtils
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -81,7 +80,7 @@ object MessageFormatImpl : IMessageFormat {
             }
             if (i < data.size) {
                 val any = data[i]
-                result.append(StringFormatUtils.format(any as Any))
+                result.append(any.toString())
             } else if (i < last) {
                 result.append("{}")
             }

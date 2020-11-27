@@ -61,7 +61,6 @@ object PluginManager : Closeable {
                 }
             } catch (e: Exception) {
                 LoggerConfig.internalError("通过配置文件加载时发生错误", e)
-
             }
         } else {
             LoggerConfig.internalError("未找到可用的实现类")
@@ -74,6 +73,7 @@ object PluginManager : Closeable {
      * @param pluginClass KClass<IPlugin>
      * @return Unit
      */
+    @Synchronized
     fun registerPlugin(pluginClass: KClass<*>) {
         try {
             val pluginImpl = (pluginClass.objectInstance ?: pluginClass.createInstance()) as IPlugin
