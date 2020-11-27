@@ -27,7 +27,6 @@ import org.junit.jupiter.api.Test
  */
 class LoggerMain
 
-@Suppress("VARIABLE_WITH_REDUNDANT_INITIALIZER")
 fun main() {
     Thread.currentThread().name = "Main"
 
@@ -37,9 +36,9 @@ fun main() {
     System.setProperty("logger.level", "warn")
     System.setProperty("logger.level", "error")
     // 指定日志级别，可以未 DEBUG INFO WARN ERROR
-    var logger = LoggerMain::class.getLogger()
+    // val logger = getLogger()
     // 获取Logger 实例
-    logger = LoggerFactory.getLogger(LoggerMain::class)
+    val logger = LoggerFactory.getLogger(LoggerMain::class)
     // 另一种方式获取Logger 实例
     logger.trace("trace.")
     logger.trace("日志级别: {}.", "trace")

@@ -9,7 +9,6 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 dependencies {
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib"))
-    implementation("com.github.OpenEdgn:DataFormat4K:2.1.3")
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
     testImplementation("org.junit.platform:junit-platform-launcher:1.6.2")
     implementation(project(":core"))
