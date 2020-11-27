@@ -41,6 +41,5 @@ object ConsolePlugin : IPlugin {
             map[kClass.qualifiedName!!] = consoleLogger
             consoleLogger
         }
-
     }
 }
