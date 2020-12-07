@@ -41,7 +41,7 @@ tasks.withType<KotlinCompile>().configureEach {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = group.toString()
+            groupId = rootProject.group.toString()
             artifactId = project.name
             version = rootProject.version.toString()
             from(components["java"])
