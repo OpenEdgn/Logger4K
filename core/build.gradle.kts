@@ -8,6 +8,11 @@ java {
     modularity.inferModulePath.set(true)
 }
 
+tasks.withType<Zip> {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE // allow duplicates
+}
+
+
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 val compileKotlin: KotlinCompile by tasks

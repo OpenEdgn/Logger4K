@@ -18,7 +18,7 @@
  * SOFTWARE.
  */
 
-package logger4k.console;
+package logger4k.impl.console;
 
 import kotlin.text.Charsets;
 

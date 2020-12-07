@@ -18,28 +18,38 @@
  * SOFTWARE.
  */
 
-package logger4k.console
+package logger4k.impl.console
 
-import com.github.openEdgn.logger4k.ILogger
-import com.github.openEdgn.logger4k.plugin.IPlugin
-import com.github.openEdgn.logger4k.plugin.PluginManager
-import java.util.concurrent.ConcurrentHashMap
-import kotlin.reflect.KClass
+import com.github.openEdgn.logger4k.LoggerLevel
+import java.io.PrintStream
+import java.text.SimpleDateFormat
 
-object ConsolePlugin : IPlugin {
-    private val map = ConcurrentHashMap<String, ILogger>(100)
+/**
+ * 内部日志配置
+ */
+object ConsoleConfig {
+    private val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+    fun now(): String = dateFormat.format(System.currentTimeMillis())
 
-    init {
-        PluginManager.registerPlugin(ConsolePlugin::class)
-    }
-
-    override val name: String = "ConsoleLogger"
-
-    override fun getLogger(kClass: KClass<*>): ILogger {
-        return map[kClass.qualifiedName] ?: kotlin.run {
-            val consoleLogger = ConsoleLogger(kClass) as ILogger
-            map[kClass.qualifiedName!!] = consoleLogger
-            consoleLogger
+    /**
+     * logger level
+     */
+    val loggerLevel: Int by lazy {
+        try {
+            LoggerLevel.valueOf(System.getProperty("logger.level", "INFO")!!.toUpperCase()).level
+        } catch (_: Exception) {
+            LoggerLevel.INFO.level
         }
     }
+
+
+    /**
+     * console output
+     */
+    val output: PrintStream = System.out
+
+    /**
+     * console error output
+     */
+    val error: PrintStream = System.err
 }

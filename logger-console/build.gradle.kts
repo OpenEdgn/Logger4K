@@ -15,6 +15,8 @@ val compileJava: JavaCompile by tasks
 compileKotlin.destinationDir = compileJava.destinationDir
 
 
+
+
 dependencies {
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib"))
@@ -28,6 +30,10 @@ tasks.test {
     testLogging {
         events("passed", "skipped", "failed")
     }
+}
+
+tasks.withType<Zip> {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE // allow duplicates
 }
 
 tasks.withType<KotlinCompile>().configureEach {
