@@ -4,7 +4,16 @@ plugins {
     kotlin("jvm")
     `maven-publish`
 }
+java {
+    modularity.inferModulePath.set(true)
+}
+
 java.sourceCompatibility = JavaVersion.VERSION_11
+
+val compileKotlin: KotlinCompile by tasks
+val compileJava: JavaCompile by tasks
+compileKotlin.destinationDir = compileJava.destinationDir
+
 
 dependencies {
     implementation(kotlin("reflect"))

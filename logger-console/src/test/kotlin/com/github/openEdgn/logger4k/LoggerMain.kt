@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test
  */
 class LoggerMain
 
+@Test
 fun main() {
     Thread.currentThread().name = "Main"
 

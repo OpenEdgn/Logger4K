@@ -42,7 +42,7 @@ class ConsoleLogger(private val clazz: KClass<*>) : SimpleLogger() {
             ConsoleConfig.error
         } else {
             ConsoleConfig.output
-        }.println(if (exception != null) format(level, message + "\r\n" + ThrowableFormat.format(exception)) else format(level, message))
+        }.println(if (exception != null) format(level, message + "\r\n" + ThrowableUtils.format(exception)) else format(level, message))
 
     }
 

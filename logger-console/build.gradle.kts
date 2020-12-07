@@ -6,6 +6,15 @@ plugins {
 }
 java.sourceCompatibility = JavaVersion.VERSION_11
 
+java {
+    modularity.inferModulePath.set(true)
+}
+
+val compileKotlin: KotlinCompile by tasks
+val compileJava: JavaCompile by tasks
+compileKotlin.destinationDir = compileJava.destinationDir
+
+
 dependencies {
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib"))
