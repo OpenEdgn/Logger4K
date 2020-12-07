@@ -12,7 +12,7 @@ java {
 
 val compileKotlin: KotlinCompile by tasks
 val compileJava: JavaCompile by tasks
-compileKotlin.destinationDir = compileJava.destinationDir
+compileJava.destinationDir = compileKotlin.destinationDir
 
 
 
