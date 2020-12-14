@@ -18,37 +18,16 @@
  * SOFTWARE.
  */
 
-package logger4k.impl.console
+package logger4k.impl.console.classFormat
 
-import com.github.openEdgn.logger4k.ILogger
-import com.github.openEdgn.logger4k.LoggerLevel
-import com.github.openEdgn.logger4k.plugin.IPlugin
-import com.github.openEdgn.logger4k.plugin.PluginManager
-import java.util.concurrent.ConcurrentHashMap
-import kotlin.reflect.KClass
+import Simple
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
-object ConsolePlugin : IPlugin {
-    private val map = ConcurrentHashMap<String, ILogger>(100)
-
-    override fun getLogger(name: String): ILogger {
-        return map[name] ?: kotlin.run {
-            val consoleLogger = ConsoleLogger(name) as ILogger
-            map[name] = consoleLogger
-            consoleLogger
-        }
-    }
-
-    override fun getLoggerLevel(name: String): LoggerLevel {
-        return ConsoleConfig.loggerLevel
-    }
-
-    init {
-        PluginManager.registerPlugin(ConsolePlugin::class)
-    }
-
-    override val name: String = "ConsoleLogger"
-
-    override fun getLogger(kClass: KClass<*>): ILogger {
-        return getLogger(ConsoleConfig.classNameFormat.format(kClass))
+internal class MaxLengthClassFormatTest {
+    @Test
+    fun format() {
+        assertEquals("Simple", MaxLengthClassFormat().format(Simple::class))
+        assertEquals("l.i.c.c.MaxLengthClassFormatTest", MaxLengthClassFormat().format(MaxLengthClassFormatTest::class))
     }
 }

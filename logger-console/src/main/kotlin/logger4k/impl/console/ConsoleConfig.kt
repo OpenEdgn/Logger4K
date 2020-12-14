@@ -21,6 +21,7 @@
 package logger4k.impl.console
 
 import com.github.openEdgn.logger4k.LoggerLevel
+import logger4k.impl.console.classFormat.MaxLengthClassFormat
 import java.io.PrintStream
 import java.text.SimpleDateFormat
 
@@ -33,6 +34,8 @@ internal object ConsoleConfig {
 
     @Volatile
     var loggerLevel = LoggerLevel.INFO
+
+    val classNameFormat: ClassNameFormat = MaxLengthClassFormat()
 
     /**
      * logger level
