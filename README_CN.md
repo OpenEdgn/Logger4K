@@ -9,7 +9,6 @@
 
 CHINESE | [ENGLISH](README.md) (Google Translate)
 
-
 `LOGGER4K` 是一个轻量级`Kotlin`日志框架
 
 ## 入门
@@ -29,6 +28,7 @@ CHINESE | [ENGLISH](README.md) (Google Translate)
 **Maven**
 
 ```xml
+
 <repositories>
     <repository>
         <id>jitpack.io</id>
@@ -41,18 +41,19 @@ CHINESE | [ENGLISH](README.md) (Google Translate)
 
 ```groovy
 allprojects {
-	repositories {
+    repositories {
         //其他仓库 
-		maven { url 'https://jitpack.io' }
-	}
+        maven { url 'https://jitpack.io' }
+    }
 }
 ```
 
-#####  2. 添加依赖项
+##### 2. 添加依赖项
 
-**Maven** 
+**Maven**
 
 ```xml
+
 <dependency>
     <groupId>com.github.OpenEdgn.Logger4K</groupId>
     <artifactId>${modName}</artifactId>
@@ -72,7 +73,7 @@ dependencies {
 
 当前版本：[![JitPack](https://img.shields.io/jitpack/v/github/OpenEdgn/Logger4K?label=version&style=flat-square)](https://jitpack.io/#OpenEdgn/Logger4K)
 
-###  在项目中使用
+### 在项目中使用
 
 > 所有模块均开箱即用
 
@@ -99,8 +100,12 @@ logger.debugOnly {
 }
 
 ```
-更多使用方法请查看 `TEST` 下的 [PrintLogger.kt](./logger-console/src/test/kotlin/com/github/openEdgn/logger4k/PrintLogger.kt) 和 [LoggerMain.kt](./logger-console/src/test/kotlin/com/github/openEdgn/logger4k/LoggerMain.kt) 文件。
+
+更多使用方法请查看 `TEST` 下的 [PrintLogger.kt](./logger-console/src/test/kotlin/com/github/openEdgn/logger4k/PrintLogger.kt)
+和 [LoggerMain.kt](./logger-console/src/test/kotlin/com/github/openEdgn/logger4k/LoggerMain.kt) 文件。
 
 ## LICENSE
 
-请转到 [LICENSE FILE](./LICENSE)
+注意： 此项目包含有 [SLF4J](https://github.com/qos-ch/slf4j) 的源代码
+
+请转到 [LICENSE FILE](./LICENSE) 和 [SLF4J LICENSE](https://github.com/qos-ch/slf4j/blob/master/LICENSE.txt)

@@ -45,6 +45,15 @@ interface ILogger {
     fun trace(message: String, vararg param: Any? = arrayOf()): ILogger
 
     /**
+     * # 输出跟踪日志
+     *
+     * @param message String 日志信息
+     * @param exception Throwable 抛出异常
+     * @return Log logger 实例
+     */
+    fun traceThrowable(message: Any, exception: Throwable): ILogger
+
+    /**
      *  # 仅在调试模式下执行代码块
      *
      * @return Log logger 实例
@@ -79,6 +88,15 @@ interface ILogger {
      * @return ILogger 当前实例
      */
     fun info(message: String, vararg param: Any? = arrayOf()): ILogger
+
+    /**
+     * # 输出标准日志
+     *
+     * @param message String 日志信息
+     * @param exception Throwable 抛出异常
+     * @return Log logger 实例
+     */
+    fun infoThrowable(message: Any, exception: Throwable): ILogger
 
     /**
      *
@@ -124,4 +142,8 @@ interface ILogger {
     val isDebug: Boolean
 
 
+    /**
+     * 日志输出等级
+     */
+    val level: LoggerLevel
 }

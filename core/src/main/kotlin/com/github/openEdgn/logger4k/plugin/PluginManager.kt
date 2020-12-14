@@ -33,8 +33,12 @@ import kotlin.reflect.full.isSubclassOf
 object PluginManager : Closeable {
 
     @Volatile
-    internal var loggerPlugin: IPlugin? = null
+    private var loggerPlugin: IPlugin? = null
 
+    internal fun implPlugin(): IPlugin {
+        return loggerPlugin ?: throw RuntimeException("未在类路径下找到 Logger 的实现类，无法记录默认日志.")
+
+    }
 
     private const val PLUGIN_IMPL_CLASS_KEY = "logger4k.plugin.implClass"
 

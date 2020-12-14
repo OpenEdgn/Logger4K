@@ -18,42 +18,55 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k.plugin
+package org.slf4j.impl;
 
-import com.github.openEdgn.logger4k.ILogger
-import com.github.openEdgn.logger4k.LoggerLevel
-import kotlin.reflect.KClass
+import org.slf4j.IMarkerFactory;
+import org.slf4j.MarkerFactory;
+import org.slf4j.helpers.BasicMarkerFactory;
+import org.slf4j.spi.MarkerFactoryBinder;
 
 /**
- * plugin register info
+ * The binding of {@link MarkerFactory} class with an actual instance of
+ * {@link IMarkerFactory} is performed using information returned by this class.
+ *
+ * @author Ceki G&uuml;lc&uuml;
  */
-interface IPlugin {
-    /**
-     * plugin name
-     */
-    val name: String
-        get() = javaClass.name
+public class StaticMarkerBinder implements MarkerFactoryBinder {
 
     /**
-     * 根据 `KClass` 来获取 Logger 实例
-     * @param kClass KClass<*>
-     * @return ILogger
+     * The unique instance of this class.
      */
-    fun getLogger(kClass: KClass<*>): ILogger
+    public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
+
+    final IMarkerFactory markerFactory = new BasicMarkerFactory();
+
+    private StaticMarkerBinder() {
+    }
 
     /**
-     * 根据名称获取 Logger 实例
-     * @param name String
-     * @return ILogger
-     */
-    fun getLogger(name: String): ILogger
-
-    /**
-     * 根据名称得到日志等级
+     * Return the singleton of this class.
      *
-     * @param name String 名称
-     * @return LoggerLevel 日志等级
+     * @return the StaticMarkerBinder singleton
+     * @since 1.7.14
      */
-    fun getLoggerLevel(name: String): LoggerLevel
+    public static StaticMarkerBinder getSingleton() {
+        return SINGLETON;
+    }
+
+    /**
+     * Currently this method always returns an instance of
+     * {@link BasicMarkerFactory}.
+     */
+    public IMarkerFactory getMarkerFactory() {
+        return markerFactory;
+    }
+
+    /**
+     * Currently, this method returns the class name of
+     * {@link BasicMarkerFactory}.
+     */
+    public String getMarkerFactoryClassStr() {
+        return BasicMarkerFactory.class.getName();
+    }
 
 }

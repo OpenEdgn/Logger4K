@@ -29,7 +29,6 @@ public class ThrowableUtils {
     public static String format(Throwable throwable) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         throwable.printStackTrace(new PrintWriter(stream, true, Charsets.UTF_8));
-        byte[] bytes = stream.toByteArray();
-        return new String(bytes, Charsets.UTF_8);
+        return stream.toString(Charsets.UTF_8);
     }
 }

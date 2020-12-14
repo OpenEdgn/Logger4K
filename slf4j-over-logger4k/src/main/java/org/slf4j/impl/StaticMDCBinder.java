@@ -17,38 +17,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package org.slf4j.impl;
 
-package logger4k.impl.console
+import org.slf4j.helpers.NOPMDCAdapter;
+import org.slf4j.spi.MDCAdapter;
 
-import com.github.openEdgn.logger4k.ILogger
-import com.github.openEdgn.logger4k.LoggerLevel
-import com.github.openEdgn.logger4k.plugin.IPlugin
-import com.github.openEdgn.logger4k.plugin.PluginManager
-import java.util.concurrent.ConcurrentHashMap
-import kotlin.reflect.KClass
+/**
+ * This implementation is bound to {@link NOPMDCAdapter}.
+ *
+ * @author Ceki G&uuml;lc&uuml;
+ */
+public class StaticMDCBinder {
 
-object ConsolePlugin : IPlugin {
-    private val map = ConcurrentHashMap<String, ILogger>(100)
+    /**
+     * The unique instance of this class.
+     */
+    public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
 
-    override fun getLogger(name: String): ILogger {
-        return map[name] ?: kotlin.run {
-            val consoleLogger = ConsoleLogger(name) as ILogger
-            map[name] = consoleLogger
-            consoleLogger
-        }
+    private StaticMDCBinder() {
     }
 
-    override fun getLoggerLevel(name: String): LoggerLevel {
-        return ConsoleConfig.loggerLevel
+    /**
+     * Return the singleton of this class.
+     *
+     * @return the StaticMDCBinder singleton
+     * @since 1.7.14
+     */
+    public static final StaticMDCBinder getSingleton() {
+        return SINGLETON;
     }
 
-    init {
-        PluginManager.registerPlugin(ConsolePlugin::class)
+    /**
+     * Currently this method always returns an instance of
+     * {@link StaticMDCBinder}.
+     */
+    public MDCAdapter getMDCA() {
+        return new NOPMDCAdapter();
     }
 
-    override val name: String = "ConsoleLogger"
-
-    override fun getLogger(kClass: KClass<*>): ILogger {
-        return getLogger(kClass.qualifiedName ?: "\$InternalClass")
+    public String getMDCAdapterClassStr() {
+        return NOPMDCAdapter.class.getName();
     }
 }

@@ -9,7 +9,6 @@
 
 [CHINESE](README_CN.md) | ENGLISH (Google Translate)
 
-
 `LOGGER4K` Is a lightweight `Kotlin`logging framework.
 
 ## Getting Started
@@ -18,9 +17,7 @@ This project used `Gradle ` to build coverage `Junit` test.
 
 If you find a bug or comments, you can feedback under `Issues`.
 
-
 ### Add this to the project
-
 
 > Before you start, you need to introduce the module into the project. The introduction of `Apache Maven` and `Gradle` is introduced below.
 
@@ -28,10 +25,10 @@ If you find a bug or comments, you can feedback under `Issues`.
 
 ##### 1. Add it to the project:
 
-
 **Maven**
 
 ```xml
+
 <repositories>
     <repository>
         <id>jitpack.io</id>
@@ -44,18 +41,19 @@ If you find a bug or comments, you can feedback under `Issues`.
 
 ```groovy
 allprojects {
-	repositories {
+    repositories {
         // ...
-	    maven { url 'https://jitpack.io' }
-	}
+        maven { url 'https://jitpack.io' }
+    }
 }
 ```
 
-#####  2. Add dependencies
+##### 2. Add dependencies
 
-**Maven** 
+**Maven**
 
 ```xml
+
 <dependency>
     <groupId>com.github.OpenEdgn.Logger4K</groupId>
     <artifactId>${modName}</artifactId>
@@ -75,7 +73,7 @@ dependencies {
 
 version：[![JitPack](https://img.shields.io/jitpack/v/github/OpenEdgn/Logger4K?label=version&style=flat-square)](https://jitpack.io/#OpenEdgn/Logger4K)
 
-###  Usage
+### Usage
 
 Basic usage of the Logger API:
 
@@ -104,7 +102,11 @@ logger.debugOnly {
 }
 
 ```
-Please see [PrintLogger.kt](./logger-console/src/test/kotlin/com/github/openEdgn/logger4k/PrintLogger.kt) and [LoggerMain.kt](./logger-console/src/test/kotlin/com/github/openEdgn/logger4k/LoggerMain.kt)  under `TEST` for more usage methods.
+
+Please see [PrintLogger.kt](./logger-console/src/test/kotlin/com/github/openEdgn/logger4k/PrintLogger.kt)
+and [LoggerMain.kt](./logger-console/src/test/kotlin/com/github/openEdgn/logger4k/LoggerMain.kt)  under `TEST` for more
+usage methods.
+
 ## LICENSE
 
-SEE [LICENSE FILE](./LICENSE)
+SEE [LICENSE FILE](./LICENSE) AND  [SLF4J LICENSE](https://github.com/qos-ch/slf4j/blob/master/LICENSE.txt)

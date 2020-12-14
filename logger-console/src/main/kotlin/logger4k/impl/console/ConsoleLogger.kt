@@ -23,9 +23,8 @@ package logger4k.impl.console
 import com.github.openEdgn.logger4k.ILogger
 import com.github.openEdgn.logger4k.LoggerLevel
 import com.github.openEdgn.logger4k.SimpleLogger
-import kotlin.reflect.KClass
 
-class ConsoleLogger(private val clazz: KClass<*>) : SimpleLogger() {
+class ConsoleLogger(override val name: String) : SimpleLogger() {
     override fun printLogger(level: LoggerLevel, message: String) {
         printlnLog(level, message, null)
     }
@@ -35,14 +34,19 @@ class ConsoleLogger(private val clazz: KClass<*>) : SimpleLogger() {
     }
 
     private fun printlnLog(level: LoggerLevel, message: String, exception: Throwable?) {
-        if (level.level < ConsoleConfig.loggerLevel) {
+        if (level.level < ConsoleConfig.loggerLevelInt) {
             return
         }
         if (level.level >= LoggerLevel.WARN.level) {
             ConsoleConfig.error
         } else {
             ConsoleConfig.output
-        }.println(if (exception != null) format(level, message + "\r\n" + ThrowableUtils.format(exception)) else format(level, message))
+        }.println(
+            if (exception != null) format(level, message + "\r\n" + ThrowableUtils.format(exception)) else format(
+                level,
+                message
+            )
+        )
 
     }
 
@@ -54,33 +58,33 @@ class ConsoleLogger(private val clazz: KClass<*>) : SimpleLogger() {
         }
 
         res.append("[")
-                .append(ConsoleConfig.now())
-                .append("][")
-                .append(Thread.currentThread().name)
-                .append("/")
-                .append(level.name[0])
-                .append("] ")
-                .append(clazz.qualifiedName)
-                .append(" :")
-                .append(message)
+            .append(ConsoleConfig.now())
+            .append("][")
+            .append(Thread.currentThread().name)
+            .append("/")
+            .append(level.name[0])
+            .append("] ")
+            .append(name)
+            .append(" :")
+            .append(message)
         return res.toString()
     }
 
     override fun traceOnly(function: ILogger.() -> Unit): ILogger {
-        if (ConsoleConfig.loggerLevel <= LoggerLevel.TRACE.level) {
+        if (ConsoleConfig.loggerLevelInt <= LoggerLevel.TRACE.level) {
             function(this)
         }
         return this
     }
 
     override fun debugOnly(function: ILogger.() -> Unit): ILogger {
-        if (ConsoleConfig.loggerLevel <= LoggerLevel.DEBUG.level) {
+        if (ConsoleConfig.loggerLevelInt <= LoggerLevel.DEBUG.level) {
             function(this)
         }
         return this
     }
 
     override val isDebug: Boolean
-        get() = ConsoleConfig.loggerLevel <= LoggerLevel.DEBUG.level
+        get() = ConsoleConfig.loggerLevelInt <= LoggerLevel.DEBUG.level
 
 }

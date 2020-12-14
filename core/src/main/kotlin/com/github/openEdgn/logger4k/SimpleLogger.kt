@@ -20,12 +20,16 @@
 
 package com.github.openEdgn.logger4k
 
+import com.github.openEdgn.logger4k.plugin.PluginManager
+
 
 /**
  * 默认的 Logger 实现类
  */
 abstract class SimpleLogger : ILogger {
 
+
+    abstract val name: String
     abstract fun printLogger(level: LoggerLevel, message: String)
     abstract fun printLogger(level: LoggerLevel, message: String, exception: Throwable)
 
@@ -69,6 +73,16 @@ abstract class SimpleLogger : ILogger {
         return this
     }
 
+    override fun infoThrowable(message: Any, exception: Throwable): ILogger {
+        printLogger(LoggerLevel.INFO, message.toString(), exception)
+        return this
+    }
+
+    override fun traceThrowable(message: Any, exception: Throwable): ILogger {
+        printLogger(LoggerLevel.TRACE, message.toString(), exception)
+        return this
+    }
+
     override fun warnThrowable(message: Any, exception: Throwable): ILogger {
         printLogger(LoggerLevel.WARN, message.toString(), exception)
         return this
@@ -78,4 +92,7 @@ abstract class SimpleLogger : ILogger {
         printLogger(LoggerLevel.ERROR, message.toString(), exception)
         return this
     }
+
+    override val level: LoggerLevel
+        get() = PluginManager.implPlugin().getLoggerLevel(name)
 }

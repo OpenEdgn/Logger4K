@@ -20,7 +20,7 @@
 
 package com.github.openEdgn.logger4k
 
-import com.github.openEdgn.logger4k.plugin.PluginManager.loggerPlugin
+import com.github.openEdgn.logger4k.plugin.PluginManager.implPlugin
 import kotlin.reflect.KClass
 
 object LoggerFactory {
@@ -30,10 +30,10 @@ object LoggerFactory {
     }
 
     fun getLogger(clazz: KClass<*>): ILogger {
-        if (loggerPlugin == null){
-            throw RuntimeException("未在类路径下找到 Logger 的实现类，无法记录默认日志.")
-        }else{
-            return loggerPlugin!!.getLogger(clazz)
-        }
+        return implPlugin().getLogger(clazz)
+    }
+
+    fun getLogger(name: String): ILogger {
+        return implPlugin().getLogger(name)
     }
 }

@@ -27,19 +27,23 @@ import java.text.SimpleDateFormat
 /**
  * 内部日志配置
  */
-object ConsoleConfig {
+internal object ConsoleConfig {
     private val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
     fun now(): String = dateFormat.format(System.currentTimeMillis())
+
+    @Volatile
+    var loggerLevel = LoggerLevel.INFO
 
     /**
      * logger level
      */
-    val loggerLevel: Int by lazy {
-        try {
-            LoggerLevel.valueOf(System.getProperty("logger.level", "INFO")!!.toUpperCase()).level
+    val loggerLevelInt: Int by lazy {
+        loggerLevel = try {
+            LoggerLevel.valueOf(System.getProperty("logger.level", "INFO")!!.toUpperCase())
         } catch (_: Exception) {
-            LoggerLevel.INFO.level
+            LoggerLevel.INFO
         }
+        loggerLevel.level
     }
 
 
