@@ -25,10 +25,19 @@ import com.github.openEdgn.logger4k.LoggerLevel
 import org.slf4j.helpers.MarkerIgnoringBase
 
 class SimpleLogger(private val internalName: String) : MarkerIgnoringBase() {
-    private val nullMessage = "如果您看到此错误则表明日志接收到的的异常信息为 null."
 
     init {
-        name = internalName
+        name = if (internalName.length > 15) {
+            val list = internalName.split(".")
+            val stringBuilder = StringBuilder()
+            for (i in 0 until list.size - 1) {
+                stringBuilder.append(list[i].first()).append(".")
+            }
+            stringBuilder.append(list.last())
+            stringBuilder.toString()
+        } else {
+            internalName
+        }
     }
 
     private val logger = LoggerFactory.getLogger(name)
@@ -55,7 +64,11 @@ class SimpleLogger(private val internalName: String) : MarkerIgnoringBase() {
     }
 
     override fun trace(msg: String?, t: Throwable?) {
-        logger.traceThrowable(msg ?: "", t ?: NullPointerException(nullMessage))
+        if (t == null) {
+            trace(msg)
+        } else {
+            logger.traceThrowable(msg ?: "", t)
+        }
     }
 
 
@@ -78,7 +91,11 @@ class SimpleLogger(private val internalName: String) : MarkerIgnoringBase() {
     }
 
     override fun debug(msg: String?, t: Throwable?) {
-        logger.debugThrowable(msg ?: "", t ?: NullPointerException(nullMessage))
+        if (t == null) {
+            debug(msg)
+        } else {
+            logger.debugThrowable(msg ?: "", t)
+        }
     }
 
 
@@ -101,7 +118,11 @@ class SimpleLogger(private val internalName: String) : MarkerIgnoringBase() {
     }
 
     override fun info(msg: String?, t: Throwable?) {
-        logger.infoThrowable(msg ?: "", t ?: NullPointerException(nullMessage))
+        if (t == null) {
+            info(msg)
+        } else {
+            logger.infoThrowable(msg ?: "", t)
+        }
     }
 
 
@@ -124,7 +145,11 @@ class SimpleLogger(private val internalName: String) : MarkerIgnoringBase() {
     }
 
     override fun warn(msg: String?, t: Throwable?) {
-        logger.warnThrowable(msg ?: "", t ?: NullPointerException(nullMessage))
+        if (t == null) {
+            warn(msg)
+        } else {
+            logger.warnThrowable(msg ?: "", t)
+        }
     }
 
 
@@ -147,7 +172,11 @@ class SimpleLogger(private val internalName: String) : MarkerIgnoringBase() {
     }
 
     override fun error(msg: String?, t: Throwable?) {
-        logger.errorThrowable(msg ?: "", t ?: NullPointerException(nullMessage))
+        if (t == null) {
+            error(msg)
+        } else {
+            logger.errorThrowable(msg ?: "", t)
+        }
     }
 
 

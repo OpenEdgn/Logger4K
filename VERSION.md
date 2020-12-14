@@ -10,6 +10,10 @@
 
 ## 版本日志
 
+### 1.2.1
+
+- 优化 `logger-console` 下显示逻辑
+
 ### 1.2.0
 
 - 添加 SLF4J 到 Logger4K 的代理 (`slf4j-over-logger4k`)
