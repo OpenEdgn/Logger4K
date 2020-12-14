@@ -22,22 +22,14 @@ package org.slf4j.impl
 
 import com.github.openEdgn.logger4k.LoggerFactory
 import com.github.openEdgn.logger4k.LoggerLevel
+import com.github.openEdgn.logger4k.format.ClassNameFormat
 import org.slf4j.helpers.MarkerIgnoringBase
 
 class SimpleLogger(private val internalName: String) : MarkerIgnoringBase() {
 
+
     init {
-        name = if (internalName.length > 15) {
-            val list = internalName.split(".")
-            val stringBuilder = StringBuilder()
-            for (i in 0 until list.size - 1) {
-                stringBuilder.append(list[i].first()).append(".")
-            }
-            stringBuilder.append(list.last())
-            stringBuilder.toString()
-        } else {
-            internalName
-        }
+        name = ClassNameFormat.DEFAULT_IMPL.format(internalName)
     }
 
     private val logger = LoggerFactory.getLogger(name)

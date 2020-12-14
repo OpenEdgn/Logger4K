@@ -103,9 +103,9 @@ logger.debugOnly {
 
 ```
 
-Please see [PrintLogger.kt](./logger-console/src/test/kotlin/com/github/openEdgn/logger4k/PrintLogger.kt)
-and [LoggerMain.kt](./logger-console/src/test/kotlin/com/github/openEdgn/logger4k/LoggerMain.kt)  under `TEST` for more
-usage methods.
+Please see [PrintLogger.kt](./logger-console/src/test/kotlin/logger4k/impl/console/PrintLogger.kt)
+and [LoggerMain.kt](./logger-console/src/test/kotlin/logger4k/impl/console/LoggerMain.kt)  under `TEST` for more usage
+methods.
 
 ## LICENSE
 

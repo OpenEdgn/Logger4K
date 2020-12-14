@@ -18,25 +18,20 @@
  * SOFTWARE.
  */
 
-package logger4k.impl.console.classFormat
+package logger4k.impl.slf4j
 
-import logger4k.impl.console.ClassNameFormat
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
 
-class MaxLengthClassFormat : ClassNameFormat {
-    private val maxLine = 15
-    override fun format(clazz: KClass<*>): String {
-        val name = clazz.qualifiedName ?: "\$InternalClass"
-        return if (name.length > maxLine) {
-            val list = name.split(".")
-            val stringBuilder = StringBuilder()
-            for (i in 0 until list.size - 1) {
-                stringBuilder.append(list[i].first()).append(".")
-            }
-            stringBuilder.append(list.last())
-            stringBuilder.toString()
-        } else {
-            name
-        }
-    }
+fun Any.getSLF4JLogger(): Logger {
+    return LoggerFactory.getLogger(javaClass)
+}
+
+fun KClass<*>.getSLF4JLogger(): Logger {
+    return LoggerFactory.getLogger(this.java)
+}
+
+fun Class<*>.getSLF4JLogger(): Logger {
+    return LoggerFactory.getLogger(this)
 }

@@ -18,39 +18,49 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k
+package logger4k.impl.slf4j
 
+import com.github.openEdgn.logger4k.getLogger
 import org.junit.jupiter.api.Test
-import java.text.SimpleDateFormat
-import java.util.*
+import java.io.IOException
 
-internal class PrintLogger {
-    /**
-     * 默认情况下无日志抛出
-     * @return Unit
-     */
+internal class SLF4JLoggerTest {
+
+    private val logger = getLogger()
+
     @Test
-    fun test1() {
-        val logger = LoggerFactory.getLogger(javaClass)
-        logger.trace("Hello World")
-        logger.debug("Hello World")
-        logger.info("Hello World")
-        logger.warn("Hello World")
-        logger.error("Hello World")
+    fun testInfo() {
+        logger.info("Hello World.")
+        logger.info("Hello World, {} .", "dragon")
+        logger.infoThrowable("Exception", IOException())
     }
 
     @Test
-    fun test2() {
-        System.setProperty("logger.level", "debug")
-        // 开启 DEBUG 模式代码
-        val logger = LoggerFactory.getLogger(javaClass)
-        logger.debugOnly {
-            debug("isDebug : {} ,date: {}", isDebug, SimpleDateFormat("yyyy-MM-dd").format(Date()))
-        }
-        logger.trace("Hello World")
-        logger.debug("Hello World")
-        logger.info("Hello World")
-        logger.warn("Hello World")
-        logger.error("Hello World")
+    fun testDebug() {
+        logger.debug("Hello World.")
+        logger.debug("Hello World, {} .", "dragon")
+        logger.debugThrowable("Exception", IOException())
     }
+
+    @Test
+    fun testTrace() {
+        logger.trace("Hello World.")
+        logger.trace("Hello World, {} .", "dragon")
+        logger.traceThrowable("Exception", IOException())
+    }
+
+    @Test
+    fun testWarn() {
+        logger.warn("Hello World.")
+        logger.warn("Hello World, {} .", "dragon")
+        logger.warnThrowable("Exception", IOException())
+    }
+
+    @Test
+    fun testError() {
+        logger.error("Hello World.")
+        logger.error("Hello World, {} .", "dragon")
+        logger.errorThrowable("Exception", IOException())
+    }
+
 }

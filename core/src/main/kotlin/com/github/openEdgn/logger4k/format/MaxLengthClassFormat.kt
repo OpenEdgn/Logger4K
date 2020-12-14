@@ -18,13 +18,21 @@
  * SOFTWARE.
  */
 
-package logger4k.impl.console
+package com.github.openEdgn.logger4k.format
 
-import kotlin.reflect.KClass
-
-/**
- *  Class 类名格式化优化
- */
-interface ClassNameFormat {
-    fun format(clazz: KClass<*>): String
+class MaxLengthClassFormat : ClassNameFormat() {
+    private val maxLine = 15
+    override fun format(name: String): String {
+        return if (name.length > maxLine) {
+            val list = name.split(".")
+            val stringBuilder = StringBuilder()
+            for (i in 0 until list.size - 1) {
+                stringBuilder.append(list[i].first()).append(".")
+            }
+            stringBuilder.append(list.last())
+            stringBuilder.toString()
+        } else {
+            name
+        }
+    }
 }

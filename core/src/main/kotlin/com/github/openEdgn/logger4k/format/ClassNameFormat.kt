@@ -18,16 +18,22 @@
  * SOFTWARE.
  */
 
-package logger4k.impl.console.classFormat
+package com.github.openEdgn.logger4k.format
 
-import Simple
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import kotlin.reflect.KClass
 
-internal class MaxLengthClassFormatTest {
-    @Test
-    fun format() {
-        assertEquals("Simple", MaxLengthClassFormat().format(Simple::class))
-        assertEquals("l.i.c.c.MaxLengthClassFormatTest", MaxLengthClassFormat().format(MaxLengthClassFormatTest::class))
+/**
+ *  Class 类名格式化优化
+ */
+abstract class ClassNameFormat {
+    abstract fun format(name: String): String
+    fun format(clazz: KClass<*>): String {
+        val name = clazz.qualifiedName ?: "\$InternalClass"
+        return format(name)
     }
+
+    companion object {
+        val DEFAULT_IMPL: ClassNameFormat = MaxLengthClassFormat()
+    }
+
 }

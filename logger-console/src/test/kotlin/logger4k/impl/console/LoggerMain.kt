@@ -18,8 +18,9 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k
+package logger4k.impl.console
 
+import com.github.openEdgn.logger4k.LoggerFactory
 import org.junit.jupiter.api.Test
 
 /**

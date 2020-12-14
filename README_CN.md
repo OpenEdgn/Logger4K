@@ -101,8 +101,8 @@ logger.debugOnly {
 
 ```
 
-更多使用方法请查看 `TEST` 下的 [PrintLogger.kt](./logger-console/src/test/kotlin/com/github/openEdgn/logger4k/PrintLogger.kt)
-和 [LoggerMain.kt](./logger-console/src/test/kotlin/com/github/openEdgn/logger4k/LoggerMain.kt) 文件。
+更多使用方法请查看 `TEST` 下的 [PrintLogger.kt](./logger-console/src/test/kotlin/logger4k/impl/console/PrintLogger.kt)
+和 [LoggerMain.kt](./logger-console/src/test/kotlin/logger4k/impl/console/LoggerMain.kt) 文件。
 
 ## LICENSE
 
