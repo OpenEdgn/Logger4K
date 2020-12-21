@@ -44,13 +44,14 @@ object PluginManager : Closeable {
 
     init {
         val properties = Properties()
+        val classLoader = PluginManager::class.java
         try {
-            properties.load(PluginManager::class.java.getResourceAsStream("/META-INF/logger4k.properties"))
+            properties.load(classLoader.getResourceAsStream("/META-INF/logger4k.properties"))
         } catch (e: Exception) {
             LoggerConfig.internalError("未在 [classpath:/META-INF/logger4k.properties] 下找到配置文件 ,跳过此路径.", e)
         }
         try {
-            properties.load(PluginManager::class.java.getResourceAsStream("/logger4k.properties"))
+            properties.load(classLoader.getResourceAsStream("/logger4k.properties"))
         } catch (e: Exception) {
             LoggerConfig.internalError("未在 [classpath:/logger4k.properties]  下找到配置文件 ,跳过此路径. .", e)
         }

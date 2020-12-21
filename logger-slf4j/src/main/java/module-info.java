@@ -4,5 +4,5 @@ module logger4k.console {
     requires kotlin.reflect;
     requires org.slf4j;
     exports logger4k.impl.slf4j;
-    opens logger4k.impl.slf4j;
+    opens logger4k.impl.slf4j to logger4k.core;
 }
