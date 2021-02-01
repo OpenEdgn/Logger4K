@@ -18,18 +18,19 @@
  * SOFTWARE.
  */
 
-package logger4k.impl.slf4j
+package logger4k
 
 import com.github.openEdgn.logger4k.ILogger
 import com.github.openEdgn.logger4k.LoggerLevel
 import com.github.openEdgn.logger4k.format.ClassNameFormat
 import com.github.openEdgn.logger4k.plugin.IPlugin
 import com.github.openEdgn.logger4k.plugin.PluginManager
+import logger4k.impl.slf4j.SLF4JLogger
 import org.slf4j.LoggerFactory
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KClass
 
-object SLF4JPlugin : IPlugin {
+object LoggerPlugin : IPlugin {
     private val map = ConcurrentHashMap<String, ILogger>(100)
     override fun getLogger(name: String): ILogger {
         return map[name] ?: kotlin.run {
@@ -58,7 +59,7 @@ object SLF4JPlugin : IPlugin {
     }
 
     init {
-        PluginManager.registerPlugin(SLF4JPlugin::class)
+        PluginManager.registerPlugin(LoggerPlugin::class)
     }
 
     override val name: String = "SLF4JLogger"

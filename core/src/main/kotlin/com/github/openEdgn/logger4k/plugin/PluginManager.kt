@@ -43,6 +43,7 @@ object PluginManager : Closeable {
     private const val PLUGIN_IMPL_CLASS_KEY = "logger4k.plugin.implClass"
 
     init {
+
         val properties = Properties()
         val classLoader = PluginManager::class.java
         try {
@@ -68,7 +69,12 @@ object PluginManager : Closeable {
                 LoggerConfig.internalError("通过配置文件加载时发生错误", e)
             }
         } else {
-            LoggerConfig.internalError("未找到可用的实现类")
+            try {
+                val forName = Class.forName("logger4k.LoggerPlugin") ?: throw ClassNotFoundException()
+                registerPlugin(forName.kotlin)
+            } catch (e: Exception) {
+                LoggerConfig.internalError("未找到可用的实现类")
+            }
         }
     }
 

@@ -18,16 +18,18 @@
  * SOFTWARE.
  */
 
-package logger4k.impl.console
+package logger4k
 
 import com.github.openEdgn.logger4k.ILogger
 import com.github.openEdgn.logger4k.LoggerLevel
 import com.github.openEdgn.logger4k.plugin.IPlugin
 import com.github.openEdgn.logger4k.plugin.PluginManager
+import logger4k.impl.console.ConsoleConfig
+import logger4k.impl.console.ConsoleLogger
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KClass
 
-object ConsolePlugin : IPlugin {
+object LoggerPlugin : IPlugin {
     private val map = ConcurrentHashMap<String, ILogger>(100)
 
     override fun getLogger(name: String): ILogger {
@@ -43,7 +45,7 @@ object ConsolePlugin : IPlugin {
     }
 
     init {
-        PluginManager.registerPlugin(ConsolePlugin::class)
+        PluginManager.registerPlugin(LoggerPlugin::class)
     }
 
     override val name: String = "ConsoleLogger"
