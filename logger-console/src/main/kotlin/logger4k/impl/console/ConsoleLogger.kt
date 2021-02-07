@@ -63,9 +63,9 @@ class ConsoleLogger(override val name: String) : SimpleLogger() {
             .append(Thread.currentThread().name)
             .append("/")
             .append(level.name[0])
-            .append("] ")
+            .append("][")
             .append(name)
-            .append(" :")
+            .append("]:")
             .append(message)
         return res.toString()
     }

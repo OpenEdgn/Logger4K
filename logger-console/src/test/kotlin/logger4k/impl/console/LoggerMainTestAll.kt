@@ -26,12 +26,11 @@ import org.junit.jupiter.api.Test
 /**
  * 此日志框架的使用方法
  */
-class LoggerMain
+class LoggerMainTestAll
 
 @Test
 fun main() {
     Thread.currentThread().name = "Main"
-
     System.setProperty("logger.level", "trace")
     System.setProperty("logger.level", "debug")
     System.setProperty("logger.level", "info")
@@ -40,8 +39,9 @@ fun main() {
     // 指定日志级别，可以未 DEBUG INFO WARN ERROR
     // val logger = getLogger()
     // 获取Logger 实例
-    val logger = LoggerFactory.getLogger(LoggerMain::class)
+    val logger = LoggerFactory.getLogger(LoggerMainTestAll::class)
     // 另一种方式获取Logger 实例
+    System.setProperty("logger.level", "trace")
     logger.trace("trace.")
     logger.trace("日志级别: {}.", "trace")
     logger.traceOnly {
@@ -74,6 +74,9 @@ fun main() {
     logger.error("My name is {}.", "John")
     logger.errorThrowable("输出异常信息", RuntimeException("Runtime Exception"))
     // 输出 ERROR 日志
+    val logger2 = LoggerFactory.getLogger(Void::class)
+    logger2.info("Hello World")
+
 }
 
 
