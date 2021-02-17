@@ -25,42 +25,46 @@ import com.github.openEdgn.logger4k.LoggerLevel
 import com.github.openEdgn.logger4k.SimpleLogger
 
 class ConsoleLogger(override val name: String) : SimpleLogger() {
-    override fun printLogger(level: LoggerLevel, message: String) {
-        printlnLog(level, message, null)
+    override fun printLogger(date: Long, level: LoggerLevel, message: String) {
+        printlnLog(date, level, message, null)
     }
 
-    override fun printLogger(level: LoggerLevel, message: String, exception: Throwable) {
-        printlnLog(level, message, exception)
+    override fun printLogger(date: Long, level: LoggerLevel, message: String, exception: Throwable) {
+        printlnLog(date, level, message, exception)
     }
 
-    private fun printlnLog(level: LoggerLevel, message: String, exception: Throwable?) {
+    private fun printlnLog(date: Long, level: LoggerLevel, message: String, exception: Throwable?) {
         if (level.level < ConsoleConfig.loggerLevelInt) {
             return
         }
-        if (level.level >= LoggerLevel.WARN.level) {
-            ConsoleConfig.error
-        } else {
-            ConsoleConfig.output
-        }.println(
-            if (exception != null) format(level, message + "\r\n" + ThrowableUtils.format(exception)) else format(
-                level,
-                message
+        val threadInfo = Thread.currentThread()
+        ConsoleConfig.threadPool.execute {
+            if (level.level >= LoggerLevel.WARN.level) {
+                ConsoleConfig.error
+            } else {
+                ConsoleConfig.output
+            }.println(
+                if (exception != null) format(
+                    date, level, threadInfo, message + "\r\n" +
+                            ThrowableUtils.format(exception)
+                ) else format(
+                    date,
+                    level,
+                    threadInfo,
+                    message
+                )
             )
-        )
+        }
 
     }
 
-    private fun format(level: LoggerLevel, message: String): String {
+    private fun format(date: Long, level: LoggerLevel, threadInfo: Thread, message: String): String {
 
         val res = StringBuilder()
-        if (isDebug) {
-            res.append("[DEBUG MODE]")
-        }
-
         res.append("[")
-            .append(ConsoleConfig.now())
+            .append(ConsoleConfig.dateFormat.format(date))
             .append("][")
-            .append(Thread.currentThread().name)
+            .append(threadInfo.name)
             .append("/")
             .append(level.name[0])
             .append("][")

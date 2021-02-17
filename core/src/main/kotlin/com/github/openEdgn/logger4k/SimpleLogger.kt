@@ -30,66 +30,66 @@ abstract class SimpleLogger : ILogger {
 
 
     abstract val name: String
-    abstract fun printLogger(level: LoggerLevel, message: String)
-    abstract fun printLogger(level: LoggerLevel, message: String, exception: Throwable)
+    abstract fun printLogger(date: Long, level: LoggerLevel, message: String)
+    abstract fun printLogger(date: Long, level: LoggerLevel, message: String, exception: Throwable)
 
     override fun trace(message: String, vararg param: Any?): ILogger {
         val array = Array<Any?>(param.size) { null }
         System.arraycopy(param, 0, array, 0, array.size)
-        printLogger(LoggerLevel.TRACE, getMessageFormat().format(message, array))
+        printLogger(System.currentTimeMillis(), LoggerLevel.TRACE, getMessageFormat().format(message, array))
         return this
     }
 
     override fun debug(message: String, vararg param: Any?): ILogger {
         val array = Array<Any?>(param.size) { null }
         System.arraycopy(param, 0, array, 0, array.size)
-        printLogger(LoggerLevel.DEBUG, getMessageFormat().format(message, array))
+        printLogger(System.currentTimeMillis(), LoggerLevel.DEBUG, getMessageFormat().format(message, array))
         return this
     }
 
     override fun info(message: String, vararg param: Any?): ILogger {
         val array = Array<Any?>(param.size) { null }
         System.arraycopy(param, 0, array, 0, array.size)
-        printLogger(LoggerLevel.INFO, getMessageFormat().format(message, array))
+        printLogger(System.currentTimeMillis(), LoggerLevel.INFO, getMessageFormat().format(message, array))
         return this
     }
 
     override fun warn(message: String, vararg param: Any?): ILogger {
         val array = Array<Any?>(param.size) { null }
         System.arraycopy(param, 0, array, 0, array.size)
-        printLogger(LoggerLevel.WARN, getMessageFormat().format(message, array))
+        printLogger(System.currentTimeMillis(), LoggerLevel.WARN, getMessageFormat().format(message, array))
         return this
     }
 
     override fun error(message: String, vararg param: Any?): ILogger {
         val array = Array<Any?>(param.size) { null }
         System.arraycopy(param, 0, array, 0, array.size)
-        printLogger(LoggerLevel.ERROR, getMessageFormat().format(message, array))
+        printLogger(System.currentTimeMillis(), LoggerLevel.ERROR, getMessageFormat().format(message, array))
         return this
     }
 
     override fun debugThrowable(message: Any, exception: Throwable): ILogger {
-        printLogger(LoggerLevel.DEBUG, message.toString(), exception)
+        printLogger(System.currentTimeMillis(), LoggerLevel.DEBUG, message.toString(), exception)
         return this
     }
 
     override fun infoThrowable(message: Any, exception: Throwable): ILogger {
-        printLogger(LoggerLevel.INFO, message.toString(), exception)
+        printLogger(System.currentTimeMillis(), LoggerLevel.INFO, message.toString(), exception)
         return this
     }
 
     override fun traceThrowable(message: Any, exception: Throwable): ILogger {
-        printLogger(LoggerLevel.TRACE, message.toString(), exception)
+        printLogger(System.currentTimeMillis(), LoggerLevel.TRACE, message.toString(), exception)
         return this
     }
 
     override fun warnThrowable(message: Any, exception: Throwable): ILogger {
-        printLogger(LoggerLevel.WARN, message.toString(), exception)
+        printLogger(System.currentTimeMillis(), LoggerLevel.WARN, message.toString(), exception)
         return this
     }
 
     override fun errorThrowable(message: Any, exception: Throwable): ILogger {
-        printLogger(LoggerLevel.ERROR, message.toString(), exception)
+        printLogger(System.currentTimeMillis(), LoggerLevel.ERROR, message.toString(), exception)
         return this
     }
 

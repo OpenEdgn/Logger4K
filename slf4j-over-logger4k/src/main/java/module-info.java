@@ -1,4 +1,4 @@
-module logger4k.proxy.fromslf4j {
+module logger4k.proxy.slf4j {
     requires kotlin.stdlib;
     requires logger4k.core;
     requires kotlin.reflect;

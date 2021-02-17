@@ -24,13 +24,29 @@ import com.github.openEdgn.logger4k.LoggerLevel
 import com.github.openEdgn.logger4k.format.ClassNameFormat
 import java.io.PrintStream
 import java.text.SimpleDateFormat
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 /**
  * 内部日志配置
  */
 internal object ConsoleConfig {
-    private val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-    fun now(): String = dateFormat.format(System.currentTimeMillis())
+
+    val threadPool: ExecutorService = Executors.newCachedThreadPool()
+
+    init {
+        Runtime.getRuntime().addShutdownHook(Thread {
+            for (runnable in threadPool.shutdownNow()) {
+                try {
+                    runnable.run()
+                } catch (_: Exception) {
+                }
+            }
+            println("程序于 ${dateFormat.format(System.currentTimeMillis())} 退出.")
+        })
+    }
+
+    val dateFormat = SimpleDateFormat("yy/MM/dd HH:mm:ss")
 
     @Volatile
     var loggerLevel = LoggerLevel.INFO

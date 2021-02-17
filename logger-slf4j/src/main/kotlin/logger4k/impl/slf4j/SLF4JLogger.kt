@@ -29,7 +29,7 @@ class SLF4JLogger(override var name: String) : SimpleLogger() {
 
     private val slf4jLogger = LoggerFactory.getLogger(name)
 
-    override fun printLogger(level: LoggerLevel, message: String) {
+    override fun printLogger(date: Long, level: LoggerLevel, message: String) {
         when (level) {
             LoggerLevel.TRACE -> {
                 slf4jLogger.trace(message)
@@ -49,7 +49,7 @@ class SLF4JLogger(override var name: String) : SimpleLogger() {
         }
     }
 
-    override fun printLogger(level: LoggerLevel, message: String, exception: Throwable) {
+    override fun printLogger(date: Long, level: LoggerLevel, message: String, exception: Throwable) {
         when (level) {
             LoggerLevel.TRACE -> {
                 slf4jLogger.trace(message, exception)

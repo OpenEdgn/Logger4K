@@ -20,6 +20,10 @@
 
 package com.github.openEdgn.logger4k.format
 
+/**
+ * 类名称格式化工具
+ * @property maxLine Int
+ */
 class MaxLengthClassFormat : ClassNameFormat() {
     private val maxLine = 20
     override fun format(name: String): String {

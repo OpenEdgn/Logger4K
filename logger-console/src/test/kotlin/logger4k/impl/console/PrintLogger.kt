@@ -38,6 +38,11 @@ internal class PrintLogger {
         logger.info("Hello World")
         logger.warn("Hello World")
         logger.error("Hello World")
+        val thread = Thread {
+            logger.error("New Thread")
+        }
+        thread.name = "Test Thread"
+        thread.start()
     }
 
     @Test

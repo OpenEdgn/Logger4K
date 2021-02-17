@@ -20,13 +20,13 @@
 
 package logger4k.impl.slf4j
 
-import com.github.openEdgn.logger4k.getLogger
+import com.github.openEdgn.logger4k.LoggerFactory
 import org.junit.jupiter.api.Test
 import java.io.IOException
 
 internal class SLF4JLoggerTest {
 
-    private val logger = getLogger()
+    private val logger = LoggerFactory.getLogger(SLF4JLoggerTest::class)
 
     @Test
     fun testInfo() {
