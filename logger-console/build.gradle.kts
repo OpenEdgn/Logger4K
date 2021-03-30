@@ -20,7 +20,7 @@ compileJava.destinationDir = compileKotlin.destinationDir
 dependencies {
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib"))
-    implementation(project(":core"))
+    implementation(project(":logger-core"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
     testImplementation("org.junit.platform:junit-platform-launcher:1.6.2")
 }

@@ -104,7 +104,7 @@ logger.debugOnly {
 ```
 
 Please see [PrintLogger.kt](./logger-console/src/test/kotlin/logger4k/impl/console/PrintLogger.kt)
-and [LoggerMain.kt](./logger-console/src/test/kotlin/logger4k/impl/console/LoggerMain.kt)  under `TEST` for more usage
+and [LoggerMainTestAll.kt](./logger-console/src/test/kotlin/logger4k/impl/console/LoggerMainTestAll.kt)  under `TEST` for more usage
 methods.
 
 ## LICENSE

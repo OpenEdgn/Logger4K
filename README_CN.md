@@ -102,7 +102,7 @@ logger.debugOnly {
 ```
 
 更多使用方法请查看 `TEST` 下的 [PrintLogger.kt](./logger-console/src/test/kotlin/logger4k/impl/console/PrintLogger.kt)
-和 [LoggerMain.kt](./logger-console/src/test/kotlin/logger4k/impl/console/LoggerMain.kt) 文件。
+和 [LoggerMainTestAll.kt](./logger-console/src/test/kotlin/logger4k/impl/console/LoggerMainTestAll.kt)  文件。
 
 ## LICENSE
 
