@@ -45,9 +45,10 @@ class ConsoleLogger(override val name: String) : SimpleLogger() {
                 ConsoleConfig.output
             }.println(
                 if (exception != null) format(
-                    date, level, threadInfo, message + "\r\n" +
+                    name, date, level, threadInfo, message + "\r\n" +
                             ThrowableUtils.format(exception)
                 ) else format(
+                    name,
                     date,
                     level,
                     threadInfo,
@@ -58,21 +59,27 @@ class ConsoleLogger(override val name: String) : SimpleLogger() {
 
     }
 
-    private fun format(date: Long, level: LoggerLevel, threadInfo: Thread, message: String): String {
-
+    private fun format(
+        name: String,
+        date: Long,
+        level: LoggerLevel,
+        threadInfo: Thread,
+        message: String
+    ): String {
         val res = StringBuilder()
-        res.append("[")
+        res.append("")
             .append(ConsoleConfig.dateFormat.format(date))
-            .append("][")
-            .append(threadInfo.name)
+            .append(" - ")
+            .append(String.format("%8s", threadInfo.name))
             .append("/")
             .append(level.name[0])
-            .append("][")
+            .append(" - ")
             .append(name)
-            .append("]:")
+            .append(" -> ")
             .append(message)
         return res.toString()
     }
+
 
     override fun traceOnly(function: ILogger.() -> Unit): ILogger {
         if (ConsoleConfig.loggerLevelInt <= LoggerLevel.TRACE.level) {
