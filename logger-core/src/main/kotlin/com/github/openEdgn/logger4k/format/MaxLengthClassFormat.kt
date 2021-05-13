@@ -25,7 +25,7 @@ package com.github.openEdgn.logger4k.format
  * @property maxLine Int
  */
 class MaxLengthClassFormat : ClassNameFormat() {
-    private val maxLine = 25
+    private val maxLine = 30
     override fun format(name: String): String {
         return if (name.length > maxLine) {
             val list = name.split(".")

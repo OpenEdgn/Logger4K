@@ -70,7 +70,7 @@ class ConsoleLogger(override val name: String) : SimpleLogger() {
         res.append("")
             .append(ConsoleConfig.dateFormat.format(date))
             .append(" - ")
-            .append(String.format("%-10s", threadInfo.name))
+            .append(String.format("%-12s", threadInfo.name))
             .append("/")
             .append(level.name[0])
             .append(" - ")
