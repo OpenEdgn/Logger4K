@@ -10,6 +10,11 @@
 
 ## 版本日志
 
+### 1.6.0
+
+- 优化 `logger-console` 日志输出样式
+- 允许 `logger-console` 在运行时配置
+
 ### 1.5.1
 
 - 优化 `logger-console` 日志输出样式
