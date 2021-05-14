@@ -24,7 +24,7 @@ import com.github.openEdgn.logger4k.ILogger
 import com.github.openEdgn.logger4k.LoggerLevel
 import com.github.openEdgn.logger4k.plugin.IPlugin
 import com.github.openEdgn.logger4k.plugin.PluginManager
-import logger4k.impl.console.ConsoleConfig
+import logger4k.impl.console.ConsoleLogConfig
 import logger4k.impl.console.ConsoleLogger
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KClass
@@ -34,14 +34,14 @@ object LoggerPlugin : IPlugin {
 
     override fun getLogger(name: String): ILogger {
         return map[name] ?: kotlin.run {
-            val consoleLogger = ConsoleLogger(ConsoleConfig.classNameFormat.format(name)) as ILogger
+            val consoleLogger = ConsoleLogger(ConsoleLogConfig.classNameFormat.format(name)) as ILogger
             map[name] = consoleLogger
             consoleLogger
         }
     }
 
     override fun getLoggerLevel(name: String): LoggerLevel {
-        return ConsoleConfig.loggerLevel
+        return ConsoleLogConfig.loggerLevel
     }
 
     init {
@@ -51,6 +51,6 @@ object LoggerPlugin : IPlugin {
     override val name: String = "ConsoleLogger"
 
     override fun getLogger(kClass: KClass<*>): ILogger {
-        return getLogger(ConsoleConfig.classNameFormat.format(kClass))
+        return getLogger(ConsoleLogConfig.classNameFormat.format(kClass))
     }
 }

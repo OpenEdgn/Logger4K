@@ -30,11 +30,34 @@ import java.util.concurrent.Executors
 /**
  * 内部日志配置
  */
-internal object ConsoleConfig {
+object ConsoleLogConfig {
+    @Volatile
+    var loggerLevel = LoggerLevel.INFO
 
-    val threadPool: ExecutorService = Executors.newCachedThreadPool()
+    @Volatile
+    var dateFormat = SimpleDateFormat("yy/MM/dd HH:mm:ss")
+
+    /**
+     * console output
+     */
+    @Volatile
+    var output: PrintStream = System.out
+
+    /**
+     * console error output
+     */
+    @Volatile
+    var error: PrintStream = System.err
+
+    internal val threadPool: ExecutorService = Executors.newCachedThreadPool()
 
     init {
+        loggerLevel = try {
+            LoggerLevel.valueOf(System.getProperty("logger.level", "INFO")!!.toUpperCase())
+        } catch (_: Exception) {
+            LoggerLevel.INFO
+        }
+
         Runtime.getRuntime().addShutdownHook(Thread {
             for (runnable in threadPool.shutdownNow()) {
                 try {
@@ -46,33 +69,14 @@ internal object ConsoleConfig {
         })
     }
 
-    val dateFormat = SimpleDateFormat("yy/MM/dd HH:mm:ss")
 
-    @Volatile
-    var loggerLevel = LoggerLevel.INFO
-
-    val classNameFormat: ClassNameFormat = ClassNameFormat.DEFAULT_IMPL
+    internal val classNameFormat: ClassNameFormat = ClassNameFormat.DEFAULT_IMPL
 
     /**
      * logger level
      */
-    val loggerLevelInt: Int by lazy {
-        loggerLevel = try {
-            LoggerLevel.valueOf(System.getProperty("logger.level", "INFO")!!.toUpperCase())
-        } catch (_: Exception) {
-            LoggerLevel.INFO
-        }
-        loggerLevel.level
-    }
+    internal val loggerLevelInt: Int
+        get() = loggerLevel.level
 
 
-    /**
-     * console output
-     */
-    val output: PrintStream = System.out
-
-    /**
-     * console error output
-     */
-    val error: PrintStream = System.err
 }

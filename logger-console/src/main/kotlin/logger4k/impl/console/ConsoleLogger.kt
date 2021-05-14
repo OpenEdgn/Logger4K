@@ -34,15 +34,15 @@ class ConsoleLogger(override val name: String) : SimpleLogger() {
     }
 
     private fun printlnLog(date: Long, level: LoggerLevel, message: String, exception: Throwable?) {
-        if (level.level < ConsoleConfig.loggerLevelInt) {
+        if (level.level < ConsoleLogConfig.loggerLevelInt) {
             return
         }
         val threadInfo = Thread.currentThread()
-        ConsoleConfig.threadPool.execute {
+        ConsoleLogConfig.threadPool.execute {
             if (level.level >= LoggerLevel.WARN.level) {
-                ConsoleConfig.error
+                ConsoleLogConfig.error
             } else {
-                ConsoleConfig.output
+                ConsoleLogConfig.output
             }.println(
                 if (exception != null) format(
                     name, date, level, threadInfo, message + "\r\n" +
@@ -68,9 +68,9 @@ class ConsoleLogger(override val name: String) : SimpleLogger() {
     ): String {
         val res = StringBuilder()
         res.append("")
-            .append(ConsoleConfig.dateFormat.format(date))
+            .append(ConsoleLogConfig.dateFormat.format(date))
             .append(" - ")
-            .append(String.format("%-12s", threadInfo.name))
+            .append(formatThreadName(threadInfo))
             .append("/")
             .append(level.name[0])
             .append(" - ")
@@ -80,22 +80,36 @@ class ConsoleLogger(override val name: String) : SimpleLogger() {
         return res.toString()
     }
 
+    private val threadNameLength = 12
+    private fun formatThreadName(threadInfo: Thread): String {
+        val tName = threadInfo.name
+        return if (tName.length <= threadNameLength) {
+            String.format("%-${threadNameLength}s", tName)
+        } else {
+            var replace = tName.replace(Regex("[a-z]"), "")
+            if (replace.length > threadNameLength) {
+                replace = replace.substring(0, 12)
+            }
+            String.format("%-${threadNameLength}s", replace)
+        }
+    }
+
 
     override fun traceOnly(function: ILogger.() -> Unit): ILogger {
-        if (ConsoleConfig.loggerLevelInt <= LoggerLevel.TRACE.level) {
+        if (ConsoleLogConfig.loggerLevelInt <= LoggerLevel.TRACE.level) {
             function(this)
         }
         return this
     }
 
     override fun debugOnly(function: ILogger.() -> Unit): ILogger {
-        if (ConsoleConfig.loggerLevelInt <= LoggerLevel.DEBUG.level) {
+        if (ConsoleLogConfig.loggerLevelInt <= LoggerLevel.DEBUG.level) {
             function(this)
         }
         return this
     }
 
     override val isDebug: Boolean
-        get() = ConsoleConfig.loggerLevelInt <= LoggerLevel.DEBUG.level
+        get() = ConsoleLogConfig.loggerLevelInt <= LoggerLevel.DEBUG.level
 
 }
