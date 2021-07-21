@@ -109,4 +109,6 @@ methods.
 
 ## LICENSE
 
+Warn: This project uses [SLF4J](https://github.com/qos-ch/slf4j) source code.
+
 SEE [LICENSE FILE](./LICENSE) AND  [SLF4J LICENSE](https://github.com/qos-ch/slf4j/blob/master/LICENSE.txt)
