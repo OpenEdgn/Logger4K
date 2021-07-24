@@ -18,41 +18,32 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k
+package com.github.openEdgn.logger4k.support.mini
+
+import com.github.openEdgn.logger4k.ILogger
+import com.github.openEdgn.logger4k.LoggerLevel
+import com.github.openEdgn.logger4k.plugin.IPlugin
+import kotlin.reflect.KClass
 
 /**
- *  LOGGER LEVEL
- *
- * @property level Int
+ * 默认的日志实现
  */
-enum class LoggerLevel(val level: Int) {
-    /**
-     * TRACE
-     */
-    TRACE(0),
+internal object MiniLoggerPlugin : IPlugin {
 
-    /**
-     * DEBUG
-     */
-    DEBUG(1),
+    override fun getLogger(name: String): ILogger {
+        TODO()
+    }
 
-    /**
-     * INFO
-     */
-    INFO(2),
+    override fun getLoggerLevel(name: String): LoggerLevel {
+        TODO()
+    }
 
-    /**
-     * WARN
-     */
-    WARN(3),
+    override val name: String = "ProjectLogger"
 
-    /**
-     * ERROR
-     */
-    ERROR(4),
+    override fun getLogger(clazz: KClass<*>): ILogger {
+        TODO()
+    }
 
-    /**
-     *关闭日志输出
-     */
-    OFF(5),
+    override fun shutdown() {
+    }
 }

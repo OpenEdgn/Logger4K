@@ -20,7 +20,6 @@
 
 package com.github.openEdgn.logger4k
 
-
 /**
  *  # Logger 日志框架核心
  *
@@ -140,7 +139,6 @@ interface ILogger {
      * # 是否处于调试模式
      */
     val isDebug: Boolean
-
 
     /**
      * # 日志输出等级

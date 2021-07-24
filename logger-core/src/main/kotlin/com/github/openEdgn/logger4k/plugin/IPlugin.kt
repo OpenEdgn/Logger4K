@@ -35,11 +35,17 @@ interface IPlugin {
         get() = javaClass.name
 
     /**
+     * 略过优化
+     */
+    val ignoreOptimization: Boolean
+        get() = false
+
+    /**
      * 根据 `KClass` 来获取 Logger 实例
      * @param kClass KClass<*>
      * @return ILogger
      */
-    fun getLogger(kClass: KClass<*>): ILogger
+    fun getLogger(clazz: KClass<*>): ILogger
 
     /**
      * 根据名称获取 Logger 实例
@@ -56,4 +62,9 @@ interface IPlugin {
      */
     fun getLoggerLevel(name: String): LoggerLevel
 
+    /**
+     * 销毁插件模块
+     */
+    fun shutdown() {
+    }
 }

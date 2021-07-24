@@ -18,41 +18,21 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k
+package com.github.openEdgn.logger4k.utils.format.classes
+
+import kotlin.reflect.KClass
 
 /**
- *  LOGGER LEVEL
- *
- * @property level Int
+ *  Class 类名格式化优化
  */
-enum class LoggerLevel(val level: Int) {
-    /**
-     * TRACE
-     */
-    TRACE(0),
+abstract class ClassNameFormat {
+    abstract fun format(name: String): String
+    fun format(clazz: KClass<*>): String {
+        val name = clazz.qualifiedName ?: clazz.java.name ?: "\$InternalClass"
+        return format(name)
+    }
 
-    /**
-     * DEBUG
-     */
-    DEBUG(1),
-
-    /**
-     * INFO
-     */
-    INFO(2),
-
-    /**
-     * WARN
-     */
-    WARN(3),
-
-    /**
-     * ERROR
-     */
-    ERROR(4),
-
-    /**
-     *关闭日志输出
-     */
-    OFF(5),
+    companion object {
+        val DEFAULT_IMPL: ClassNameFormat = MaxLengthClassFormat()
+    }
 }

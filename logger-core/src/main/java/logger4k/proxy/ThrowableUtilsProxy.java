@@ -18,41 +18,20 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k
+package logger4k.proxy;
+
+import kotlin.text.Charsets;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
 
 /**
- *  LOGGER LEVEL
- *
- * @property level Int
+ * 内部代理类
  */
-enum class LoggerLevel(val level: Int) {
-    /**
-     * TRACE
-     */
-    TRACE(0),
-
-    /**
-     * DEBUG
-     */
-    DEBUG(1),
-
-    /**
-     * INFO
-     */
-    INFO(2),
-
-    /**
-     * WARN
-     */
-    WARN(3),
-
-    /**
-     * ERROR
-     */
-    ERROR(4),
-
-    /**
-     *关闭日志输出
-     */
-    OFF(5),
+public class ThrowableUtilsProxy {
+    public static String format(Throwable throwable) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        throwable.printStackTrace(new PrintWriter(stream, true, Charsets.UTF_8));
+        return stream.toString(Charsets.UTF_8);
+    }
 }

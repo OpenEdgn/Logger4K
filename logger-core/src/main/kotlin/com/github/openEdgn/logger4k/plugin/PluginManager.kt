@@ -20,87 +20,55 @@
 
 package com.github.openEdgn.logger4k.plugin
 
-import com.github.openEdgn.logger4k.LoggerConfig
+import com.github.openEdgn.logger4k.support.mini.MiniPluginLoader
+import com.github.openEdgn.logger4k.support.official.OfficialPluginLoader
 import java.io.Closeable
-import java.util.*
-import kotlin.reflect.KClass
-import kotlin.reflect.full.createInstance
-import kotlin.reflect.full.isSubclassOf
+import java.util.Optional
 
 /**
  * 日志实现加载器
  */
 object PluginManager : Closeable {
+    private val rules = arrayListOf(
+        OfficialPluginLoader()
+    )
 
-    @Volatile
-    private var loggerPlugin: IPlugin? = null
-
-    internal fun implPlugin(): IPlugin {
-        return loggerPlugin ?: throw RuntimeException("未在类路径下找到 Logger 的实现类，无法记录默认日志.")
-
-    }
-
-    private const val PLUGIN_IMPL_CLASS_KEY = "logger4k.plugin.implClass"
+    private val loggerPlugin: IPlugin
 
     init {
-
-        val properties = Properties()
-        val classLoader = PluginManager::class.java
-        try {
-            properties.load(classLoader.getResourceAsStream("/META-INF/logger4k.properties"))
-        } catch (e: Exception) {
-            LoggerConfig.internalError("未在 [classpath:/META-INF/logger4k.properties] 下找到配置文件 ,跳过此路径.", e)
-        }
-        try {
-            properties.load(classLoader.getResourceAsStream("/logger4k.properties"))
-        } catch (e: Exception) {
-            LoggerConfig.internalError("未在 [classpath:/logger4k.properties]  下找到配置文件 ,跳过此路径. .", e)
-        }
-        val property = properties.getProperty(PLUGIN_IMPL_CLASS_KEY)
-        if (property != null) {
-            try {
-                val pluginImplClass = (Class.forName(property) ?: throw NullPointerException("未找到对应的Plugin 实现类")).kotlin
-                if (pluginImplClass.isSubclassOf(IPlugin::class)) {
-                    registerPlugin(pluginImplClass)
-                } else {
-                    throw RuntimeException(" [${pluginImplClass.qualifiedName}] 不是 IPlugin 的实现类。")
-                }
-            } catch (e: Exception) {
-                LoggerConfig.internalError("通过配置文件加载时发生错误", e)
+        var p: Optional<IPlugin> = Optional.empty()
+        for (rule in rules) {
+            if (rule.support) {
+                rule.getPlugin()
+                p = Optional.of(wrapper(rule.getPlugin()))
+                break
             }
+        }
+        loggerPlugin = if (p.isEmpty) {
+            wrapper(MiniPluginLoader().getPlugin())
         } else {
-            try {
-                val forName = Class.forName("logger4k.LoggerPlugin") ?: throw ClassNotFoundException()
-                registerPlugin(forName.kotlin)
-            } catch (e: Exception) {
-                LoggerConfig.internalError("未找到可用的实现类")
+            p.get()
+        }
+        Runtime.getRuntime().addShutdownHook(
+            Thread {
+                this.close()
             }
+        )
+    }
+
+    private fun wrapper(plugin: IPlugin): IPlugin {
+        return if (plugin.ignoreOptimization) {
+            plugin
+        } else {
+            CachePluginWrapper(plugin)
         }
     }
 
-
-    /**
-     * 注册 Plugin Manager 插件
-     * @param pluginClass KClass<IPlugin>
-     * @return Unit
-     */
-    @Synchronized
-    fun registerPlugin(pluginClass: KClass<*>) {
-        try {
-            val pluginImpl = (pluginClass.objectInstance ?: pluginClass.createInstance()) as IPlugin
-            if (loggerPlugin != null) {
-                if (loggerPlugin!!.javaClass != pluginClass) {
-                    loggerPlugin = pluginImpl
-                }
-            } else {
-                loggerPlugin = pluginImpl
-            }
-        } catch (_: Exception) {
-        }
+    internal fun implPlugin(): IPlugin {
+        return loggerPlugin
     }
-
 
     override fun close() {
-
+        loggerPlugin.shutdown()
     }
 }

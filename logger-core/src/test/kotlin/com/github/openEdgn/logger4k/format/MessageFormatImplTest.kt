@@ -20,6 +20,7 @@
 
 package com.github.openEdgn.logger4k.format
 
+import com.github.openEdgn.logger4k.utils.format.message.MessageFormatImpl
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -35,10 +36,16 @@ internal class MessageFormatImplTest {
 
         assertEquals(MessageFormatImpl.format("{}, Hello World.", arrayOf("dragon")), "dragon, Hello World.")
 
-        assertEquals(MessageFormatImpl.format("{}, Hello World, {}.", arrayOf("dragon", "bye")), "dragon, Hello World, bye.")
+        assertEquals(
+            MessageFormatImpl.format("{}, Hello World, {}.", arrayOf("dragon", "bye")),
+            "dragon, Hello World, bye."
+        )
 
-
-        assertEquals(MessageFormatImpl.format("Hello World, {}.", arrayOf("dragon", "Alice", "Bob")
-        ), "Hello World, dragon.")
+        assertEquals(
+            MessageFormatImpl.format(
+                "Hello World, {}.", arrayOf("dragon", "Alice", "Bob")
+            ),
+            "Hello World, dragon."
+        )
     }
 }

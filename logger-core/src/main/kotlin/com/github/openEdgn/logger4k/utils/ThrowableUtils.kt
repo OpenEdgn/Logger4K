@@ -17,42 +17,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.github.openEdgn.logger4k.utils
 
-package com.github.openEdgn.logger4k
+import logger4k.proxy.ThrowableUtilsProxy
 
-/**
- *  LOGGER LEVEL
- *
- * @property level Int
- */
-enum class LoggerLevel(val level: Int) {
-    /**
-     * TRACE
-     */
-    TRACE(0),
-
-    /**
-     * DEBUG
-     */
-    DEBUG(1),
-
-    /**
-     * INFO
-     */
-    INFO(2),
-
-    /**
-     * WARN
-     */
-    WARN(3),
-
-    /**
-     * ERROR
-     */
-    ERROR(4),
-
-    /**
-     *关闭日志输出
-     */
-    OFF(5),
+object ThrowableUtils {
+    fun format(throwable: Throwable): String {
+        return ThrowableUtilsProxy.format(throwable)
+    }
 }

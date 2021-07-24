@@ -18,41 +18,18 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k
+package com.github.openEdgn.logger4k.utils.format.message
 
 /**
- *  LOGGER LEVEL
+ * 消息格式化类，将字符串格式化
  *
- * @property level Int
+ * 例如： message 为 “Hello ,{}”,data 为 {"Dragon"},则方法返回结果则为
+ *
+ * “Hello , Dragon”
+ *
+ * 对于想原样输出大括号时，则可以用 `\\{}` 替代
+ *
  */
-enum class LoggerLevel(val level: Int) {
-    /**
-     * TRACE
-     */
-    TRACE(0),
-
-    /**
-     * DEBUG
-     */
-    DEBUG(1),
-
-    /**
-     * INFO
-     */
-    INFO(2),
-
-    /**
-     * WARN
-     */
-    WARN(3),
-
-    /**
-     * ERROR
-     */
-    ERROR(4),
-
-    /**
-     *关闭日志输出
-     */
-    OFF(5),
+interface IMessageFormat {
+    fun format(message: String, data: Array<out Any?>): String
 }

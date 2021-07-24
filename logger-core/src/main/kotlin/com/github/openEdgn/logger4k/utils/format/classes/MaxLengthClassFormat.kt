@@ -18,41 +18,30 @@
  * SOFTWARE.
  */
 
-package com.github.openEdgn.logger4k
+package com.github.openEdgn.logger4k.utils.format.classes
 
 /**
- *  LOGGER LEVEL
- *
- * @property level Int
+ * 类名称格式化工具
+ * @property maxLine Int
  */
-enum class LoggerLevel(val level: Int) {
-    /**
-     * TRACE
-     */
-    TRACE(0),
+class MaxLengthClassFormat : ClassNameFormat() {
+    private val maxLine = 30
+    override fun format(name: String): String {
+        return if (name.length > maxLine) {
+            val list = name.split(".")
+            val stringBuilder = StringBuilder()
+            for (i in 0 until list.size - 1) {
+                stringBuilder.append(list[i].first()).append(".")
+            }
+            if (maxLine - stringBuilder.length < list.last().length) {
+                stringBuilder.append(list.last().replace(Regex("[a-z]"), ""))
+            } else {
+                stringBuilder.append(list.last())
+            }
 
-    /**
-     * DEBUG
-     */
-    DEBUG(1),
-
-    /**
-     * INFO
-     */
-    INFO(2),
-
-    /**
-     * WARN
-     */
-    WARN(3),
-
-    /**
-     * ERROR
-     */
-    ERROR(4),
-
-    /**
-     *关闭日志输出
-     */
-    OFF(5),
+            String.format("%${-maxLine}s", stringBuilder.toString())
+        } else {
+            String.format("%${-maxLine}s", name)
+        }
+    }
 }

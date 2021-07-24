@@ -21,19 +21,22 @@
 package com.github.openEdgn.logger4k
 
 import com.github.openEdgn.logger4k.plugin.PluginManager
-
+import com.github.openEdgn.logger4k.utils.format.message.IMessageFormat
+import com.github.openEdgn.logger4k.utils.format.message.MessageFormatImpl
 
 /**
  * 默认的 Logger 实现类
  */
 abstract class SimpleLogger : ILogger {
 
-
     abstract val name: String
     abstract fun printLogger(date: Long, level: LoggerLevel, message: String)
     abstract fun printLogger(date: Long, level: LoggerLevel, message: String, exception: Throwable)
 
     override fun trace(message: String, vararg param: Any?): ILogger {
+        if (level.level < LoggerLevel.TRACE.level) {
+            return this
+        }
         val array = Array<Any?>(param.size) { null }
         System.arraycopy(param, 0, array, 0, array.size)
         printLogger(System.currentTimeMillis(), LoggerLevel.TRACE, getMessageFormat().format(message, array))
@@ -41,6 +44,9 @@ abstract class SimpleLogger : ILogger {
     }
 
     override fun debug(message: String, vararg param: Any?): ILogger {
+        if (level.level < LoggerLevel.DEBUG.level) {
+            return this
+        }
         val array = Array<Any?>(param.size) { null }
         System.arraycopy(param, 0, array, 0, array.size)
         printLogger(System.currentTimeMillis(), LoggerLevel.DEBUG, getMessageFormat().format(message, array))
@@ -48,6 +54,9 @@ abstract class SimpleLogger : ILogger {
     }
 
     override fun info(message: String, vararg param: Any?): ILogger {
+        if (level.level < LoggerLevel.INFO.level) {
+            return this
+        }
         val array = Array<Any?>(param.size) { null }
         System.arraycopy(param, 0, array, 0, array.size)
         printLogger(System.currentTimeMillis(), LoggerLevel.INFO, getMessageFormat().format(message, array))
@@ -55,6 +64,9 @@ abstract class SimpleLogger : ILogger {
     }
 
     override fun warn(message: String, vararg param: Any?): ILogger {
+        if (level.level < LoggerLevel.WARN.level) {
+            return this
+        }
         val array = Array<Any?>(param.size) { null }
         System.arraycopy(param, 0, array, 0, array.size)
         printLogger(System.currentTimeMillis(), LoggerLevel.WARN, getMessageFormat().format(message, array))
@@ -62,6 +74,9 @@ abstract class SimpleLogger : ILogger {
     }
 
     override fun error(message: String, vararg param: Any?): ILogger {
+        if (level.level < LoggerLevel.ERROR.level) {
+            return this
+        }
         val array = Array<Any?>(param.size) { null }
         System.arraycopy(param, 0, array, 0, array.size)
         printLogger(System.currentTimeMillis(), LoggerLevel.ERROR, getMessageFormat().format(message, array))
@@ -69,30 +84,66 @@ abstract class SimpleLogger : ILogger {
     }
 
     override fun debugThrowable(message: Any, exception: Throwable): ILogger {
+        if (level.level < LoggerLevel.DEBUG.level) {
+            return this
+        }
         printLogger(System.currentTimeMillis(), LoggerLevel.DEBUG, message.toString(), exception)
         return this
     }
 
     override fun infoThrowable(message: Any, exception: Throwable): ILogger {
+        if (level.level < LoggerLevel.INFO.level) {
+            return this
+        }
         printLogger(System.currentTimeMillis(), LoggerLevel.INFO, message.toString(), exception)
         return this
     }
 
     override fun traceThrowable(message: Any, exception: Throwable): ILogger {
+        if (level.level < LoggerLevel.TRACE.level) {
+            return this
+        }
         printLogger(System.currentTimeMillis(), LoggerLevel.TRACE, message.toString(), exception)
         return this
     }
 
     override fun warnThrowable(message: Any, exception: Throwable): ILogger {
+        if (level.level < LoggerLevel.WARN.level) {
+            return this
+        }
         printLogger(System.currentTimeMillis(), LoggerLevel.WARN, message.toString(), exception)
         return this
     }
 
     override fun errorThrowable(message: Any, exception: Throwable): ILogger {
+        if (level.level < LoggerLevel.ERROR.level) {
+            return this
+        }
         printLogger(System.currentTimeMillis(), LoggerLevel.ERROR, message.toString(), exception)
+        return this
+    }
+
+    override fun traceOnly(function: ILogger.() -> Unit): ILogger {
+        if (level == LoggerLevel.TRACE) {
+            function(this)
+        }
+        return this
+    }
+
+    override fun debugOnly(function: ILogger.() -> Unit): ILogger {
+        if (level == LoggerLevel.DEBUG) {
+            function(this)
+        }
         return this
     }
 
     override val level: LoggerLevel
         get() = PluginManager.implPlugin().getLoggerLevel(name)
+
+    override val isDebug: Boolean
+        get() = level == LoggerLevel.DEBUG
+
+    companion object {
+        fun getMessageFormat(): IMessageFormat = MessageFormatImpl
+    }
 }
