@@ -22,11 +22,15 @@ package com.github.openEdgn.logger4k.utils.format.classes
 
 /**
  * 类名称格式化工具
+ * 如果 maxLine 为 -1 则表示不格式化
  * @property maxLine Int
  */
-class MaxLengthClassFormat : ClassNameFormat() {
-    private val maxLine = 30
+class MaxLengthClassFormat(private val maxLine: Int = 30) : ClassNameFormat() {
+
     override fun format(name: String): String {
+        if (maxLine == -1) {
+            return name
+        }
         return if (name.length > maxLine) {
             val list = name.split(".")
             val stringBuilder = StringBuilder()

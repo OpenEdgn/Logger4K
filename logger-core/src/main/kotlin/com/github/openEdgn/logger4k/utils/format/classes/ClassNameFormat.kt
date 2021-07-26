@@ -31,8 +31,4 @@ abstract class ClassNameFormat {
         val name = clazz.qualifiedName ?: clazz.java.name ?: "\$InternalClass"
         return format(name)
     }
-
-    companion object {
-        val DEFAULT_IMPL: ClassNameFormat = MaxLengthClassFormat()
-    }
 }

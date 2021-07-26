@@ -11,6 +11,7 @@ abstract class BaseLogFormat(protected val rule: String) {
 
     abstract fun printLogger(
         packageName: String,
+        threadName: String,
         date: Long,
         level: LoggerLevel,
         message: String,
