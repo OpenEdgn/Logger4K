@@ -7,7 +7,7 @@ import com.github.openEdgn.logger4k.utils.format.toIntOrDefault
 
 class PkgNameRuleInfo : IFormatRuleInfo<String> {
     override val name = "package"
-
+    override val defaultRule = "30"
     override fun generateRule(rule: String) = object : BaseFormatRule<String>(rule) {
         override val name: String = this@PkgNameRuleInfo.name
         private val formatRule = MaxLengthClassFormat(rule.toIntOrDefault(30))

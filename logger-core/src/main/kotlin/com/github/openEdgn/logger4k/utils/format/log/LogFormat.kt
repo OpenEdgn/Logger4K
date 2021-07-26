@@ -14,8 +14,7 @@ import java.util.LinkedList
 import java.util.regex.Pattern
 
 /**
- *
- *         "%{date->YY/MM/dd HH:mm:ss} - %{level->1} - %{package->20}:%{message}%{line}%{throws->ALL}"
+ * 日志格式化
  */
 class LogFormat(rule: String) : BaseLogFormat(rule) {
     private val rules = arrayOf(
@@ -84,7 +83,7 @@ class LogFormat(rule: String) : BaseLogFormat(rule) {
         }
     }
 
-    override fun printLogger(
+    override fun loggerToString(
         packageName: String,
         threadName: String,
         date: Long,

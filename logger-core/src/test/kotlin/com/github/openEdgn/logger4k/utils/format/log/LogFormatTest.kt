@@ -7,12 +7,14 @@ internal class LogFormatTest {
     @Test
     fun test() {
         val rule = "%{date->YY/MM/dd HH:mm:ss} - %{level->5} " +
-            "- %{package->100}:%{message}%{line}%{throws->ALL}"
+            "- %{package->30}:%{message}%{line}%{throws->ALL}"
+//        val rule = "%{date} - %{level} " +
+//            "- %{package}:%{message}%{line}%{throws->ALL}"
         val logFormat = LogFormat(rule)
         println(
-            logFormat.printLogger(
+            logFormat.loggerToString(
                 javaClass.name, "Main", System.currentTimeMillis(),
-                LoggerLevel.INFO, "sasa", RuntimeException("wqwq")
+                LoggerLevel.INFO, "sasa", RuntimeException("Nothing")
             )
         )
     }

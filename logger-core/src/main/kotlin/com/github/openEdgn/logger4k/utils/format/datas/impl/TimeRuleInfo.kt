@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat
 class TimeRuleInfo : IFormatRuleInfo<Long> {
     override val name: String = "date"
 
+    override val defaultRule = "YY/MM/dd HH:mm:ss"
+
     override fun generateRule(rule: String): BaseFormatRule<Long> {
         return object : BaseFormatRule<Long>(rule) {
             override val name: String = this@TimeRuleInfo.name

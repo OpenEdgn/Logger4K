@@ -9,7 +9,7 @@ import com.github.openEdgn.logger4k.LoggerLevel
  */
 abstract class BaseLogFormat(protected val rule: String) {
 
-    abstract fun printLogger(
+    abstract fun loggerToString(
         packageName: String,
         threadName: String,
         date: Long,

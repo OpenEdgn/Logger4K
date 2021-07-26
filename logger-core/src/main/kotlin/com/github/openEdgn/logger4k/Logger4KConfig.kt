@@ -20,9 +20,7 @@
 
 package com.github.openEdgn.logger4k
 
-import com.github.openEdgn.logger4k.support.mini.MiniLoggerPlugin
 import com.github.openEdgn.logger4k.utils.SystemEnvProperties
-import kotlin.reflect.KClass
 
 /**
  * 内部日志配置工具
@@ -34,8 +32,4 @@ internal object Logger4KConfig {
      * 默认内部调试日志等级
      */
     val level: LoggerLevel = softEnv.getEnumOrDefault("level", LoggerLevel.INFO)
-
-    fun getLogger(clazz: KClass<*>): ILogger {
-        return MiniLoggerPlugin.getLogger(clazz)
-    }
 }

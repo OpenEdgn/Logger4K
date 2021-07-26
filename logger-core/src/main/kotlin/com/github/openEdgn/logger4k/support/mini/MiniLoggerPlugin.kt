@@ -23,6 +23,9 @@ package com.github.openEdgn.logger4k.support.mini
 import com.github.openEdgn.logger4k.ILogger
 import com.github.openEdgn.logger4k.LoggerLevel
 import com.github.openEdgn.logger4k.plugin.IPlugin
+import java.util.concurrent.SynchronousQueue
+import java.util.concurrent.ThreadPoolExecutor
+import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
 
 /**
@@ -30,20 +33,37 @@ import kotlin.reflect.KClass
  */
 internal object MiniLoggerPlugin : IPlugin {
 
+    private val threadPool = ThreadPoolExecutor(
+        0, Integer.MAX_VALUE,
+        10L, TimeUnit.SECONDS,
+        SynchronousQueue()
+    )
+
+    fun submitTask(func: () -> Unit) {
+        threadPool.submit(func)
+    }
+
     override fun getLogger(name: String): ILogger {
-        TODO()
+        return MiniLogger(name)
     }
 
     override fun getLoggerLevel(name: String): LoggerLevel {
-        TODO()
+        return MiniLoggerConfig.packageLogRules.getPackageLevel(name)
     }
 
     override val name: String = "ProjectLogger"
 
     override fun getLogger(clazz: KClass<*>): ILogger {
-        TODO()
+        return getLogger(clazz.java.name)
     }
 
     override fun shutdown() {
+        getLogger("JVM HOOK").info("程序即将退出！")
+        threadPool.shutdownNow().forEach {
+            try {
+                it.run()
+            } catch (_: Exception) {
+            }
+        }
     }
 }
