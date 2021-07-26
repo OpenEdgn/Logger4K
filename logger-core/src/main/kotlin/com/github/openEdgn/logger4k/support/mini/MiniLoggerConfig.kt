@@ -12,7 +12,7 @@ import java.io.PrintStream
 /**
  * 配置文件
  */
-object MiniLoggerConfig {
+class MiniLoggerConfig {
     private val env = SystemEnvProperties("logger.mini")
 
     /**
@@ -64,7 +64,7 @@ object MiniLoggerConfig {
     )
 
     init {
-        packageLogRules.putPackageLevel(ILogger::class.java.name, Logger4KConfig.level)
+        packageLogRules.putPackageLevel(ILogger::class.java.`package`.name, Logger4KConfig.level)
     }
 
     fun getPrintStream(level: LoggerLevel): PrintStream {

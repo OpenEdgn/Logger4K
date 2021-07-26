@@ -23,32 +23,34 @@ package com.github.openEdgn.logger4k.support.mini
 import com.github.openEdgn.logger4k.ILogger
 import com.github.openEdgn.logger4k.LoggerLevel
 import com.github.openEdgn.logger4k.plugin.IPlugin
-import java.util.concurrent.SynchronousQueue
-import java.util.concurrent.ThreadPoolExecutor
+import java.text.SimpleDateFormat
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.KClass
 
 /**
  * 默认的日志实现
  */
-internal object MiniLoggerPlugin : IPlugin {
-
-    private val threadPool = ThreadPoolExecutor(
-        0, Integer.MAX_VALUE,
-        10L, TimeUnit.SECONDS,
-        SynchronousQueue()
-    )
-
-    fun submitTask(func: () -> Unit) {
-        threadPool.submit(func)
+class MiniLoggerPlugin : IPlugin {
+    val loggerConfig = MiniLoggerConfig()
+    private val threadPool = Executors.newCachedThreadPool()
+    fun submitTask(level: LoggerLevel, func: () -> Unit) {
+        if (level == LoggerLevel.TRACE ||
+            level == LoggerLevel.ERROR ||
+            level == LoggerLevel.DEBUG
+        ) {
+            func()
+        } else {
+            threadPool.execute(func)
+        }
     }
 
     override fun getLogger(name: String): ILogger {
-        return MiniLogger(name)
+        return MiniLogger(name, this)
     }
 
     override fun getLoggerLevel(name: String): LoggerLevel {
-        return MiniLoggerConfig.packageLogRules.getPackageLevel(name)
+        return loggerConfig.packageLogRules.getPackageLevel(name)
     }
 
     override val name: String = "ProjectLogger"
@@ -58,11 +60,13 @@ internal object MiniLoggerPlugin : IPlugin {
     }
 
     override fun shutdown() {
-        getLogger("JVM HOOK").info("程序即将退出！")
-        threadPool.shutdownNow().forEach {
-            try {
+        val dateTimeFormat = SimpleDateFormat("YY/MM/dd HH:mm:ss")
+        loggerConfig.getPrintStream(LoggerLevel.INFO)
+            .println("程序于 ${dateTimeFormat.format(System.currentTimeMillis())} 退出！")
+        threadPool.shutdown()
+        if (!threadPool.awaitTermination(5, TimeUnit.SECONDS)) {
+            threadPool.shutdownNow().forEach {
                 it.run()
-            } catch (_: Exception) {
             }
         }
     }

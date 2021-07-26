@@ -4,7 +4,7 @@ import com.github.openEdgn.logger4k.plugin.IPlugin
 import com.github.openEdgn.logger4k.support.IChildPluginLoader
 
 class MiniPluginLoader : IChildPluginLoader {
-    private val impl by lazy { MiniLoggerPlugin }
+    private val impl by lazy { MiniLoggerPlugin() }
     override val support: Boolean
         get() = true
 

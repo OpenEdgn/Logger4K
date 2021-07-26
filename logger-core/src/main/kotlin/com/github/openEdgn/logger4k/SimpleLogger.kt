@@ -34,7 +34,7 @@ abstract class SimpleLogger : ILogger {
     abstract fun printLogger(date: Long, level: LoggerLevel, message: String, exception: Throwable)
 
     override fun trace(message: String, vararg param: Any?): ILogger {
-        if (level.level < LoggerLevel.TRACE.level) {
+        if (level.level > LoggerLevel.TRACE.level) {
             return this
         }
         val array = Array<Any?>(param.size) { null }
@@ -44,7 +44,7 @@ abstract class SimpleLogger : ILogger {
     }
 
     override fun debug(message: String, vararg param: Any?): ILogger {
-        if (level.level < LoggerLevel.DEBUG.level) {
+        if (level.level > LoggerLevel.DEBUG.level) {
             return this
         }
         val array = Array<Any?>(param.size) { null }
@@ -54,7 +54,7 @@ abstract class SimpleLogger : ILogger {
     }
 
     override fun info(message: String, vararg param: Any?): ILogger {
-        if (level.level < LoggerLevel.INFO.level) {
+        if (level.level > LoggerLevel.INFO.level) {
             return this
         }
         val array = Array<Any?>(param.size) { null }
@@ -64,7 +64,7 @@ abstract class SimpleLogger : ILogger {
     }
 
     override fun warn(message: String, vararg param: Any?): ILogger {
-        if (level.level < LoggerLevel.WARN.level) {
+        if (level.level > LoggerLevel.WARN.level) {
             return this
         }
         val array = Array<Any?>(param.size) { null }
@@ -74,7 +74,7 @@ abstract class SimpleLogger : ILogger {
     }
 
     override fun error(message: String, vararg param: Any?): ILogger {
-        if (level.level < LoggerLevel.ERROR.level) {
+        if (level.level > LoggerLevel.ERROR.level) {
             return this
         }
         val array = Array<Any?>(param.size) { null }
@@ -84,7 +84,7 @@ abstract class SimpleLogger : ILogger {
     }
 
     override fun debugThrowable(message: Any, exception: Throwable): ILogger {
-        if (level.level < LoggerLevel.DEBUG.level) {
+        if (level.level > LoggerLevel.DEBUG.level) {
             return this
         }
         printLogger(System.currentTimeMillis(), LoggerLevel.DEBUG, message.toString(), exception)
@@ -92,7 +92,7 @@ abstract class SimpleLogger : ILogger {
     }
 
     override fun infoThrowable(message: Any, exception: Throwable): ILogger {
-        if (level.level < LoggerLevel.INFO.level) {
+        if (level.level > LoggerLevel.INFO.level) {
             return this
         }
         printLogger(System.currentTimeMillis(), LoggerLevel.INFO, message.toString(), exception)
@@ -100,7 +100,7 @@ abstract class SimpleLogger : ILogger {
     }
 
     override fun traceThrowable(message: Any, exception: Throwable): ILogger {
-        if (level.level < LoggerLevel.TRACE.level) {
+        if (level.level > LoggerLevel.TRACE.level) {
             return this
         }
         printLogger(System.currentTimeMillis(), LoggerLevel.TRACE, message.toString(), exception)
@@ -108,7 +108,7 @@ abstract class SimpleLogger : ILogger {
     }
 
     override fun warnThrowable(message: Any, exception: Throwable): ILogger {
-        if (level.level < LoggerLevel.WARN.level) {
+        if (level.level > LoggerLevel.WARN.level) {
             return this
         }
         printLogger(System.currentTimeMillis(), LoggerLevel.WARN, message.toString(), exception)
@@ -116,7 +116,7 @@ abstract class SimpleLogger : ILogger {
     }
 
     override fun errorThrowable(message: Any, exception: Throwable): ILogger {
-        if (level.level < LoggerLevel.ERROR.level) {
+        if (level.level > LoggerLevel.ERROR.level) {
             return this
         }
         printLogger(System.currentTimeMillis(), LoggerLevel.ERROR, message.toString(), exception)

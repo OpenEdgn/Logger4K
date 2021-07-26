@@ -31,5 +31,5 @@ internal object Logger4KConfig {
     /**
      * 默认内部调试日志等级
      */
-    val level: LoggerLevel = softEnv.getEnumOrDefault("level", LoggerLevel.INFO)
+    val level: LoggerLevel = softEnv.getEnumOrDefault("level", LoggerLevel.OFF)
 }

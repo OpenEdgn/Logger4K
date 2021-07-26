@@ -46,7 +46,14 @@ class PackageLevel(private val superLevel: LoggerLevel) {
         val packageTree = tree.childNodes[list.first]
         return if (packageTree != null) {
             list.removeFirst()
-            getLevel(list, packageTree, loggerLevel)
+            getLevel(
+                list, packageTree,
+                if (packageTree.empty) {
+                    loggerLevel
+                } else {
+                    packageTree.level
+                }
+            )
         } else {
             superLevel
         }
