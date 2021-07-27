@@ -21,15 +21,51 @@
 package com.github.openEdgn.logger4k
 
 import com.github.openEdgn.logger4k.utils.SystemEnvProperties
+import java.io.File
+import java.util.Properties
 
 /**
- * 内部日志配置工具
+ * 内部日志配置工具,通过定义环境变量来更改日志输出样式
  */
 internal object Logger4KConfig {
-    private val softEnv = SystemEnvProperties("logger4k.internal.")
+    private val internalSoftEnv = SystemEnvProperties("logger4k.internal.")
+    private val softEnv = SystemEnvProperties("logger4k.core.")
 
     /**
      * 默认内部调试日志等级
+     * 定义变量 `logger4k.internal.level` 为 `LoggerLevel` 枚举
      */
-    val level: LoggerLevel = softEnv.getEnumOrDefault("level", LoggerLevel.OFF)
+    val level: LoggerLevel = internalSoftEnv.getEnumOrDefault("level", LoggerLevel.OFF)
+
+    val extraConfig: Map<String, String> =
+        softEnv.getCustomOrDefault("properties", mapOf()) {
+            val prop = Properties()
+            val split = it.split(",").toMutableList()
+            split.add("classpath:///logger4k.properties")
+            split.forEach { item ->
+                try {
+                    val classpath = "classpath://"
+                    val file = "file://"
+                    if (item.startsWith(classpath)) {
+                        prop.load(
+                            Logger4KConfig::class.java
+                                .getResourceAsStream(item.substring(classpath.length))!!
+                                .bufferedReader(Charsets.UTF_8)
+                        )
+                    } else if (item.startsWith(file)) {
+                        val path = File(item.substring(file.length))
+                        if (path.isFile && path.canRead() && path.length() < 1024 * 1024 * 512) {
+                            path.inputStream().use { ins ->
+                                prop.load(
+                                    ins
+                                        .bufferedReader(Charsets.UTF_8)
+                                )
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                }
+            }
+            prop.map { m -> Pair(m.key.toString(), m.value.toString()) }.toMap()
+        }
 }

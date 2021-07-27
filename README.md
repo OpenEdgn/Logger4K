@@ -103,12 +103,9 @@ logger.debugOnly {
 
 ```
 
-Please see [PrintLogger.kt](./logger-console/src/test/kotlin/logger4k/impl/console/PrintLogger.kt)
-and [LoggerMainTestAll.kt](./logger-console/src/test/kotlin/logger4k/impl/console/LoggerMainTestAll.kt)  under `TEST` for more usage
-methods.
+Please see [PrintLogger.kt](./logger-console/src/test/kotlin/PrintLogger.kt)
+and [LoggerMainTestAll.kt](./logger-console/src/test/kotlin/LoggerMainTestAll.kt)  under `TEST` for more usage methods.
 
 ## LICENSE
 
-Warn: This project uses [SLF4J](https://github.com/qos-ch/slf4j) source code.
-
-SEE [LICENSE FILE](./LICENSE) AND  [SLF4J LICENSE](https://github.com/qos-ch/slf4j/blob/master/LICENSE.txt)
+SEE [LICENSE FILE](./LICENSE)   

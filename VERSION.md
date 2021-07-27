@@ -10,13 +10,24 @@
 
 ## 版本日志
 
+### 2.0.0
+
+重构的 Logger4K 2.0 来了 ✨
+
+注意：此版本为 2.0 初始版本，想从`1.x.x` 迁移请查看 [迁移教程](./docs/update-1.x-2.x.md)
+
+- 移动模块 `logger-slf4j` 和 `slf4j-over-logger4k`到
+  [Logger4KSupport](https://github.com/OpenEdgn/Logger4KSupport)
+
+- 重构 `logger-core` 模块，现已内嵌一个简单的日志输出实现
+- `logger-console` 模块啥也没变
+
 ### 1.7.0
 
 - 升级 `slf4j` 到 1.7.31
 - 升级 `kotlin` 到 1.5.21
 - 升级 `gradle` 到 6.8.3
 - 优化模块 `logger-slf4j` 逻辑，现在引入此模块后不会影响项目原 `slf4j` 版本了
-
 
 ### 1.6.0
 

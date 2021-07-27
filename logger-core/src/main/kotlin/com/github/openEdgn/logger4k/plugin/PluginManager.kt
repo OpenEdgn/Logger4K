@@ -28,10 +28,12 @@ import java.util.Optional
 /**
  * 日志实现加载器
  */
-object PluginManager : Closeable {
+internal object PluginManager : Closeable {
     private val rules = arrayListOf(
         OfficialPluginLoader()
     )
+
+    internal val miniLoggerPluginLoader = MiniPluginLoader()
 
     private val loggerPlugin: IPlugin
 
@@ -39,13 +41,12 @@ object PluginManager : Closeable {
         var p: Optional<IPlugin> = Optional.empty()
         for (rule in rules) {
             if (rule.support) {
-                rule.getPlugin()
                 p = Optional.of(wrapper(rule.getPlugin()))
                 break
             }
         }
         loggerPlugin = if (p.isEmpty) {
-            wrapper(MiniPluginLoader().getPlugin())
+            wrapper(miniLoggerPluginLoader.getPlugin())
         } else {
             p.get()
         }

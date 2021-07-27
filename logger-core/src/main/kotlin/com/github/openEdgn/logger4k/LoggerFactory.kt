@@ -20,9 +20,13 @@
 
 package com.github.openEdgn.logger4k
 
+import com.github.openEdgn.logger4k.plugin.PluginManager
 import com.github.openEdgn.logger4k.plugin.PluginManager.implPlugin
 import kotlin.reflect.KClass
 
+/**
+ * Logger 工厂方法
+ */
 object LoggerFactory {
 
     fun getLogger(clazz: Class<*>): ILogger {
@@ -35,5 +39,9 @@ object LoggerFactory {
 
     fun getLogger(name: String): ILogger {
         return implPlugin().getLogger(name)
+    }
+
+    internal fun getInternalLogger(clazz: KClass<*>): ILogger {
+        return PluginManager.miniLoggerPluginLoader.getPlugin().getLogger(clazz)
     }
 }

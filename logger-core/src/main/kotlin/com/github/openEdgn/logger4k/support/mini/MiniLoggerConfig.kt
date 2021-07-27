@@ -3,22 +3,23 @@ package com.github.openEdgn.logger4k.support.mini
 import com.github.openEdgn.logger4k.ILogger
 import com.github.openEdgn.logger4k.Logger4KConfig
 import com.github.openEdgn.logger4k.LoggerLevel
-import com.github.openEdgn.logger4k.support.mini.pkgFilter.PackageLevel
 import com.github.openEdgn.logger4k.utils.SystemEnvProperties
 import com.github.openEdgn.logger4k.utils.format.log.BaseLogFormat
 import com.github.openEdgn.logger4k.utils.format.log.LogFormat
 import java.io.PrintStream
 
 /**
- * 配置文件
+ * Logger4K 自带的日志输出框架
  */
-class MiniLoggerConfig {
-    private val env = SystemEnvProperties("logger.mini")
+internal class MiniLoggerConfig {
+    private val env = SystemEnvProperties("logger.mini", Logger4KConfig.extraConfig)
 
     /**
      * 默认的日志等级
      */
-    val defaultLevel = env.getEnumOrDefault("defaultLevel", LoggerLevel.INFO)
+    val defaultLevel = env.getEnumOrDefault("level", LoggerLevel.INFO)
+
+    val asyncLoggerOutput = env.getBooleanOrDefault("async", true)
 
     /**
      * 自定义子路径日志输出等级
@@ -47,7 +48,7 @@ class MiniLoggerConfig {
     val messageFormat: BaseLogFormat = LogFormat(
         env.getStringOrDefault(
             "format.line",
-            "%{date->YY/MM/dd HH:mm:ss} - %{level->5} " +
+            "%{date->YY/MM/dd HH:mm:ss}- %{thread} - %{level->5} " +
                 "- %{package->30}:%{message}"
         )
     )
@@ -58,7 +59,7 @@ class MiniLoggerConfig {
     val throwFormat: BaseLogFormat = LogFormat(
         env.getStringOrDefault(
             "format.throw",
-            "%{date->YY/MM/dd HH:mm:ss} - %{level->5} " +
+            "%{date->YY/MM/dd HH:mm:ss} - %{thread} - %{level->5} " +
                 "- %{package->30}:%{message}%{line}%{throws->ALL}"
         )
     )

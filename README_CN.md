@@ -101,11 +101,9 @@ logger.debugOnly {
 
 ```
 
-更多使用方法请查看 `TEST` 下的 [PrintLogger.kt](./logger-console/src/test/kotlin/logger4k/impl/console/PrintLogger.kt)
-和 [LoggerMainTestAll.kt](./logger-console/src/test/kotlin/logger4k/impl/console/LoggerMainTestAll.kt)  文件。
+更多使用方法请查看 `TEST` 下的 [PrintLogger.kt](./logger-console/src/test/kotlin/PrintLogger.kt)
+和 [LoggerMainTestAll.kt](./logger-console/src/test/kotlin/LoggerMainTestAll.kt)  文件。
 
 ## LICENSE
 
-注意： 此项目包含有 [SLF4J](https://github.com/qos-ch/slf4j) 的源代码
-
-请转到 [LICENSE FILE](./LICENSE) 和 [SLF4J LICENSE](https://github.com/qos-ch/slf4j/blob/master/LICENSE.txt)
+请转到 [LICENSE FILE](./LICENSE) 

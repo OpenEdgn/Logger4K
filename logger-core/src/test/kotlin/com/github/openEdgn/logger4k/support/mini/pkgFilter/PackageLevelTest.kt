@@ -1,6 +1,7 @@
 package com.github.openEdgn.logger4k.support.mini.pkgFilter
 
 import com.github.openEdgn.logger4k.LoggerLevel
+import com.github.openEdgn.logger4k.support.mini.PackageLevel
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

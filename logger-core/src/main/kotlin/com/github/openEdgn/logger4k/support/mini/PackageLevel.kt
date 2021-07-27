@@ -1,4 +1,4 @@
-package com.github.openEdgn.logger4k.support.mini.pkgFilter
+package com.github.openEdgn.logger4k.support.mini
 
 import com.github.openEdgn.logger4k.LoggerLevel
 import java.util.LinkedList

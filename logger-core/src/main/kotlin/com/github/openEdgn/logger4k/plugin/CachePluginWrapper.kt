@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
  * 日志中间件对象缓存
  *
  */
-class CachePluginWrapper(private val plugin: IPlugin) : IPlugin {
+internal class CachePluginWrapper(private val plugin: IPlugin) : IPlugin {
     override val name: String
         get() = plugin.name
 

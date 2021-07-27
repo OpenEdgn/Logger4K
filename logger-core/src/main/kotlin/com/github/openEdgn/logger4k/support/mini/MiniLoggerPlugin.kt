@@ -23,6 +23,7 @@ package com.github.openEdgn.logger4k.support.mini
 import com.github.openEdgn.logger4k.ILogger
 import com.github.openEdgn.logger4k.LoggerLevel
 import com.github.openEdgn.logger4k.plugin.IPlugin
+import com.github.openEdgn.logger4k.plugin.PluginManager
 import java.text.SimpleDateFormat
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -31,17 +32,21 @@ import kotlin.reflect.KClass
 /**
  * 默认的日志实现
  */
-class MiniLoggerPlugin : IPlugin {
+internal class MiniLoggerPlugin : IPlugin {
     val loggerConfig = MiniLoggerConfig()
     private val threadPool = Executors.newCachedThreadPool()
     fun submitTask(level: LoggerLevel, func: () -> Unit) {
-        if (level == LoggerLevel.TRACE ||
-            level == LoggerLevel.ERROR ||
-            level == LoggerLevel.DEBUG
-        ) {
-            func()
+        if (loggerConfig.asyncLoggerOutput) {
+            if (level == LoggerLevel.TRACE ||
+                level == LoggerLevel.ERROR ||
+                level == LoggerLevel.DEBUG
+            ) {
+                func()
+            } else {
+                threadPool.execute(func)
+            }
         } else {
-            threadPool.execute(func)
+            func()
         }
     }
 
@@ -60,9 +65,11 @@ class MiniLoggerPlugin : IPlugin {
     }
 
     override fun shutdown() {
-        val dateTimeFormat = SimpleDateFormat("YY/MM/dd HH:mm:ss")
-        loggerConfig.getPrintStream(LoggerLevel.INFO)
-            .println("程序于 ${dateTimeFormat.format(System.currentTimeMillis())} 退出！")
+        if (PluginManager.implPlugin().name == name) {
+            val dateTimeFormat = SimpleDateFormat("YY/MM/dd HH:mm:ss")
+            loggerConfig.getPrintStream(LoggerLevel.INFO)
+                .println("程序于 ${dateTimeFormat.format(System.currentTimeMillis())} 退出！")
+        }
         threadPool.shutdown()
         if (!threadPool.awaitTermination(5, TimeUnit.SECONDS)) {
             threadPool.shutdownNow().forEach {
