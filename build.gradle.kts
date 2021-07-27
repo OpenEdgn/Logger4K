@@ -1,4 +1,4 @@
-group = "com.github.OpenEDGN"
+group = "com.github.OpenEdgn.Logger4K"
 version = "last"
 
 buildscript {

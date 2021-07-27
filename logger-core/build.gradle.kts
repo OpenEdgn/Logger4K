@@ -18,7 +18,6 @@ val compileKotlin: KotlinCompile by tasks
 val compileJava: JavaCompile by tasks
 compileJava.destinationDir = compileKotlin.destinationDir
 
-
 dependencies {
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib"))
@@ -39,7 +38,7 @@ tasks.withType<KotlinCompile>().configureEach {
 
 publishing {
     publications {
-        create<MavenPublication>("maven") {
+        register<MavenPublication>("gpr") {
             groupId = rootProject.group.toString()
             artifactId = project.name
             version = rootProject.version.toString()
@@ -48,5 +47,13 @@ publishing {
     }
     repositories {
         mavenLocal()
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/OpenEdgn/Logger4K")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+            }
+        }
     }
 }
