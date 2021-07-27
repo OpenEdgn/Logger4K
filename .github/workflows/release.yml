@@ -1,4 +1,4 @@
-name: Logger4k CI Night release
+name: Logger4k CI
 
 on:
   push:
@@ -20,8 +20,10 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: set gradlew chmod +x
+      - name: chmod +x gradlew
         run: chmod +x gradlew
+      - name: Show Gradle Version
+        run: ./gradlew --version
       - name: Test with Gradle
         run: ./gradlew test
 
