@@ -1,13 +1,9 @@
 group = "com.github.OpenEdgn.Logger4K"
-version = "last"
 
 buildscript {
     repositories {
         mavenLocal()
-        maven { url = project.uri("https://maven.aliyun.com/repository/public/") }
-        jcenter()
         mavenCentral()
-        maven { url = project.uri("https://jitpack.io") }
     }
 
     dependencies {
@@ -18,8 +14,6 @@ buildscript {
 allprojects {
     repositories {
         mavenLocal()
-        maven { url = project.uri("https://maven.aliyun.com/repository/public/") }
-        jcenter()
         mavenCentral()
         maven { url = project.uri("https://jitpack.io") }
     }
