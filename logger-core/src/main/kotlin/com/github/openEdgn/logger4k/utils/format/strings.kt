@@ -8,7 +8,7 @@ fun String.toIntOrDefault(default: Int): Int {
     }
 }
 
-fun String.format(len: Int): String {
+fun String.formatLength(len: Int): String {
     if (len <= 0) {
         return ""
     }

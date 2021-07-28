@@ -48,7 +48,7 @@ internal class MiniLoggerConfig {
     val messageFormat: BaseLogFormat = LogFormat(
         env.getStringOrDefault(
             "format.line",
-            "%{date->YY/MM/dd HH:mm:ss}- %{thread} - %{level->5} " +
+            "%{date->YY/MM/dd HH:mm:ss} - %{thread} - %{level->5} " +
                 "- %{package->30}:%{message}"
         )
     )

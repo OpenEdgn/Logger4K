@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test
 internal class StringsKtTest {
     @Test
     fun formatTest() {
-        assertEquals(10, "data".format(10).length)
-        assertEquals(1, "data".format(1).length)
+        assertEquals(10, "data".formatLength(10).length)
+        assertEquals(1, "data".formatLength(1).length)
     }
 
     @Test

@@ -20,6 +20,8 @@
 
 package com.github.openEdgn.logger4k.utils.format.classes
 
+import com.github.openEdgn.logger4k.utils.format.formatLength
+
 /**
  * 类名称格式化工具
  * 如果 maxLine 为 -1 则表示不格式化
@@ -38,14 +40,18 @@ class MaxLengthClassFormat(private val maxLine: Int = 30) : ClassNameFormat() {
                 stringBuilder.append(list[i].first()).append(".")
             }
             if (maxLine - stringBuilder.length < list.last().length) {
-                stringBuilder.append(list.last().replace(Regex("[a-z]"), ""))
+                val replace = list.last().replace(Regex("[a-z]"), "")
+                if (replace.isBlank()) {
+                    stringBuilder.append("${replace.first()}<->${replace.last()}")
+                } else {
+                    stringBuilder.append(replace)
+                }
             } else {
                 stringBuilder.append(list.last())
             }
-
-            String.format("%${-maxLine}s", stringBuilder.toString())
+            stringBuilder.toString().formatLength(maxLine)
         } else {
-            String.format("%${-maxLine}s", name)
+            name.formatLength(maxLine)
         }
     }
 }
