@@ -1,0 +1,10 @@
+jdk:
+  - openjdk11
+before_install:
+  - sdk install java 11.0.10-open
+  - sdk use java 11.0.10-open
+install:
+  - echo "Gradle Boot"
+  - chmod +x gradlew
+  - java --version
+  - ./gradlew clean -Pgroup=$GROUP -Pversion=$VERSION build publishToMavenLocal
