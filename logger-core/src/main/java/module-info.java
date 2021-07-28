@@ -1,5 +1,4 @@
 module logger4k.core {
-    requires java.base;
     requires kotlin.stdlib;
     requires kotlin.reflect;
     exports com.github.openEdgn.logger4k;
