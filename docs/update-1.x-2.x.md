@@ -9,4 +9,5 @@
 
 ## 移除转发模块
 
+将转发模块移动至 [Logger4KSupport](https://github.com/OpenEdgn/Logger4KSupport) ,与主线脱离
 
