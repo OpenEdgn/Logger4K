@@ -15,9 +15,14 @@ class TimeRuleInfo : IFormatRuleInfo<Long> {
     override fun generateRule(rule: String): BaseFormatRule<Long> {
         return object : BaseFormatRule<Long>(rule) {
             override val name: String = this@TimeRuleInfo.name
-            private val dateFormat = SimpleDateFormat(this.rule)
+            private val dateFormat = object : ThreadLocal<SimpleDateFormat>() {
+                override fun initialValue(): SimpleDateFormat {
+                    return SimpleDateFormat(rule)
+                }
+            }
+
             override fun format(data: Long): String {
-                return dateFormat.format(data)
+                return dateFormat.get().format(data)
             }
         }
     }

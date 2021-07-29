@@ -34,7 +34,7 @@ import kotlin.reflect.KClass
  */
 internal class MiniLoggerPlugin : IPlugin {
     val loggerConfig = MiniLoggerConfig()
-    private val threadPool = Executors.newCachedThreadPool()
+    private val threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2)
     fun submitTask(level: LoggerLevel, func: () -> Unit) {
         if (loggerConfig.asyncLoggerOutput) {
             if (level == LoggerLevel.TRACE ||
