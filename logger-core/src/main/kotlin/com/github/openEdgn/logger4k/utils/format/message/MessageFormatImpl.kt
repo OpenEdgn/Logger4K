@@ -84,6 +84,6 @@ object MessageFormatImpl : IMessageFormat {
                 result.append("{}")
             }
         }
-        return result.toString().replace(Regex("(\\\\\\{}|\\\\\\{\\\\})"), "{}")
+        return result.toString().replace(regex = Regex("(\\\\\\{}|\\\\\\{\\\\})"), replacement = "{}")
     }
 }

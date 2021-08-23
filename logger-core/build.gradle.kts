@@ -3,9 +3,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm")
     `maven-publish`
+    id("org.jlleitschuh.gradle.ktlint")
+    id("org.jlleitschuh.gradle.ktlint-idea")
 }
 java {
     modularity.inferModulePath.set(true)
+}
+
+ktlint {
+    version.set("0.42.1")
 }
 
 tasks.withType<Zip> {
@@ -16,13 +22,13 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 val compileKotlin: KotlinCompile by tasks
 val compileJava: JavaCompile by tasks
-compileJava.destinationDir = compileKotlin.destinationDir
+compileJava.destinationDirectory.set(compileKotlin.destinationDirectory.get())
 
 dependencies {
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
-    testImplementation("org.junit.platform:junit-platform-launcher:1.6.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
+    testImplementation("org.junit.platform:junit-platform-launcher:1.7.2")
 }
 
 tasks.test {
