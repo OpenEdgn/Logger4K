@@ -20,28 +20,30 @@
 
 package com.github.openEdgn.logger4k
 
-import com.github.openEdgn.logger4k.plugin.PluginManager
-import com.github.openEdgn.logger4k.plugin.PluginManager.implPlugin
+import com.github.openEdgn.logger4k.internal.Logger4KConfig
 import kotlin.reflect.KClass
 
 /**
- * Logger 工厂方法
+ * 默认的日志工厂，保证向后兼容
+ *
+ * @since 1.0
  */
-object LoggerFactory {
+object LoggerFactory : ILoggerFactory {
 
-    fun getLogger(clazz: Class<*>): ILogger {
-        return getLogger(clazz.kotlin)
+    /**
+     * 此实例用于内部调试
+     */
+    val internal: ILoggerFactory = Logger4KConfig.debugLoggerFactory
+
+    override fun getLogger(clazz: Class<*>): ILogger {
+        return Logger4KConfig.produceLoggerFactory.getLogger(clazz)
     }
 
-    fun getLogger(clazz: KClass<*>): ILogger {
-        return implPlugin().getLogger(clazz)
+    override fun getLogger(clazz: KClass<*>): ILogger {
+        return Logger4KConfig.produceLoggerFactory.getLogger(clazz)
     }
 
-    fun getLogger(name: String): ILogger {
-        return implPlugin().getLogger(name)
-    }
-
-    internal fun getInternalLogger(clazz: KClass<*>): ILogger {
-        return PluginManager.miniLoggerPluginLoader.getPlugin().getLogger(clazz)
+    override fun getLogger(name: String): ILogger {
+        return Logger4KConfig.produceLoggerFactory.getLogger(name)
     }
 }

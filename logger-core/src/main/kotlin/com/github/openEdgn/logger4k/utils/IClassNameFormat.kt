@@ -17,15 +17,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package com.github.openEdgn.logger4k.utils
 
-import logger4k.proxy.ThrowableUtilsProxy
-
 /**
- * 异常信息格式化工具
+ *  Class 类名格式化优化
  */
-object ThrowableUtils {
-    fun format(throwable: Throwable): String {
-        return ThrowableUtilsProxy.format(throwable)
-    }
+interface IClassNameFormat {
+    fun format(name: String): String
 }
