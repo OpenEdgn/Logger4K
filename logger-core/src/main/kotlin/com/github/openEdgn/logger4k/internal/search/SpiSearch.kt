@@ -11,8 +11,11 @@ class SpiSearch : ILoggerSearch {
     override fun search(): Set<KClass<ILogApi>> {
         val loader = ServiceLoader.load(ILogApi::class.java)
         val hashSet = HashSet<KClass<ILogApi>>()
-        @Suppress("UNCHECKED_CAST")
-        loader.iterator().forEach { hashSet.add(it::class as KClass<ILogApi>) }
+        try {
+            @Suppress("UNCHECKED_CAST")
+            loader.iterator().forEach { hashSet.add(it::class as KClass<ILogApi>) }
+        } catch (_: Exception) {
+        }
         return hashSet
     }
 }
