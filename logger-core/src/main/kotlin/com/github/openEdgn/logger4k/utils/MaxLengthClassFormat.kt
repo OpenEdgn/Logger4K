@@ -37,7 +37,7 @@ class MaxLengthClassFormat(private val maxLength: Int = 40) : IClassNameFormat {
             val builder = StringBuilder()
             val split = name.split(".")
             if (split.size == 1) {
-                return name.formatLength(maxLength)
+                return formatLength(name, maxLength)
             }
             for (item in 0 until split.size - 1) {
                 if (accept) {
@@ -57,23 +57,23 @@ class MaxLengthClassFormat(private val maxLength: Int = 40) : IClassNameFormat {
                 builder.toString()
             } else {
                 builder.append(lastName)
-                builder.toString().formatLength(maxLength)
+                formatLength(builder.toString(), maxLength)
             }
         } else {
-            name.formatLength(maxLength)
+            formatLength(name, maxLength)
         }
     }
 
-    private fun String.formatLength(len: Int): String {
+    private fun formatLength(data: String, len: Int): String {
         if (len <= 0) {
             return ""
         }
-        val item = substring(
+        val item = data.substring(
             0,
-            if (length > len) {
+            if (data.length > len) {
                 len
             } else {
-                length
+                data.length
             }
         )
         return String.format("%${-len}s", item)

@@ -14,9 +14,4 @@ interface ILogApi {
      * 初始化
      */
     fun init(): ILogOutputApi
-
-    /**
-     * 销毁
-     */
-    fun destroy()
 }

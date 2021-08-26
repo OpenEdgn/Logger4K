@@ -5,5 +5,7 @@ module logger4k.core {
     opens com.github.openEdgn.logger4k;
     exports com.github.openEdgn.logger4k.utils;
     opens com.github.openEdgn.logger4k.utils;
-
+    exports com.github.openEdgn.logger4k.api;
+    opens com.github.openEdgn.logger4k.api;
+    uses com.github.openEdgn.logger4k.api.ILogApi;
 }
