@@ -63,12 +63,10 @@ fun main() {
     logger.info("My name is {}.", "John")
     // 输出 INFO 日志
 
-
     logger.warn("Warn.")
     logger.warn("My name is {}.", "John")
     logger.warnThrowable("输出异常信息", RuntimeException("Runtime Exception"))
     // 输出 WARN 日志
-
 
     logger.error("Error.")
     logger.error("My name is {}.", "John")
@@ -76,9 +74,7 @@ fun main() {
     // 输出 ERROR 日志
     val logger2 = LoggerFactory.getLogger(Void::class)
     logger2.info("Hello World")
-
 }
-
 
 internal class Test {
     @Test

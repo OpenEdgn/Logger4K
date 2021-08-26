@@ -22,26 +22,59 @@ package com.github.openEdgn.logger4k.format
 
 /**
  * 类名称格式化工具
- * @property maxLine Int
+ * @property maxLength Int
  */
 class MaxLengthClassFormat : ClassNameFormat() {
-    private val maxLine = 30
+    private val maxLength = 40
     override fun format(name: String): String {
-        return if (name.length > maxLine) {
-            val list = name.split(".")
-            val stringBuilder = StringBuilder()
-            for (i in 0 until list.size - 1) {
-                stringBuilder.append(list[i].first()).append(".")
+        if (maxLength == -1) {
+            return name
+        }
+        return if (name.length > maxLength) {
+            var length = name.length
+            var accept = false
+            val builder = StringBuilder()
+            val split = name.split(".")
+            if (split.size == 1) {
+                return formatLength(name, maxLength)
             }
-            if (maxLine - stringBuilder.length < list.last().length) {
-                stringBuilder.append(list.last().replace(Regex("[a-z]"), ""))
-            } else {
-                stringBuilder.append(list.last())
+            for (item in 0 until split.size - 1) {
+                if (accept) {
+                    builder.append(split[item]).append(".")
+                } else {
+                    if ((length + 2 - split[item].length) <= maxLength) {
+                        accept = true
+                    }
+                    builder.append(split[item].first()).append(".")
+                    length -= split[item].length - 2
+                }
             }
 
-            String.format("%${-maxLine}s", stringBuilder.toString())
+            val lastName = split.last()
+            if (lastName.length > maxLength - builder.length) {
+                builder.append(lastName)
+                builder.toString()
+            } else {
+                builder.append(lastName)
+                formatLength(builder.toString(), maxLength)
+            }
         } else {
-            String.format("%${-maxLine}s", name)
+            formatLength(name, maxLength)
         }
+    }
+
+    private fun formatLength(data: String, len: Int): String {
+        if (len <= 0) {
+            return ""
+        }
+        val item = data.substring(
+            0,
+            if (data.length > len) {
+                len
+            } else {
+                data.length
+            }
+        )
+        return String.format("%${-len}s", item)
     }
 }

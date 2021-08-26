@@ -22,12 +22,10 @@ package com.github.openEdgn.logger4k
 
 import com.github.openEdgn.logger4k.plugin.PluginManager
 
-
 /**
  * 默认的 Logger 实现类
  */
 abstract class SimpleLogger : ILogger {
-
 
     abstract val name: String
     abstract fun printLogger(date: Long, level: LoggerLevel, message: String)

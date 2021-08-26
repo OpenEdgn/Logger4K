@@ -53,22 +53,23 @@ object ConsoleLogConfig {
 
     init {
         loggerLevel = try {
-            LoggerLevel.valueOf(System.getProperty("logger.level", "INFO")!!.toUpperCase())
+            LoggerLevel.valueOf(System.getProperty("logger.level", "INFO")!!.uppercase())
         } catch (_: Exception) {
             LoggerLevel.INFO
         }
 
-        Runtime.getRuntime().addShutdownHook(Thread {
-            for (runnable in threadPool.shutdownNow()) {
-                try {
-                    runnable.run()
-                } catch (_: Exception) {
+        Runtime.getRuntime().addShutdownHook(
+            Thread {
+                for (runnable in threadPool.shutdownNow()) {
+                    try {
+                        runnable.run()
+                    } catch (_: Exception) {
+                    }
                 }
+                println("程序于 ${dateFormat.format(System.currentTimeMillis())} 退出.")
             }
-            println("程序于 ${dateFormat.format(System.currentTimeMillis())} 退出.")
-        })
+        )
     }
-
 
     internal val classNameFormat: ClassNameFormat = ClassNameFormat.DEFAULT_IMPL
 
@@ -77,6 +78,4 @@ object ConsoleLogConfig {
      */
     internal val loggerLevelInt: Int
         get() = loggerLevel.level
-
-
 }

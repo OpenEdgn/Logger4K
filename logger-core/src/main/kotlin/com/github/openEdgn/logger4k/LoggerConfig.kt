@@ -30,7 +30,7 @@ import java.io.PrintWriter
  */
 internal object LoggerConfig {
     fun internalError(msg: String, e: Exception? = null) {
-        if (internalDebug){
+        if (internalDebug) {
             System.err.printf("[ Logger4K internal Error] Error Message :%d \r\n", msg)
             e?.run {
                 val byteArrayOutputStream = ByteArrayOutputStream()
@@ -47,7 +47,7 @@ internal object LoggerConfig {
      */
     private val internalDebug: Boolean by lazy {
         (System.getProperty("logger4k.internal.debug", "false") ?: "false")
-                .contentEquals("true")
+            .contentEquals("true")
     }
 }
 

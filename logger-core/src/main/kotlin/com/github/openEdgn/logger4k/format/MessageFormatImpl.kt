@@ -20,8 +20,7 @@
 
 package com.github.openEdgn.logger4k.format
 
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.LinkedList
 
 /**
  * 消息格式化类

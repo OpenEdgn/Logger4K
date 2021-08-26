@@ -35,5 +35,4 @@ abstract class ClassNameFormat {
     companion object {
         val DEFAULT_IMPL: ClassNameFormat = MaxLengthClassFormat()
     }
-
 }

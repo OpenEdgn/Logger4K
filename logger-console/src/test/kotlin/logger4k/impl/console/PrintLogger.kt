@@ -23,7 +23,7 @@ package logger4k.impl.console
 import com.github.openEdgn.logger4k.LoggerFactory
 import org.junit.jupiter.api.Test
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 internal class PrintLogger {
     /**

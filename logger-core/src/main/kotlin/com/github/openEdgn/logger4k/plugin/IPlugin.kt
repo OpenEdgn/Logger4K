@@ -55,5 +55,4 @@ interface IPlugin {
      * @return LoggerLevel 日志等级
      */
     fun getLoggerLevel(name: String): LoggerLevel
-
 }

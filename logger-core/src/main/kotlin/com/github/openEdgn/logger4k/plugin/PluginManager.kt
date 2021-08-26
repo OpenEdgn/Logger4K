@@ -22,7 +22,7 @@ package com.github.openEdgn.logger4k.plugin
 
 import com.github.openEdgn.logger4k.LoggerConfig
 import java.io.Closeable
-import java.util.*
+import java.util.Properties
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.isSubclassOf
@@ -37,7 +37,6 @@ object PluginManager : Closeable {
 
     internal fun implPlugin(): IPlugin {
         return loggerPlugin ?: throw RuntimeException("未在类路径下找到 Logger 的实现类，无法记录默认日志.")
-
     }
 
     private const val PLUGIN_IMPL_CLASS_KEY = "logger4k.plugin.implClass"
@@ -78,7 +77,6 @@ object PluginManager : Closeable {
         }
     }
 
-
     /**
      * 注册 Plugin Manager 插件
      * @param pluginClass KClass<IPlugin>
@@ -99,8 +97,6 @@ object PluginManager : Closeable {
         }
     }
 
-
     override fun close() {
-
     }
 }
