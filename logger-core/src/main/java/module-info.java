@@ -8,4 +8,7 @@ module logger4k.core {
     exports com.github.openEdgn.logger4k.api;
     opens com.github.openEdgn.logger4k.api;
     uses com.github.openEdgn.logger4k.api.ILogApi;
+    uses com.github.openEdgn.logger4k.api.ILoggerSearch;
+    uses com.github.openEdgn.logger4k.utils.IClassNameFormat;
+    uses com.github.openEdgn.logger4k.utils.IMessageFormat;
 }

@@ -7,5 +7,7 @@ module logger4k.forward {
     requires org.slf4j;
     exports logger4k.forward;
     opens logger4k.forward;
+    uses com.github.openEdgn.logger4k.api.ILogApi;
+    uses com.github.openEdgn.logger4k.api.ILoggerSearch;
     provides com.github.openEdgn.logger4k.api.ILoggerSearch with logger4k.forward.ForwardSearch;
 }

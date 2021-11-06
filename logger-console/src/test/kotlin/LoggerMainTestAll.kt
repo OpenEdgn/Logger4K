@@ -1,4 +1,9 @@
 import com.github.openEdgn.logger4k.LoggerFactory
+import com.github.openEdgn.logger4k.withLogDebug
+import com.github.openEdgn.logger4k.withLogError
+import com.github.openEdgn.logger4k.withLogInfo
+import com.github.openEdgn.logger4k.withLogTrace
+import com.github.openEdgn.logger4k.withLogWarn
 import org.junit.jupiter.api.Test
 
 /**
@@ -59,5 +64,20 @@ internal class Test {
     @Test
     fun test() {
         main()
+        withLogTrace {
+            println("level:{}", "trace")
+        }
+        withLogDebug {
+            println("level:{}", "debug")
+        }
+        withLogInfo {
+            println("level:{}", "info")
+        }
+        withLogError {
+            println("level:{}", "error")
+        }
+        withLogWarn {
+            println("level:{}", "warn")
+        }
     }
 }

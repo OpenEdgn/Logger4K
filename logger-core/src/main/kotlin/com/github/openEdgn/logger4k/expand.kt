@@ -33,3 +33,62 @@ fun KClass<*>.getLogger(): ILogger {
 fun Class<*>.getLogger(): ILogger {
     return LoggerFactory.getLogger(this)
 }
+
+fun Any.withLogTrace(print: Print.() -> Unit) {
+    val logger = this.getLogger()
+    if (logger.level <= LoggerLevel.TRACE) {
+        print(object : Print {
+            override fun println(message: String, vararg data: Any?) {
+                logger.trace(message, *data)
+            }
+        })
+    }
+}
+
+fun Any.withLogDebug(print: Print.() -> Unit) {
+    val logger = this.getLogger()
+    if (logger.level <= LoggerLevel.DEBUG) {
+        print(object : Print {
+            override fun println(message: String, vararg data: Any?) {
+                logger.debug(message, *data)
+            }
+        })
+    }
+}
+
+fun Any.withLogInfo(print: Print.() -> Unit) {
+    val logger = this.getLogger()
+    if (logger.level <= LoggerLevel.INFO) {
+        print(object : Print {
+            override fun println(message: String, vararg data: Any?) {
+                logger.info(message, *data)
+            }
+        })
+    }
+}
+
+fun Any.withLogWarn(print: Print.() -> Unit) {
+    val logger = this.getLogger()
+    if (logger.level <= LoggerLevel.WARN) {
+        print(object : Print {
+            override fun println(message: String, vararg data: Any?) {
+                logger.warn(message, *data)
+            }
+        })
+    }
+}
+
+fun Any.withLogError(print: Print.() -> Unit) {
+    val logger = this.getLogger()
+    if (logger.level <= LoggerLevel.ERROR) {
+        print(object : Print {
+            override fun println(message: String, vararg data: Any?) {
+                logger.error(message, *data)
+            }
+        })
+    }
+}
+
+interface Print {
+    fun println(message: String, vararg data: Any?)
+}
