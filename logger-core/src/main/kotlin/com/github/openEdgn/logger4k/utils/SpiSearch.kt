@@ -6,7 +6,10 @@ import kotlin.reflect.KClass
 
 object SpiSearch {
     fun <T : Any> search(clazz: KClass<T>, default: T? = null): Optional<T> {
-        val loader = ServiceLoader.load(clazz.java)
-        return loader.findFirst().or { Optional.ofNullable(default) }
+        return try {
+            ServiceLoader.load(clazz.java).findFirst().or { Optional.ofNullable(default) }
+        } catch (e: Exception) {
+            Optional.ofNullable(default)
+        }
     }
 }
