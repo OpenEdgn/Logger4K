@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
     }
 }
 
@@ -15,7 +15,6 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-        maven { url = project.uri("https://jitpack.io") }
     }
 }
 

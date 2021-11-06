@@ -21,9 +21,9 @@
 package com.github.openEdgn.logger4k.utils
 
 /**
- * 类名称格式化工具
- * 如果 maxLine 为 -1 则表示不格式化,
- *  注意，如果极度精简后还是超出长度时将原样输出
+ * 类名称缩减工具
+ * 如果 maxLine 为 -1 则表示缩减,
+ * 当强行缩减后仍无法满足则取缩减后长度为 maxLength 的末尾字符串
  */
 class MaxLengthClassFormat(private val maxLength: Int = 40) : IClassNameFormat {
 
@@ -41,7 +41,7 @@ class MaxLengthClassFormat(private val maxLength: Int = 40) : IClassNameFormat {
             }
             for (item in 0 until split.size - 1) {
                 if (accept) {
-                    builder.append(split[item]).append(".")
+                    builder.append(split[item]).append(".") // 无法满足要求
                 } else {
                     if ((length + 2 - split[item].length) <= maxLength) {
                         accept = true
@@ -54,7 +54,7 @@ class MaxLengthClassFormat(private val maxLength: Int = 40) : IClassNameFormat {
             val lastName = split.last()
             if (lastName.length > maxLength - builder.length) {
                 builder.append(lastName)
-                builder.toString()
+                builder.substring(builder.length - maxLength, builder.length)
             } else {
                 builder.append(lastName)
                 formatLength(builder.toString(), maxLength)

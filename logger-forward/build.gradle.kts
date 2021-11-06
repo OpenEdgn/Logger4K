@@ -25,8 +25,15 @@ val compileJava: JavaCompile by tasks
 compileJava.destinationDirectory.set(compileKotlin.destinationDirectory.get())
 
 dependencies {
+    compileOnly(project(":logger-console"))
+    compileOnly("org.slf4j:slf4j-api:2.0.0-alpha5")
+    compileOnly("org.apache.logging.log4j:log4j-core:2.14.1")
+    compileOnly("com.google.android:android:4.1.1.4")
+    implementation(project(":logger-core"))
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib"))
+    testImplementation("org.slf4j:slf4j-api:2.0.0-alpha5")
+    testImplementation("org.slf4j:slf4j-simple:2.0.0-alpha5")
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
     testImplementation("org.junit.platform:junit-platform-launcher:1.7.2")
 }
@@ -40,10 +47,6 @@ tasks.test {
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.jvmTarget = "11"
-}
-
-tasks.withType<JavaCompile> {
-    options.encoding = "UTF-8"
 }
 
 publishing {

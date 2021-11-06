@@ -1,5 +1,5 @@
 rootProject.name = "Logger4K"
-include("logger-core", "logger-console")
+include("logger-core", "logger-console", "logger-forward")
 
 pluginManagement {
     val ktLintVersion = "10.1.0"

@@ -17,7 +17,7 @@ internal class MaxLengthClassFormatTest {
             format.format("com.github.openEdgn.logger4k.utils.MaxLengthClassFormatTest.TestInternal")
         )
         assertEquals(
-            "c.g.o.l.u.f.c.MaxLengthClassFormatTestTestInternal",
+            "f.c.MaxLengthClassFormatTestTestInternal",
             format.format("com.github.openEdgn.logger4k.utils.format.classes.MaxLengthClassFormatTestTestInternal")
         )
         assertEquals(

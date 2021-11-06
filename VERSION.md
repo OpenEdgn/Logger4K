@@ -10,6 +10,24 @@
 
 ## 版本日志
 
+### 2.2.0
+
+**预览版**
+
+Logger4K 2.0 来了 ✨
+
+- `logger-core`
+    - 移除旧的 `LogApi` 扫描方式，改用 Java SPI
+    - 优化类名格式化工具类 `MaxLengthClassFormat` 输出状态
+- `logger-forward`
+    - 新增 `logger-forward` 模块，用于自动转发Logger4k 日志到其他日志框架,支持：
+        - SLF4J
+        - Log4j
+        - Java.Utils.Log
+        - Android Log
+- `logger-console`
+    - 未发生任何变化
+
 ### 2.1.0
 
 **预览版**
@@ -17,8 +35,8 @@
 Logger4K 2.0 来了 ✨
 
 - 重构模块 `logger-core` 和 `logger-console`
-  - 默认未找到实现时 `logger-core` 保持静默
-  - `logger-console` 实现了一套简单的日志输出 （未达到生产环境标准，不建议使用）
+- 默认未找到实现时 `logger-core` 保持静默
+- `logger-console` 实现了一套简单的日志输出 （未达到生产环境标准，不建议使用）
 
 ### 2.0.1
 

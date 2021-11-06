@@ -7,23 +7,21 @@
 <a href="https://jitpack.io/#OpenEdgn/Logger4K" target="_blank"> <img alt="JitPack" src="https://img.shields.io/jitpack/v/github/OpenEdgn/Logger4K"></a>
 </p>
 
-[CHINESE](README_CN.md) | ENGLISH (Google Translate)
+CHINESE | [ENGLISH](README_EN.md) (Google Translate)
 
-`LOGGER4K` Is a lightweight `Kotlin`logging framework.
+`Logger4K` 是一个轻量级`Kotlin JVM`日志框架
 
-## Getting Started
+## 入门
 
-This project used `Gradle ` to build coverage `Junit` test.
+本项目使用 `Gradle `构建, 覆盖 `Junit` 单元测试，如有发现漏洞或者意见可在项目`Issues` 下反馈,欢迎各位大佬提建议。
 
-If you find a bug or comments, you can feedback under `Issues`.
+### 开始之前
 
-### Add this to the project
-
-> Before you start, you need to introduce the module into the project. The introduction of `Apache Maven` and `Gradle` is introduced below.
+> 在开始之前，你需要将模块引入到项目中，本项目使用 JitPack 作为依赖仓库，下面介绍了使用`Gradle` 和`Apache Maven` 的引入方法
 
 #### Maven & Gradle
 
-##### 1. Add it to the project:
+##### 1. 将JitPack存储库添加到您的构建文件中
 
 **Maven**
 
@@ -42,13 +40,13 @@ If you find a bug or comments, you can feedback under `Issues`.
 ```groovy
 allprojects {
     repositories {
-        // ...
+        //其他仓库 
         maven { url 'https://jitpack.io' }
     }
 }
 ```
 
-##### 2. Add dependencies
+##### 2. 添加依赖项
 
 **Maven**
 
@@ -65,36 +63,32 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.github.OpenEdgn.Logger4K:${modName}:${version}'
+    implementation "com.github.OpenEdgn.Logger4K:${modName}:${version}"
 }
 ```
 
-> `$ {modName}` represents the module name, and `$ {version}` represents the referenced version number.
+> 其中，`${modName}` 代表 引用的模块名称，而 `${version}` 则代表引用的版本号，请按需引入。
 
-version：[![JitPack](https://img.shields.io/jitpack/v/github/OpenEdgn/Logger4K?label=version&style=flat-square)](https://jitpack.io/#OpenEdgn/Logger4K)
+其中，当前最新版本为：[![JitPack](https://img.shields.io/jitpack/v/github/OpenEdgn/Logger4K?label=version&style=flat-square)](https://jitpack.io/#OpenEdgn/Logger4K)
 
-### Usage
-
-Basic usage of the Logger API:
+### 使用
 
 ``` kotlin
-val logger = getLogger () // Create a Logger object
 
+ logger.debug("DEBUG Message.") 
+ //  输出 DEBUG 类型的日志 ( 注意，DEBUG未开启则不会输出日志)
 
- logger.debug ( " DEBUG Message. " ) 
-  //   Output DEBUG type log (note that the log will not be output if DEBUG is not enabled)
+ logger.info("INFO  Message.") 
+ //  输出 INFO 类型的日志
 
- logger.info ( " INFO Message. " ) 
-  //   Output INFO type log
-
- logger.warn (" WARN Message. ") 
-  //   Output WARN type log
+ logger.warn("WARN  Message.") 
+ //  输出 WARN 类型的日志
 
  logger.error("ERROR  Message.") 
-  //   Output log of ERROR type
+ //  输出 ERROR 类型的日志
 
 logger.debugOnly { 
-    // This code block only runs in debug mode
+    //此代码块仅在调试模式下运行
     info("INFO")
     warn("WARN")
     debug("DEBUG")
@@ -103,9 +97,9 @@ logger.debugOnly {
 
 ```
 
-Please see [PrintLogger.kt](./logger-console/src/test/kotlin/PrintLogger.kt)
-and [LoggerMainTestAll.kt](./logger-console/src/test/kotlin/LoggerMainTestAll.kt)  under `TEST` for more usage methods.
+更多使用方法请查看 `TEST` 下的 [PrintLogger.kt](./logger-console/src/test/kotlin/PrintLogger.kt)
+和 [LoggerMainTestAll.kt](./logger-console/src/test/kotlin/LoggerMainTestAll.kt)  文件。
 
 ## LICENSE
 
-SEE [LICENSE FILE](./LICENSE)   
+此项目使用 MIT ，详情请查看 [License](./LICENSE) 文件. 
